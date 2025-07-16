@@ -33,6 +33,7 @@ android {
 dependencies {
     implementation(project(":logger"))
     implementation(project(":core"))
+    implementation(project(":data"))
 
     // Coroutines для suspend-функций
     implementation(libs.kotlinx.coroutines.core)

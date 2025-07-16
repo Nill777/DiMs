@@ -3,12 +3,15 @@ package com.distributed_messenger.data.local.repositories
 import com.distributed_messenger.core.Message
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
-import com.distributed_messenger.domain.irepositories.IMessageRepository
+import com.distributed_messenger.data.local.irepositories.IMessageRepository
 import com.distributed_messenger.data.local.dao.MessageDao
 import com.distributed_messenger.data.local.entities.MessageEntity
+import com.distributed_messenger.data.network.syncer.OutcomingMessageSyncer
 import java.util.UUID
 
-class MessageRepository(private val messageDao: MessageDao) : IMessageRepository {
+class MessageRepository(private val messageDao: MessageDao,
+                        private val outcomingMessageSyncer: OutcomingMessageSyncer
+) : IMessageRepository {
     private val loggingWrapper = LoggingWrapper(
         origin = this,
         logger = Logger,
@@ -41,6 +44,7 @@ class MessageRepository(private val messageDao: MessageDao) : IMessageRepository
             if (rowId == -1L) {
                 throw Exception("Failed to insert message")
             }
+            outcomingMessageSyncer.syncMessage(message)
             message.id
         }
 

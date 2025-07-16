@@ -1,7 +1,7 @@
 package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.File
-import com.distributed_messenger.domain.irepositories.IFileRepository
+import com.distributed_messenger.data.local.irepositories.IFileRepository
 import com.distributed_messenger.domain.services.FileService
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 
 class FileServiceTest {
     private lateinit var fileService: FileService
-    private val mockFileRepository = mockk<IFileRepository>()
+    private val mockFileRepository = mockk<com.distributed_messenger.data.local.irepositories.IFileRepository>()
 
     @BeforeEach
     fun setup() {

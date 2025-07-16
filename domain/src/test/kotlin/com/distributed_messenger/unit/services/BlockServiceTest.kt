@@ -1,7 +1,7 @@
 package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.Block
-import com.distributed_messenger.domain.irepositories.IBlockRepository
+import com.distributed_messenger.data.local.irepositories.IBlockRepository
 import com.distributed_messenger.domain.services.BlockService
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -84,7 +84,7 @@ class BlockServiceTest {
         val blockId = UUID.randomUUID()
         coEvery { mockBlockRepository.deleteBlock(blockId) } returns true
 
-        val result = blockService.unblockUser(blockId)
+        val result = blockService.unblockUser(blockId, UUID.randomUUID())
 
         assertTrue(result)
     }

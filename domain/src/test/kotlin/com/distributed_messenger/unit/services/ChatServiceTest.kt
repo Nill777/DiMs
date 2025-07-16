@@ -1,7 +1,7 @@
 package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.Chat
-import com.distributed_messenger.domain.irepositories.IChatRepository
+import com.distributed_messenger.data.local.irepositories.IChatRepository
 import com.distributed_messenger.domain.services.ChatService
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 
 class ChatServiceTest {
     private lateinit var chatService: ChatService
-    private val mockChatRepository = mockk<IChatRepository>()
+    private val mockChatRepository = mockk<com.distributed_messenger.data.local.irepositories.IChatRepository>()
 
     @BeforeEach
     fun setup() {

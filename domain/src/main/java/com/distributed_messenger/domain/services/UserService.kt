@@ -6,7 +6,7 @@ import com.distributed_messenger.logger.ILogger
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IUserService
-import com.distributed_messenger.domain.irepositories.IUserRepository
+import com.distributed_messenger.data.local.irepositories.IUserRepository
 import java.util.UUID
 
 class UserService(private val userRepository: IUserRepository) : IUserService {

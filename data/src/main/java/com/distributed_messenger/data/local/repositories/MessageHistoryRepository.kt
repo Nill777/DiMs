@@ -3,12 +3,13 @@ package com.distributed_messenger.data.local.repositories
 import com.distributed_messenger.core.MessageHistory
 import com.distributed_messenger.data.local.dao.MessageHistoryDao
 import com.distributed_messenger.data.local.entities.MessageHistoryEntity
-import com.distributed_messenger.domain.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import java.util.UUID
 
-class MessageHistoryRepository(private val messageHistoryDao: MessageHistoryDao) : IMessageHistoryRepository {
+class MessageHistoryRepository(private val messageHistoryDao: MessageHistoryDao) :
+    IMessageHistoryRepository {
     private val loggingWrapper = LoggingWrapper(
         origin = this,
         logger = Logger,
@@ -26,6 +27,12 @@ class MessageHistoryRepository(private val messageHistoryDao: MessageHistoryDao)
     override suspend fun getHistoryForMessage(messageId: UUID): List<MessageHistory> =
         loggingWrapper {
             messageHistoryDao.getHistoryForMessage(messageId)
+                .map { it.toDomain() }
+        }
+
+    override suspend fun getAllMessageHistory(): List<MessageHistory> =
+        loggingWrapper {
+            messageHistoryDao.getAllMessageHistory()
                 .map { it.toDomain() }
         }
 

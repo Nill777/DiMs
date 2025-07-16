@@ -6,22 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.data.local.AppDatabase
-import com.distributed_messenger.data.local.dao.AppSettingsDao
-import com.distributed_messenger.data.local.dao.BlockDao
-import com.distributed_messenger.data.local.dao.ChatDao
-import com.distributed_messenger.data.local.dao.FileDao
-import com.distributed_messenger.data.local.dao.MessageDao
-import com.distributed_messenger.data.local.dao.MessageHistoryDao
-import com.distributed_messenger.data.local.dao.UserDao
+import com.distributed_messenger.data.local.irepositories.IAppSettingsRepository
+import com.distributed_messenger.data.local.irepositories.IBlockRepository
+import com.distributed_messenger.data.local.irepositories.IChatRepository
+import com.distributed_messenger.data.local.irepositories.IFileRepository
+import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.local.irepositories.IMessageRepository
+import com.distributed_messenger.data.local.irepositories.IUserRepository
 import com.distributed_messenger.data.local.repositories.AppSettingsRepository
 import com.distributed_messenger.data.local.repositories.BlockRepository
 import com.distributed_messenger.data.local.repositories.ChatRepository
@@ -29,6 +28,14 @@ import com.distributed_messenger.data.local.repositories.FileRepository
 import com.distributed_messenger.data.local.repositories.MessageHistoryRepository
 import com.distributed_messenger.data.local.repositories.MessageRepository
 import com.distributed_messenger.data.local.repositories.UserRepository
+import com.distributed_messenger.data.network.connection.ConnectionManagerImpl
+import com.distributed_messenger.data.network.crypto.AesMessageCrypto
+import com.distributed_messenger.data.network.peer.DhtConfig
+import com.distributed_messenger.data.network.peer.DhtNetwork
+import com.distributed_messenger.data.network.peer.DhtPeerDiscoverer
+import com.distributed_messenger.data.network.syncer.IncomingMessageSyncer
+import com.distributed_messenger.data.network.syncer.OutcomingMessageSyncer
+import com.distributed_messenger.data.network.transport.WebRtcTransport
 import com.distributed_messenger.domain.services.AppSettingsService
 import com.distributed_messenger.domain.services.BlockService
 import com.distributed_messenger.domain.services.ChatService
@@ -59,164 +66,129 @@ import com.distributed_messenger.ui.screens.NewChatScreen
 import com.distributed_messenger.ui.screens.ProfileScreen
 import com.distributed_messenger.ui.screens.SettingsScreen
 import com.distributed_messenger.ui.theme.DistributedMessengerTheme
+import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.UUID
 
-//val MIGRATION_1_2 = object : Migration(1, 2) {
-//    override fun migrate(db: SupportSQLiteDatabase) {
-//        // Создание новой таблицы
-//        db.execSQL(
-//            """
-//            CREATE TABLE IF NOT EXISTS app_settings (
-//                setting_id INTEGER PRIMARY KEY AUTOINCREMENT,
-//                setting_name TEXT NOT NULL,
-//                setting_value INTEGER NOT NULL
-//            )
-//            """
-//        )
-//    }
-//}
-
 class MainActivity : ComponentActivity() {
-//    private val sessionManager = SessionManager()
     private lateinit var navController: NavHostController
 
-    // 1. Инициализация Room Database
-    private val appDatabase: AppDatabase by lazy {
+
+    // 1. Инициализация базы данных
+    private val roomDatabase: AppDatabase? by lazy {
         Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
-             Config.dbName
-        ) // .addMigrations(MIGRATION_1_2)
-        .fallbackToDestructiveMigration(dropAllTables = true) // Удаляет данные при изменении схемы
-        .build()
+            Config.dbName
+        )
+            .fallbackToDestructiveMigration(dropAllTables = true) // Удаляет данные при изменении схемы
+            .build()
     }
 
-    // 2. Получение Dao из базы данных
-    private val userDao: UserDao by lazy {
-        appDatabase.userDao()
-    }
-    private val chatDao: ChatDao by lazy {
-        appDatabase.chatDao()
-    }
-    private val fileDao: FileDao by lazy {
-        appDatabase.fileDao()
-    }
-    private val messageDao: MessageDao by lazy {
-        appDatabase.messageDao()
-    }
-    private val messageHistoryDao: MessageHistoryDao by lazy {
-        appDatabase.messageHistoryDao()
-    }
-    private val blockDao: BlockDao by lazy {
-        appDatabase.blockDao()
-    }
-    private val appSettingsDao: AppSettingsDao by lazy {
-        appDatabase.appSettingsDao()
+    // 2. Сетевые компоненты
+    private val dhtNetwork by lazy { DhtNetwork(DhtConfig.defaultConfig()) }
+    private val peerDiscoverer by lazy { DhtPeerDiscoverer(dhtNetwork) }
+    private val p2pTransport by lazy { WebRtcTransport(applicationContext) }
+    private val messageCrypto by lazy { AesMessageCrypto() }
+
+    private val connectionManager by lazy {
+        ConnectionManagerImpl(
+            peerDiscoverer = peerDiscoverer,
+            p2pTransport = p2pTransport
+        )
     }
 
-    // 3. Создание Repository с Dao
-    private val userRepository: UserRepository by lazy {
-        UserRepository(userDao)
-    }
-    private val chatRepository: ChatRepository by lazy {
-        ChatRepository(chatDao)
-    }
-    private val fileRepository: FileRepository by lazy {
-        FileRepository(fileDao)
-    }
-    private val messageRepository: MessageRepository by lazy {
-        MessageRepository(messageDao)
-    }
-    private val messageHistoryRepository: MessageHistoryRepository by lazy {
-        MessageHistoryRepository(messageHistoryDao)
-    }
-    private val blockRepository: BlockRepository by lazy {
-        BlockRepository(blockDao)
-    }
-    private val appSettingsRepository: AppSettingsRepository by lazy {
-        AppSettingsRepository(appSettingsDao)
+    private val outcomingMessageSyncer by lazy {
+        OutcomingMessageSyncer(
+            peerDiscoverer = peerDiscoverer,
+            p2pTransport = p2pTransport,
+            messageCrypto = messageCrypto
+        )
     }
 
-    // 4. Создание Service с Repository
-    private val userService: UserService by lazy {
-        UserService(userRepository)
-    }
-    private val chatService: ChatService by lazy {
-        ChatService(chatRepository)
-    }
-    private val fileService: FileService by lazy {
-        FileService(fileRepository)
-    }
-    private val messageService: MessageService by lazy {
-        MessageService(messageRepository, messageHistoryRepository)
-    }
-    private val blockService: BlockService by lazy {
-        BlockService(blockRepository)
-    }
-    private val appSettingsService: AppSettingsService by lazy {
-        AppSettingsService(appSettingsRepository)
+    // 2. Фабрика репозиториев
+    private val repositories: RepositoriesContainer by lazy {
+        RoomRepositories(
+            roomDatabase ?: throw IllegalStateException("Room database not initialized"),
+            outcomingMessageSyncer
+        )
     }
 
-    // 5. Создание ViewModel
+    private val incomingMessageSyncer by lazy {
+        IncomingMessageSyncer(
+            peerDiscoverer = peerDiscoverer,
+            p2pTransport = p2pTransport,
+            messageCrypto = messageCrypto,
+            messageRepo = repositories.messageRepository
+        )
+    }
+
+    // 3. Сервисы
+    private val userService by lazy { UserService(repositories.userRepository) }
+    private val chatService by lazy { ChatService(repositories.chatRepository) }
+    private val fileService by lazy { FileService(repositories.fileRepository) }
+    private val messageService by lazy {
+        MessageService(
+            repositories.messageRepository,
+            repositories.messageHistoryRepository,
+            connectionManager
+        )
+    }
+    private val blockService by lazy { BlockService(repositories.blockRepository) }
+    private val appSettingsService by lazy { AppSettingsService(repositories.appSettingsRepository) }
+
+    // 4. ViewModels
     private val authViewModel: AuthViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return AuthViewModel(userService) as T
-            }
+        factory {
+            AuthViewModel(
+                userService
+            )
         }
     }
     private val chatListViewModel: ChatListViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return ChatListViewModel(chatService, messageService, userService) as T
-            }
+        factory {
+            ChatListViewModel(
+                chatService,
+                messageService,
+                userService
+            )
         }
     }
     private val newChatViewModel: NewChatViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return NewChatViewModel(userService, chatService) as T
-            }
+        factory {
+            NewChatViewModel(
+                userService,
+                chatService
+            )
         }
     }
-
     private val messageHistoryViewModel: MessageHistoryViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return MessageHistoryViewModel(messageService) as T
-            }
+        factory {
+            MessageHistoryViewModel(
+                messageService
+            )
         }
     }
-//    private val chatViewModel: ChatViewModel by viewModels {
-//        object : ViewModelProvider.Factory {
-//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                return ChatViewModel(messageService, authViewModel, UUID.randomUUID()) as T
-//            }
-//        }
-//    }
     private val profileViewModel: ProfileViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return ProfileViewModel(userService) as T
-            }
+        factory {
+            ProfileViewModel(
+                userService
+            )
         }
     }
     private val adminViewModel: AdminViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return AdminViewModel(userService, blockService) as T
-            }
+        factory {
+            AdminViewModel(
+                userService,
+                blockService
+            )
         }
     }
     private val appSettingsViewModel: AppSettingsViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return AppSettingsViewModel(appSettingsService) as T
-            }
+        factory {
+            AppSettingsViewModel(
+                appSettingsService
+            )
         }
     }
 
@@ -238,7 +210,8 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = "auth") {
                     composable("auth") {
-                        AuthScreen(viewModel = authViewModel,
+                        AuthScreen(
+                            viewModel = authViewModel,
                             navigationController = navigationController
                         )
                     }
@@ -250,7 +223,8 @@ class MainActivity : ComponentActivity() {
                             viewModel = chatListViewModel,
                             authViewModel = authViewModel,
                             appSettingsViewModel = appSettingsViewModel,
-                            navigationController = navigationController)
+                            navigationController = navigationController
+                        )
                     }
                     composable("chat/{chatId}") { backStackEntry ->
                         val chatId = UUID.fromString(backStackEntry.arguments?.getString("chatId"))
@@ -268,11 +242,14 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable("new_chat") {
-                        NewChatScreen(viewModel = newChatViewModel,
-                            navigationController = navigationController)
+                        NewChatScreen(
+                            viewModel = newChatViewModel,
+                            navigationController = navigationController
+                        )
                     }
                     composable("message_history/{messageId}") { backStackEntry ->
-                        val messageId = UUID.fromString(backStackEntry.arguments?.getString("messageId"))
+                        val messageId =
+                            UUID.fromString(backStackEntry.arguments?.getString("messageId"))
                         MessageHistoryScreen(
                             viewModel = messageHistoryViewModel,
                             messageId = messageId,
@@ -280,8 +257,10 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable("profile") {
-                        ProfileScreen(viewModel = profileViewModel,
-                            navigationController = navigationController)
+                        ProfileScreen(
+                            viewModel = profileViewModel,
+                            navigationController = navigationController
+                        )
                     }
                     composable("settings") {
                         SettingsScreen(navigationController = navigationController)
@@ -317,5 +296,39 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        lifecycleScope.launch {
+            connectionManager.stop()
+        }
+    }
+
+    // Вспомогательная функция для создания фабрик ViewModel
+    private inline fun <VM : ViewModel> factory(crossinline creator: () -> VM) =
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T = creator() as T
+        }
 }
 
+// Классы-контейнеры для репозиториев
+interface RepositoriesContainer {
+    val userRepository: IUserRepository
+    val chatRepository: IChatRepository
+    val fileRepository: IFileRepository
+    val messageRepository: IMessageRepository
+    val messageHistoryRepository: IMessageHistoryRepository
+    val blockRepository: IBlockRepository
+    val appSettingsRepository: IAppSettingsRepository
+}
+
+private class RoomRepositories(db: AppDatabase, outcomingMessageSyncer: OutcomingMessageSyncer) : RepositoriesContainer {
+    override val userRepository: IUserRepository = UserRepository(db.userDao())
+    override val chatRepository: IChatRepository = ChatRepository(db.chatDao())
+    override val fileRepository: IFileRepository = FileRepository(db.fileDao())
+    override val messageRepository: IMessageRepository = MessageRepository(db.messageDao(), outcomingMessageSyncer)
+    override val messageHistoryRepository: IMessageHistoryRepository = MessageHistoryRepository(db.messageHistoryDao())
+    override val blockRepository: IBlockRepository = BlockRepository(db.blockDao())
+    override val appSettingsRepository: IAppSettingsRepository = AppSettingsRepository(db.appSettingsDao())
+}

@@ -2,16 +2,19 @@ package com.distributed_messenger.domain.services
 
 import com.distributed_messenger.core.Message
 import com.distributed_messenger.core.MessageHistory
-import com.distributed_messenger.domain.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IMessageService
-import com.distributed_messenger.domain.irepositories.IMessageRepository
+import com.distributed_messenger.data.local.irepositories.IMessageRepository
+import com.distributed_messenger.data.network.connection.IConnectionManager
 import java.util.UUID
 import java.time.Instant
 
 class MessageService(private val messageRepository: IMessageRepository,
-                     private val messageHistoryRepository: IMessageHistoryRepository) : IMessageService {
+                     private val messageHistoryRepository: IMessageHistoryRepository,
+                     private val connectionManager: IConnectionManager
+) : IMessageService {
     private val loggingWrapper = LoggingWrapper(
     origin = this,
     logger = Logger,
@@ -19,6 +22,7 @@ class MessageService(private val messageRepository: IMessageRepository,
 )
     override suspend fun sendMessage(senderId: UUID, chatId: UUID, content: String, fileId: UUID?): UUID =
         loggingWrapper {
+            connectionManager.joinChatNetwork(chatId)
             val message = Message(
                 id = UUID.randomUUID(),
                 senderId = senderId,
