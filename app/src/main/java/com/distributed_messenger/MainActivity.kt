@@ -14,28 +14,28 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.data.local.AppDatabase
-import com.distributed_messenger.data.local.irepositories.IAppSettingsRepository
-import com.distributed_messenger.data.local.irepositories.IBlockRepository
-import com.distributed_messenger.data.local.irepositories.IChatRepository
-import com.distributed_messenger.data.local.irepositories.IFileRepository
-import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
-import com.distributed_messenger.data.local.irepositories.IMessageRepository
-import com.distributed_messenger.data.local.irepositories.IUserRepository
-import com.distributed_messenger.data.local.repositories.AppSettingsRepository
-import com.distributed_messenger.data.local.repositories.BlockRepository
-import com.distributed_messenger.data.local.repositories.ChatRepository
-import com.distributed_messenger.data.local.repositories.FileRepository
-import com.distributed_messenger.data.local.repositories.MessageHistoryRepository
-import com.distributed_messenger.data.local.repositories.MessageRepository
-import com.distributed_messenger.data.local.repositories.UserRepository
-import com.distributed_messenger.data.network.connection.ConnectionManagerImpl
-import com.distributed_messenger.data.network.crypto.AesMessageCrypto
-import com.distributed_messenger.data.network.peer.DhtConfig
-import com.distributed_messenger.data.network.peer.DhtNetwork
-import com.distributed_messenger.data.network.peer.DhtPeerDiscoverer
-import com.distributed_messenger.data.network.syncer.IncomingMessageSyncer
-import com.distributed_messenger.data.network.syncer.OutcomingMessageSyncer
-import com.distributed_messenger.data.network.transport.WebRtcTransport
+import com.distributed_messenger.data.irepositories.IAppSettingsRepository
+import com.distributed_messenger.data.irepositories.IBlockRepository
+import com.distributed_messenger.data.irepositories.IChatRepository
+import com.distributed_messenger.data.irepositories.IFileRepository
+import com.distributed_messenger.data.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.irepositories.IMessageRepository
+import com.distributed_messenger.data.irepositories.IUserRepository
+import com.distributed_messenger.data.repositories.AppSettingsRepository
+import com.distributed_messenger.data.repositories.BlockRepository
+import com.distributed_messenger.data.repositories.ChatRepository
+import com.distributed_messenger.data.repositories.FileRepository
+import com.distributed_messenger.data.repositories.MessageHistoryRepository
+import com.distributed_messenger.data.repositories.MessageRepository
+import com.distributed_messenger.data.repositories.UserRepository
+import com.distributed_messenger.data.network.crypto.AesGcmMessageCrypto
+import com.distributed_messenger.data.network.crypto.INetworkCrypto
+import com.distributed_messenger.data.network.signaling.FirebaseSignalingClient
+import com.distributed_messenger.data.network.signaling.ISignalingClient
+import com.distributed_messenger.data.network.syncer.DataSyncer
+import com.distributed_messenger.data.network.transport.IP2PTransport
+import com.distributed_messenger.data.network.transport.P2PTransportManager
+import com.distributed_messenger.data.network.webRTC.WebRTCManager
 import com.distributed_messenger.domain.services.AppSettingsService
 import com.distributed_messenger.domain.services.BlockService
 import com.distributed_messenger.domain.services.ChatService
@@ -66,6 +66,7 @@ import com.distributed_messenger.ui.screens.NewChatScreen
 import com.distributed_messenger.ui.screens.ProfileScreen
 import com.distributed_messenger.ui.screens.SettingsScreen
 import com.distributed_messenger.ui.theme.DistributedMessengerTheme
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.UUID
@@ -85,53 +86,52 @@ class MainActivity : ComponentActivity() {
             .build()
     }
 
-    // 2. Сетевые компоненты
-    private val dhtNetwork by lazy { DhtNetwork(DhtConfig.defaultConfig()) }
-    private val peerDiscoverer by lazy { DhtPeerDiscoverer(dhtNetwork) }
-    private val p2pTransport by lazy { WebRtcTransport(applicationContext) }
-    private val messageCrypto by lazy { AesMessageCrypto() }
 
-    private val connectionManager by lazy {
-        ConnectionManagerImpl(
-            peerDiscoverer = peerDiscoverer,
-            p2pTransport = p2pTransport
-        )
+    // 2. Сетевые компоненты
+    // --- НОВАЯ ИНИЦИАЛИЗАЦИЯ СЕТЕВОГО СЛОЯ ---
+
+    private val gson by lazy { Gson() }
+
+    // 1. Модуль шифрования (замените на свой по необходимости)
+    private val messageCrypto: INetworkCrypto by lazy { AesGcmMessageCrypto() }
+
+    // 2. WebRTC
+    private val webRTCManager by lazy { WebRTCManager(applicationContext) }
+
+    // 3. Сигнальный клиент
+    private val signalingClient: ISignalingClient by lazy { FirebaseSignalingClient(gson) }
+
+    // 4. Главный транспортный менеджер
+    private val p2pTransportManager: IP2PTransport by lazy {
+        P2PTransportManager(webRTCManager, signalingClient, gson)
     }
 
-    private val outcomingMessageSyncer by lazy {
-        OutcomingMessageSyncer(
-            peerDiscoverer = peerDiscoverer,
-            p2pTransport = p2pTransport,
-            messageCrypto = messageCrypto
-        )
+    // 5. Синхронизатор данных
+    private val dataSyncer by lazy {
+        DataSyncer(p2pTransportManager, repositories.messageRepository)
     }
 
     // 2. Фабрика репозиториев
     private val repositories: RepositoriesContainer by lazy {
         RoomRepositories(
-            roomDatabase ?: throw IllegalStateException("Room database not initialized"),
-            outcomingMessageSyncer
-        )
-    }
-
-    private val incomingMessageSyncer by lazy {
-        IncomingMessageSyncer(
-            peerDiscoverer = peerDiscoverer,
-            p2pTransport = p2pTransport,
-            messageCrypto = messageCrypto,
-            messageRepo = repositories.messageRepository
+            roomDatabase ?: throw IllegalStateException("Room database not initialized")
         )
     }
 
     // 3. Сервисы
     private val userService by lazy { UserService(repositories.userRepository) }
-    private val chatService by lazy { ChatService(repositories.chatRepository) }
+    private val chatService by lazy {
+        ChatService(
+            repositories.chatRepository,
+            p2pTransportManager
+        )
+    }
     private val fileService by lazy { FileService(repositories.fileRepository) }
     private val messageService by lazy {
         MessageService(
             repositories.messageRepository,
             repositories.messageHistoryRepository,
-            connectionManager
+            p2pTransportManager
         )
     }
     private val blockService by lazy { BlockService(repositories.blockRepository) }
@@ -199,6 +199,8 @@ class MainActivity : ComponentActivity() {
 
         val dir = File(applicationContext.getExternalFilesDir(null), Config.logDir).apply { mkdirs() }
         Logger.initialize(dir.absolutePath)
+
+        dataSyncer.start()
 
         setContent {
             DistributedMessengerTheme(
@@ -300,9 +302,8 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        lifecycleScope.launch {
-            connectionManager.stop()
-        }
+        // Корректно завершаем работу сети
+        p2pTransportManager.shutdown()
     }
 
     // Вспомогательная функция для создания фабрик ViewModel
@@ -323,11 +324,11 @@ interface RepositoriesContainer {
     val appSettingsRepository: IAppSettingsRepository
 }
 
-private class RoomRepositories(db: AppDatabase, outcomingMessageSyncer: OutcomingMessageSyncer) : RepositoriesContainer {
+private class RoomRepositories(db: AppDatabase) : RepositoriesContainer {
     override val userRepository: IUserRepository = UserRepository(db.userDao())
     override val chatRepository: IChatRepository = ChatRepository(db.chatDao())
     override val fileRepository: IFileRepository = FileRepository(db.fileDao())
-    override val messageRepository: IMessageRepository = MessageRepository(db.messageDao(), outcomingMessageSyncer)
+    override val messageRepository: IMessageRepository = MessageRepository(db.messageDao())
     override val messageHistoryRepository: IMessageHistoryRepository = MessageHistoryRepository(db.messageHistoryDao())
     override val blockRepository: IBlockRepository = BlockRepository(db.blockDao())
     override val appSettingsRepository: IAppSettingsRepository = AppSettingsRepository(db.appSettingsDao())

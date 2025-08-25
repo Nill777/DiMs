@@ -1,9 +1,9 @@
-package com.distributed_messenger.data.local.repositories
+package com.distributed_messenger.data.repositories
 
 import com.distributed_messenger.core.User
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
-import com.distributed_messenger.data.local.irepositories.IUserRepository
+import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.data.local.dao.UserDao
 import com.distributed_messenger.data.local.entities.UserEntity
 import java.util.UUID

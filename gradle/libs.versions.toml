@@ -26,6 +26,14 @@ kotlinLogging = "3.0.5"
 logback = "1.4.7"
 log4j = "2.23.0"
 timberv = "5.0.1"
+webrtc = "1.0.32006"
+stream_webrtc = "1.1.1"
+socket_io = "2.0.0"
+firebaseDatabaseKtx = "21.0.0"
+firebaseBom = "33.0.0"
+gson = "2.10.1"
+sqlcipher = "4.5.4"
+androidx-sqlite = "2.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +83,22 @@ kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", vers
 #log4j-api = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "log4j" }
 #log4j-android = { group = "org.apache.logging.log4j", name = "log4j-android", version.ref = "log4j" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timberv" }
+
+# Network
+webrtc = { group = "org.webrtc", name = "google-webrtc", version.ref = "webrtc" }
+stream-webrtc = { group = "io.getstream", name = "stream-webrtc-android", version.ref = "stream_webrtc" }
+socket-io = { group = "io.socket", name = "socket.io-client", version.ref = "socket_io" }
+
+# Firebase
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
+
+# JSON
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+
+#Crypto
+sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlcipher" }
+androidx-sqlite = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "androidx-sqlite" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

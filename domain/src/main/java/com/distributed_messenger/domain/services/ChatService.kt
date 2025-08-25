@@ -4,10 +4,13 @@ import com.distributed_messenger.core.Chat
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IChatService
-import com.distributed_messenger.data.local.irepositories.IChatRepository
+import com.distributed_messenger.data.irepositories.IChatRepository
+import com.distributed_messenger.data.network.transport.IP2PTransport
 import java.util.UUID
 
-class ChatService(private val chatRepository: IChatRepository) : IChatService {
+class ChatService(private val chatRepository: IChatRepository,
+                  private val p2pTransport: IP2PTransport
+) : IChatService {
     private val loggingWrapper = LoggingWrapper(
         origin = this,
         logger = Logger,
@@ -52,4 +55,14 @@ class ChatService(private val chatRepository: IChatRepository) : IChatService {
         loggingWrapper {
             chatRepository.deleteChat(id)
         }
+
+    // Метод для присоединения к чату (вызывать при открытии экрана чата)
+    override suspend fun joinChatNetwork(chatId: UUID) {
+        p2pTransport.joinChat(chatId)
+    }
+
+    // Метод для выхода из чата (вызывать при закрытии экрана чата)
+    override suspend fun leaveChatNetwork(chatId: UUID) {
+        p2pTransport.leaveChat(chatId)
+    }
 }

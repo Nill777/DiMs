@@ -4,7 +4,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.distributed_messenger.data.local.AppDatabase
 import com.distributed_messenger.core.Chat
-import com.distributed_messenger.data.local.repositories.ChatRepository
+import com.distributed_messenger.data.repositories.ChatRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.*

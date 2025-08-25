@@ -81,4 +81,20 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.core.ktx)
+
+    // Network
+//    implementation(libs.webrtc)
+    implementation(libs.stream.webrtc)
+    implementation(libs.socket.io)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database.ktx)
+
+    // JSON
+    implementation(libs.gson)
+
+    // Crypto
+    implementation(libs.sqlcipher)
+    implementation(libs.androidx.sqlite)
 }

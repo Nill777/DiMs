@@ -2,7 +2,7 @@ package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.User
 import com.distributed_messenger.core.UserRole
-import com.distributed_messenger.data.local.irepositories.IUserRepository
+import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.domain.services.UserService
 import io.mockk.coEvery
 import io.mockk.coVerify

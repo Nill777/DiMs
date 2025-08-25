@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp) // Добавлен плагин KSP для Room
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -117,4 +118,10 @@ dependencies {
     // Debug
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+
+    // JSON
+    implementation(libs.gson)
 }

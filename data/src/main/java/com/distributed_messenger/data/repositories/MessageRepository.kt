@@ -1,17 +1,17 @@
-package com.distributed_messenger.data.local.repositories
+package com.distributed_messenger.data.repositories
 
 import com.distributed_messenger.core.Message
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
-import com.distributed_messenger.data.local.irepositories.IMessageRepository
+import com.distributed_messenger.data.irepositories.IMessageRepository
 import com.distributed_messenger.data.local.dao.MessageDao
 import com.distributed_messenger.data.local.entities.MessageEntity
-import com.distributed_messenger.data.network.syncer.OutcomingMessageSyncer
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import java.time.Instant
 import java.util.UUID
 
-class MessageRepository(private val messageDao: MessageDao,
-                        private val outcomingMessageSyncer: OutcomingMessageSyncer
-) : IMessageRepository {
+class MessageRepository(private val messageDao: MessageDao) : IMessageRepository {
     private val loggingWrapper = LoggingWrapper(
         origin = this,
         logger = Logger,
@@ -28,10 +28,22 @@ class MessageRepository(private val messageDao: MessageDao,
             messageDao.getAllMessages().map { it.toDomain() }
         }
 
+    override suspend fun getMessagesAfter(chatId: UUID, timestamp: Instant): List<Message> =
+        loggingWrapper {
+            messageDao.getMessagesAfter(chatId, timestamp).map { it.toDomain() }
+        }
+
     override suspend fun getMessagesByChat(chatId: UUID): List<Message> =
         loggingWrapper {
             messageDao.getMessagesByChatId(chatId).map { it.toDomain() }
         }
+
+    override fun getMessagesByChatFlow(chatId: UUID): Flow<List<Message>> {
+        // нет loggingWrapper, так как это холодный Flow
+        return messageDao.getMessagesByChatIdFlow(chatId).map { list ->
+            list.map { it.toDomain() }
+        }
+    }
 
     override suspend fun getLastMessageByChat(chatId: UUID): Message? =
         loggingWrapper {
@@ -44,7 +56,13 @@ class MessageRepository(private val messageDao: MessageDao,
             if (rowId == -1L) {
                 throw Exception("Failed to insert message")
             }
-            outcomingMessageSyncer.syncMessage(message)
+            message.id
+        }
+
+    override suspend fun addMessageFromNetwork(message: Message): UUID =
+        loggingWrapper {
+            val rowId = messageDao.insertMessage(message.toEntity())
+            if (rowId == -1L) throw Exception("Failed to insert message from network")
             message.id
         }
 

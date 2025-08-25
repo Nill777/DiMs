@@ -1,11 +1,54 @@
 package com.distributed_messenger.data.network.transport
 
-import com.distributed_messenger.data.network.peer.IPeerDiscoverer.Peer
+import com.distributed_messenger.data.network.PeerId
+import com.distributed_messenger.data.network.model.DataMessage
+import kotlinx.coroutines.flow.SharedFlow
+import java.util.UUID
 
+/**
+ * Интерфейс для высокоуровневого управления P2P-транспортом.
+ * Абстрагирует сложность WebRTC и сигнализации.
+ */
 interface IP2PTransport {
-    suspend fun connect(peer: Peer): Boolean
-    suspend fun send(peer: Peer, data: ByteArray)
-    fun setMessageListener(listener: (sourcePeer: Peer, data: ByteArray) -> Unit)
-    fun startListening()
-    fun stopListening()
+
+    /**
+     * Горячий Flow, который эмитит все входящие сообщения (DataMessage) от других пиров.
+     * Пара содержит ID пира-отправителя и само сообщение.
+     */
+    val incomingMessages: SharedFlow<Pair<PeerId, DataMessage>>
+
+    /**
+     * Присоединиться к P2P-сети для конкретного чата.
+     * Инициирует процесс обнаружения пиров и установки соединений.
+     * @param chatId ID чата для присоединения.
+     */
+    fun joinChat(chatId: UUID)
+
+    /**
+     * Отправить сообщение всем участникам чата.
+     * @param chatId ID чата, в который отправляется сообщение.
+     * @param message Сообщение для отправки (например, ChatMessage, SyncRequest).
+     */
+    fun sendMessageToChat(chatId: UUID, message: DataMessage)
+
+    /**
+     * Отправить сообщение только одному пиру
+     * @param chatId ID чата, в который отправляется сообщение.
+     * @param targetPeerId ID целевого пира
+     * @param message Сообщение для отправки (например, ChatMessage, SyncRequest).
+     */
+    fun sendMessageToPeer(chatId: UUID, targetPeerId: PeerId, message: DataMessage)
+
+    /**
+     * Покинуть P2P-сеть для конкретного чата.
+     * Закрывает все активные соединения для этого чата.
+     * @param chatId ID чата для выхода.
+     */
+    fun leaveChat(chatId: UUID)
+
+    /**
+     * Полностью остановить и очистить все ресурсы P2P-транспорта.
+     * Вызывается при закрытии приложения.
+     */
+    fun shutdown()
 }

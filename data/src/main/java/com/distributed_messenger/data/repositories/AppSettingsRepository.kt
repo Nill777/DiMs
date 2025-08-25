@@ -1,11 +1,11 @@
-package com.distributed_messenger.data.local.repositories
+package com.distributed_messenger.data.repositories
 
 import com.distributed_messenger.core.AppSettingType
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.data.local.dao.AppSettingsDao
 import com.distributed_messenger.data.local.entities.AppSettingsEntity
-import com.distributed_messenger.data.local.irepositories.IAppSettingsRepository
+import com.distributed_messenger.data.irepositories.IAppSettingsRepository
 
 class AppSettingsRepository(private val dao: AppSettingsDao) : IAppSettingsRepository {
     private val loggingWrapper = LoggingWrapper(

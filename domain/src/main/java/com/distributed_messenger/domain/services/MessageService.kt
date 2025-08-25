@@ -2,18 +2,21 @@ package com.distributed_messenger.domain.services
 
 import com.distributed_messenger.core.Message
 import com.distributed_messenger.core.MessageHistory
-import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.irepositories.IMessageHistoryRepository
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IMessageService
-import com.distributed_messenger.data.local.irepositories.IMessageRepository
-import com.distributed_messenger.data.network.connection.IConnectionManager
+import com.distributed_messenger.data.irepositories.IMessageRepository
+import com.distributed_messenger.data.network.model.DataMessage
+import com.distributed_messenger.data.network.signaling.ISignalingClient
+import com.distributed_messenger.data.network.transport.IP2PTransport
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 import java.time.Instant
 
 class MessageService(private val messageRepository: IMessageRepository,
                      private val messageHistoryRepository: IMessageHistoryRepository,
-                     private val connectionManager: IConnectionManager
+                     private val p2pTransport: IP2PTransport
 ) : IMessageService {
     private val loggingWrapper = LoggingWrapper(
     origin = this,
@@ -22,7 +25,8 @@ class MessageService(private val messageRepository: IMessageRepository,
 )
     override suspend fun sendMessage(senderId: UUID, chatId: UUID, content: String, fileId: UUID?): UUID =
         loggingWrapper {
-            connectionManager.joinChatNetwork(chatId)
+            // Шаг 1: Создаем доменный объект сообщения с уникальным ID.
+            // Этот объект будет использоваться и для БД, и для отправки по сети.
             val message = Message(
                 id = UUID.randomUUID(),
                 senderId = senderId,
@@ -31,7 +35,26 @@ class MessageService(private val messageRepository: IMessageRepository,
                 timestamp = Instant.now(),
                 fileId = fileId
             )
+
+            // Шаг 2: Говорим репозиторию сохранить сообщение в локальную базу данных.
+            // Теперь addMessage просто сохраняет и ничего не отправляет.
             messageRepository.addMessage(message)
+
+            // Шаг 3: Создаем сетевую модель (DTO) на основе того же самого сообщения.
+            // Используем message.id, который мы сгенерировали на шаге 1.
+            val chatMessage = DataMessage.ChatMessage(
+                messageId = message.id,
+                originalSenderId = senderId,
+                chatId = chatId,
+                content = content,
+                timestamp = message.timestamp.toEpochMilli()
+            )
+
+            // Шаг 4: Говорим транспортному уровню отправить сетевую модель всем пирам в чате.
+            p2pTransport.sendMessageToChat(chatId, chatMessage)
+
+            // Шаг 5: Возвращаем ID созданного сообщения, чтобы UI мог его использовать.
+            message.id
         }
 
     override suspend fun getMessage(id: UUID): Message? =
@@ -42,6 +65,11 @@ class MessageService(private val messageRepository: IMessageRepository,
     override suspend fun getChatMessages(chatId: UUID): List<Message> =
         loggingWrapper {
             messageRepository.getMessagesByChat(chatId)
+        }
+
+    override suspend fun getChatMessagesFlow(chatId: UUID): Flow<List<Message>> =
+        loggingWrapper {
+            messageRepository.getMessagesByChatFlow(chatId)
         }
 
     override suspend fun getLastMessage(chatId: UUID): Message? =
@@ -76,4 +104,17 @@ class MessageService(private val messageRepository: IMessageRepository,
         loggingWrapper {
             messageRepository.deleteMessage(id)
         }
+
+    override suspend fun requestMessagesSync(chatId: UUID) {
+        // 1. Находим последнее сообщение в нашей локальной БД.
+        val lastMessage = messageRepository.getLastMessageByChat(chatId)
+        val lastTimestamp = lastMessage?.timestamp?.toEpochMilli() ?: 0L
+
+        // 2. Создаем и отправляем запрос всем в чате.
+        val request = DataMessage.SyncRequest(
+            chatId = chatId,
+            fromTimestamp = lastTimestamp
+        )
+        p2pTransport.sendMessageToChat(chatId, request)
+    }
 }

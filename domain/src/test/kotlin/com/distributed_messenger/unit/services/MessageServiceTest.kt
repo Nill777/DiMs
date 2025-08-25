@@ -1,7 +1,7 @@
 package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.Message
-import com.distributed_messenger.data.local.irepositories.IMessageRepository
+import com.distributed_messenger.data.irepositories.IMessageRepository
 import com.distributed_messenger.domain.services.MessageService
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -5,7 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.distributed_messenger.data.local.AppDatabase
 import com.distributed_messenger.core.User
 import com.distributed_messenger.core.UserRole
-import com.distributed_messenger.data.local.repositories.UserRepository
+import com.distributed_messenger.data.repositories.UserRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.*

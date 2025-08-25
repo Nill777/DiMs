@@ -9,6 +9,8 @@ import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.core.Chat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -31,9 +33,31 @@ class ChatViewModel(private val messageService: IMessageService,
 //    val companionName: StateFlow<String?> = _companionName
 
     init {
-        loadMessages()
-        loadChatInfo()
+//        loadMessages()
+//        loadChatInfo()
 //        loadCompanionData()
+        // ИЗМЕНЕНИЕ 1: Присоединяемся к P2P-сети чата при создании ViewModel
+        viewModelScope.launch {
+            chatService.joinChatNetwork(chatId)
+        }
+        // 2. Сразу после присоединения запрашиваем синхронизацию.
+        viewModelScope.launch {
+            messageService.requestMessagesSync(chatId)
+        }
+        // ИЗМЕНЕНИЕ 2: Загружаем информацию о чате
+        loadChatInfo()
+
+        // ИЗМЕНЕНИЕ 3: Подписываемся на реактивное обновление сообщений из БД
+        observeMessages()
+    }
+
+    // ИЗМЕНЕНИЕ 4: Новый метод для подписки на Flow сообщений
+    private fun observeMessages() {
+        viewModelScope.launch {
+            messageService.getChatMessagesFlow(chatId).collect { messageList ->
+                _messages.value = messageList
+            }
+        }
     }
 
     private fun loadMessages() {
@@ -67,16 +91,18 @@ class ChatViewModel(private val messageService: IMessageService,
                 content = content,
                 fileId = fileId
             )
-            loadMessages()
+            // ИЗМЕНЕНИЕ 5: Больше не нужно вызывать loadMessages() вручную.
+            // UI обновится автоматически благодаря Flow.
         }
     }
 
     fun deleteMessage(messageId: UUID) {
         viewModelScope.launch {
-            val isDeleted = messageService.deleteMessage(messageId)
-            if (isDeleted) {
-                loadMessages()
-            }
+            messageService.deleteMessage(messageId)
+//            val isDeleted = messageService.deleteMessage(messageId)
+//            if (isDeleted) {
+//                loadMessages()
+//            }
         }
     }
 
@@ -96,14 +122,23 @@ class ChatViewModel(private val messageService: IMessageService,
 
     fun editMessage(messageId: UUID, newContent: String) {
         viewModelScope.launch {
-            val isEdited = messageService.editMessage(messageId, newContent)
-            if (isEdited) {
-                loadMessages()
-            }
+            messageService.editMessage(messageId, newContent)
+//            val isEdited = messageService.editMessage(messageId, newContent)
+//            if (isEdited) {
+//                loadMessages()
+//            }
         }
     }
 
     fun cancelEditing() {
         _editingMessage.value = null
+    }
+
+    // ИЗМЕНЕНИЕ 6: Выходим из P2P-сети при уничтожении ViewModel
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.launch {
+            chatService.leaveChatNetwork(chatId)
+        }
     }
 }

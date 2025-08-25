@@ -4,7 +4,7 @@ import com.distributed_messenger.core.File
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IFileService
-import com.distributed_messenger.data.local.irepositories.IFileRepository
+import com.distributed_messenger.data.irepositories.IFileRepository
 import java.util.UUID
 import java.time.Instant
 

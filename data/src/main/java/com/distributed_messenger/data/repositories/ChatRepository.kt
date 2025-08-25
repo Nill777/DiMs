@@ -1,9 +1,9 @@
-package com.distributed_messenger.data.local.repositories
+package com.distributed_messenger.data.repositories
 
 import com.distributed_messenger.core.Chat
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
-import com.distributed_messenger.data.local.irepositories.IChatRepository
+import com.distributed_messenger.data.irepositories.IChatRepository
 import com.distributed_messenger.data.local.dao.ChatDao
 import com.distributed_messenger.data.local.entities.ChatEntity
 import java.util.UUID

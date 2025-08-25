@@ -1,7 +1,7 @@
 package com.distributed_messenger.unit.services
 
 import com.distributed_messenger.core.Block
-import com.distributed_messenger.data.local.irepositories.IBlockRepository
+import com.distributed_messenger.data.irepositories.IBlockRepository
 import com.distributed_messenger.domain.services.BlockService
 import io.mockk.coEvery
 import io.mockk.coVerify

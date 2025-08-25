@@ -9,4 +9,6 @@ interface IChatService {
     suspend fun getUserChats(userId: UUID): List<Chat>
     suspend fun updateChat(id: UUID, name: String): Boolean
     suspend fun deleteChat(id: UUID): Boolean
+    suspend fun joinChatNetwork(chatId: UUID)
+    suspend fun leaveChatNetwork(chatId: UUID)
 }

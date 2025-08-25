@@ -1,9 +1,9 @@
-package com.distributed_messenger.data.local.repositories
+package com.distributed_messenger.data.repositories
 
 import com.distributed_messenger.core.MessageHistory
 import com.distributed_messenger.data.local.dao.MessageHistoryDao
 import com.distributed_messenger.data.local.entities.MessageHistoryEntity
-import com.distributed_messenger.data.local.irepositories.IMessageHistoryRepository
+import com.distributed_messenger.data.irepositories.IMessageHistoryRepository
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import java.util.UUID
