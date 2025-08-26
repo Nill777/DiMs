@@ -37,13 +37,13 @@ class ChatViewModel(private val messageService: IMessageService,
 //        loadChatInfo()
 //        loadCompanionData()
         // ИЗМЕНЕНИЕ 1: Присоединяемся к P2P-сети чата при создании ViewModel
-        viewModelScope.launch {
-            chatService.joinChatNetwork(chatId)
-        }
         // 2. Сразу после присоединения запрашиваем синхронизацию.
         viewModelScope.launch {
+            chatService.joinChatNetwork(chatId)
             messageService.requestMessagesSync(chatId)
         }
+
+
         // ИЗМЕНЕНИЕ 2: Загружаем информацию о чате
         loadChatInfo()
 

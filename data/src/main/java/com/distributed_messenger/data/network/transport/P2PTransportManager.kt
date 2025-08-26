@@ -12,8 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -34,10 +36,42 @@ class P2PTransportManager(
     private val _incomingMessages = MutableSharedFlow<Pair<PeerId, DataMessage>>()
     override val incomingMessages: SharedFlow<Pair<PeerId, DataMessage>> = _incomingMessages.asSharedFlow()
 
-    override fun joinChat(chatId: UUID) {
+    private fun createAndSetupPcManager(chatId: UUID, peerId: PeerId, isInitiator: Boolean): PeerConnectionManager {
+        Logger.log(tag, "createAndSetupPcManager Creating and setting up PeerConnectionManager for '$peerId' in chat '$chatId'")
+        val pcManager = PeerConnectionManager(webRTCManager, peerId, isInitiator)
+
+        // Перенаправляем исходящие сигналы в SignalingClient
+        // 2. Настройка слушателя для исходящих сигналов.
+        pcManager.outgoingSignal
+            .onEach { signal ->
+                Logger.log(tag, "Forwarding outgoing '${signal::class.simpleName}' to signaling client (for peer '$peerId')", LogLevel.DEBUG)
+                // Этот блок кода НЕ выполняется сейчас.
+                // Он будет выполнен ПОЗЖЕ, когда Flow `outgoingSignal` что-то выпустит.
+                signalingClient.sendSignal(chatId, myId, signal)
+            }
+            .launchIn(scope)
+
+        // Перенаправляем входящие данные в общий поток
+        // 3. Настройка слушателя для входящих данных.
+        pcManager.incomingData
+            .onEach { dataJson ->
+                try {
+                    val dataMessage = gson.fromJson(dataJson, DataMessage::class.java)
+                    Logger.log(tag, "Received data message '${dataMessage::class.simpleName}' from '$peerId' in chat '$chatId'")
+                    _incomingMessages.emit(Pair(peerId, dataMessage))
+                } catch (e: Exception) {
+                    Logger.log(tag, "Failed to parse incoming data from '$peerId'. Data: $dataJson", LogLevel.ERROR, e)
+                }
+            }
+            .launchIn(scope)
+
+        return pcManager
+    }
+
+    override suspend fun joinChat(chatId: UUID) {
         // Если уже в чате, ничего не делаем
         if (activeConnections.containsKey(chatId)) {
-            Logger.log(tag, "Already joined chat '$chatId', ignoring.", LogLevel.WARN)
+            Logger.log(tag, "joinChat Already joined chat '$chatId', ignoring.", LogLevel.WARN)
             return
         }
         Logger.log(tag, "Joining chat '$chatId'")
@@ -63,7 +97,7 @@ class P2PTransportManager(
 
     override fun sendMessageToChat(chatId: UUID, message: DataMessage) {
         val connections = activeConnections[chatId]
-        Logger.log(tag, "Broadcasting message '${message::class.simpleName}' to ${connections?.size ?: 0} peers in chat '$chatId'")
+        Logger.log(tag, "sendMessageToChat Broadcasting message '${message::class.simpleName}' to ${connections?.size ?: 0} peers in chat '$chatId'")
         val messageJson = gson.toJson(message)
         activeConnections[chatId]?.values?.forEach { pcManager ->
             pcManager.sendMessage(messageJson)
@@ -71,49 +105,32 @@ class P2PTransportManager(
     }
 
     override fun sendMessageToPeer(chatId: UUID, targetPeerId: PeerId, message: DataMessage) {
-        Logger.log(tag, "Sending message '${message::class.simpleName}' to peer '$targetPeerId' in chat '$chatId'")
+        Logger.log(tag, "sendMessageToPeer Sending message '${message::class.simpleName}' to peer '$targetPeerId' in chat '$chatId'")
         val messageJson = gson.toJson(message)
         // Находим конкретное соединение с нужным пиром и отправляем только ему
         activeConnections[chatId]?.get(targetPeerId)?.sendMessage(messageJson)
     }
 
-    override fun leaveChat(chatId: UUID) {
-        Logger.log(tag, "Leaving chat '$chatId'")
+    override suspend fun leaveChat(chatId: UUID) {
+        Logger.log(tag, "leaveChat Leaving chat '$chatId'")
         activeConnections.remove(chatId)?.values?.forEach { it.close() }
     }
 
-    private fun createAndSetupPcManager(chatId: UUID, peerId: PeerId, isInitiator: Boolean): PeerConnectionManager {
-        Logger.log(tag, "Creating and setting up PeerConnectionManager for '$peerId' in chat '$chatId'")
-        val pcManager = PeerConnectionManager(webRTCManager, peerId, isInitiator)
-
-        // Перенаправляем исходящие сигналы в SignalingClient
-        pcManager.outgoingSignal
-            .onEach { signal ->
-                Logger.log(tag, "Forwarding outgoing '${signal::class.simpleName}' from '$peerId' to signaling client", LogLevel.DEBUG)
-                signalingClient.sendSignal(chatId, myId, peerId, signal)
-            }
-            .launchIn(scope)
-
-        // Перенаправляем входящие данные в общий поток
-        pcManager.incomingData
-            .onEach { dataJson ->
-                try {
-                    val dataMessage = gson.fromJson(dataJson, DataMessage::class.java)
-                    Logger.log(tag, "Received data message '${dataMessage::class.simpleName}' from '$peerId' in chat '$chatId'")
-                    _incomingMessages.emit(Pair(peerId, dataMessage))
-                } catch (e: Exception) {
-                    Logger.log(tag, "Failed to parse incoming data from '$peerId'. Data: $dataJson", LogLevel.ERROR, e)
+    override suspend fun shutdown() {
+        withContext(Dispatchers.Default) {
+            Logger.log(tag, "shutdown Shutting down P2P Transport Manager. Closing all connections.")
+            // Мы можем даже использовать coroutineScope, чтобы дождаться завершения всех leaveChat
+            coroutineScope {
+                activeConnections.keys.forEach { chatId ->
+                    launch { // Запускаем закрытие каждого чата параллельно
+                        leaveChat(chatId)
+                    }
                 }
             }
-            .launchIn(scope)
 
-        return pcManager
-    }
-
-    override fun shutdown() {
-        Logger.log(tag, "Shutting down P2P Transport Manager. Closing all connections.")
-        activeConnections.keys.forEach { leaveChat(it) }
-        scope.cancel()
-        webRTCManager.release()
+            Logger.log(tag, "All chat connections are closed. Cancelling scope and releasing WebRTC.")
+            scope.cancel()
+            webRTCManager.release()
+        }
     }
 }

@@ -22,7 +22,7 @@ interface IP2PTransport {
      * Инициирует процесс обнаружения пиров и установки соединений.
      * @param chatId ID чата для присоединения.
      */
-    fun joinChat(chatId: UUID)
+    suspend fun joinChat(chatId: UUID)
 
     /**
      * Отправить сообщение всем участникам чата.
@@ -44,11 +44,11 @@ interface IP2PTransport {
      * Закрывает все активные соединения для этого чата.
      * @param chatId ID чата для выхода.
      */
-    fun leaveChat(chatId: UUID)
+    suspend fun leaveChat(chatId: UUID)
 
     /**
      * Полностью остановить и очистить все ресурсы P2P-транспорта.
      * Вызывается при закрытии приложения.
      */
-    fun shutdown()
+    suspend fun shutdown()
 }

@@ -40,28 +40,28 @@ class PeerConnectionManager(
     }
 
     private fun setupPeerConnection() {
-        Logger.log(tag, "Setting up PeerConnection for '$peerId'")
+        Logger.log(tag, "setupPeerConnection Setting up PeerConnection for '$peerId'")
         peerConnection = webRTCManager.createPeerConnection(object : PeerConnectionObserverAdapter() {
             override fun onIceCandidate(candidate: IceCandidate?) {
                 candidate?.let {
-                    Logger.log(tag, "Generated ICE candidate for '$peerId'")
+                    Logger.log(tag, "onIceCandidate Generated ICE candidate for '$peerId'")
                     val signal = SignalMessage.IceCandidate(it.sdp, it.sdpMid, it.sdpMLineIndex)
                     scope.launch { _outgoingSignal.emit(signal) }
                 }
             }
 
             override fun onDataChannel(channel: DataChannel?) {
-                Logger.log(tag, "Remote data channel received for '$peerId'")
+                Logger.log(tag, "onDataChannel Remote data channel received for '$peerId'")
                 dataChannel = channel
                 setupDataChannelObserver()
             }
 
             override fun onIceConnectionChange(newState: PeerConnection.IceConnectionState?) {
-                Logger.log(tag, "ICE connection state for '$peerId' changed to: $newState")
+                Logger.log(tag, "onIceConnectionChange ICE connection state for '$peerId' changed to: $newState")
             }
 
             override fun onSignalingChange(newState: PeerConnection.SignalingState?) {
-                Logger.log(tag, "Signaling state for '$peerId' changed to: $newState", LogLevel.DEBUG)
+                Logger.log(tag, "onSignalingChange Signaling state for '$peerId' changed to: $newState", LogLevel.DEBUG)
             }
         })
 
@@ -75,7 +75,7 @@ class PeerConnectionManager(
 
     fun handleIncomingSignal(signal: SignalMessage) {
         val signalType = signal::class.simpleName
-        Logger.log(tag, "Handling incoming '$signalType' from '$peerId'")
+        Logger.log(tag, "handleIncomingSignal Handling incoming '$signalType' from '$peerId'")
         when (signal) {
             is SignalMessage.Offer -> handleOffer(signal)
             is SignalMessage.Answer -> handleAnswer(signal)
@@ -86,113 +86,115 @@ class PeerConnectionManager(
     fun sendMessage(data: String) {
         val state = dataChannel?.state()
         if (state == DataChannel.State.OPEN) {
-            Logger.log(tag, "Sending data to '$peerId'. Size: ${data.length} bytes", LogLevel.DEBUG)
+            Logger.log(tag, "sendMessage Sending data to '$peerId'. Size: ${data.length} bytes", LogLevel.DEBUG)
             val buffer = ByteBuffer.wrap(data.toByteArray())
             dataChannel?.send(DataChannel.Buffer(buffer, false))
         } else {
-            Logger.log(tag, "Could not send message to '$peerId'. DataChannel state is $state", LogLevel.WARN)
+            Logger.log(tag, "sendMessage Could not send message to '$peerId'. DataChannel state is $state", LogLevel.WARN)
         }
     }
 
     private fun createOffer() {
-        Logger.log(tag, "Creating Offer for '$peerId'")
+        Logger.log(tag, "createOffer Creating Offer for '$peerId'")
         peerConnection?.createOffer(object : SdpObserverAdapter() {
             override fun onCreateSuccess(desc: SessionDescription?) {
-                Logger.log(tag, "Offer created successfully for '$peerId'")
+                Logger.log(tag, "onCreateSuccess Offer created successfully for '$peerId'")
                 peerConnection?.setLocalDescription(object : SdpObserverAdapter() {
                     override fun onSetSuccess() {
                         desc?.let {
-                            Logger.log(tag, "Local description (Offer) set successfully for '$peerId'")
+                            Logger.log(tag, "onSetSuccess Local description (Offer) set successfully for '$peerId'")
                             val offer = SignalMessage.Offer(it.description)
                             scope.launch { _outgoingSignal.emit(offer) }
                         }
                     }
                     override fun onSetFailure(error: String?) {
-                        Logger.log(tag, "Failed to set Local Description (Offer) for '$peerId': $error", LogLevel.ERROR)
+                        Logger.log(tag, "onSetFailure Failed to set Local Description (Offer) for '$peerId': $error", LogLevel.ERROR)
                     }
                 }, desc)
             }
             override fun onCreateFailure(error: String?) {
-                Logger.log(tag, "Failed to create Offer for '$peerId': $error", LogLevel.ERROR)
+                Logger.log(tag, "onCreateFailure Failed to create Offer for '$peerId': $error", LogLevel.ERROR)
             }
         }, MediaConstraints())
     }
 
     private fun handleOffer(offer: SignalMessage.Offer) {
+        Logger.log(tag, "handleOffer")
         val sdp = SessionDescription(SessionDescription.Type.OFFER, offer.sdp)
         peerConnection?.setRemoteDescription(object : SdpObserverAdapter() {
             override fun onSetSuccess() {
-                Logger.log(tag, "Remote description (Offer) set successfully for '$peerId'")
+                Logger.log(tag, "onSetSuccess Remote description (Offer) set successfully for '$peerId'")
                 createAnswer()
             }
             override fun onSetFailure(error: String?) {
-                Logger.log(tag, "Failed to set Remote Description (Offer) for '$peerId': $error", LogLevel.ERROR)
+                Logger.log(tag, "onSetFailure Failed to set Remote Description (Offer) for '$peerId': $error", LogLevel.ERROR)
             }
         }, sdp)
     }
 
     private fun createAnswer() {
-        Logger.log(tag, "Creating Answer for '$peerId'")
+        Logger.log(tag, "createAnswer Creating Answer for '$peerId'")
         peerConnection?.createAnswer(object : SdpObserverAdapter() {
             override fun onCreateSuccess(desc: SessionDescription?) {
-                Logger.log(tag, "Answer created successfully for '$peerId'")
+                Logger.log(tag, "onCreateSuccess Answer created successfully for '$peerId'")
                 peerConnection?.setLocalDescription(object : SdpObserverAdapter() {
                     override fun onSetSuccess() {
                         desc?.let {
-                            Logger.log(tag, "Local description (Answer) set successfully for '$peerId'")
+                            Logger.log(tag, "onSetSuccess Local description (Answer) set successfully for '$peerId'")
                             val answer = SignalMessage.Answer(it.description)
                             scope.launch { _outgoingSignal.emit(answer) }
                         }
                     }
                     override fun onSetFailure(error: String?) {
-                        Logger.log(tag, "Failed to set Local Description (Answer) for '$peerId': $error", LogLevel.ERROR)
+                        Logger.log(tag, "onSetFailure Failed to set Local Description (Answer) for '$peerId': $error", LogLevel.ERROR)
                     }
                 }, desc)
             }
             override fun onCreateFailure(error: String?) {
-                Logger.log(tag, "Failed to create Answer for '$peerId': $error", LogLevel.ERROR)
+                Logger.log(tag, "onCreateFailure Failed to create Answer for '$peerId': $error", LogLevel.ERROR)
             }
         }, MediaConstraints())
     }
 
     private fun handleAnswer(answer: SignalMessage.Answer) {
+        Logger.log(tag, "handleAnswer")
         val sdp = SessionDescription(SessionDescription.Type.ANSWER, answer.sdp)
         peerConnection?.setRemoteDescription(object : SdpObserverAdapter() {
             override fun onSetSuccess() {
-                Logger.log(tag, "Remote description (Answer) set successfully for '$peerId'")
+                Logger.log(tag, "onSetSuccess Remote description (Answer) set successfully for '$peerId'")
             }
             override fun onSetFailure(error: String?) {
-                Logger.log(tag, "Failed to set Remote Description (Answer) for '$peerId': $error", LogLevel.ERROR)
+                Logger.log(tag, "onSetFailure Failed to set Remote Description (Answer) for '$peerId': $error", LogLevel.ERROR)
             }
         }, sdp)
     }
 
     private fun handleIceCandidate(candidate: SignalMessage.IceCandidate) {
         val iceCandidate = IceCandidate(candidate.sdpMid, candidate.sdpMLineIndex, candidate.sdp)
-        Logger.log(tag, "Adding received ICE candidate for '$peerId'", LogLevel.DEBUG)
+        Logger.log(tag, "handleIceCandidate Adding received ICE candidate for '$peerId'", LogLevel.DEBUG)
         peerConnection?.addIceCandidate(iceCandidate)
     }
 
     private fun setupDataChannelObserver() {
-        Logger.log(tag, "Registering observer for DataChannel with '$peerId'")
+        Logger.log(tag, "setupDataChannelObserver Registering observer for DataChannel with '$peerId'")
         dataChannel?.registerObserver(object : DataChannel.Observer {
             override fun onMessage(buffer: DataChannel.Buffer?) {
                 buffer?.let {
                     val bytes = ByteArray(it.data.remaining())
                     it.data.get(bytes)
-                    Logger.log(tag, "Received message on DataChannel from '$peerId'. Size: ${bytes.size} bytes")
+                    Logger.log(tag, "onMessage Received message on DataChannel from '$peerId'. Size: ${bytes.size} bytes")
                     scope.launch { _incomingData.emit(String(bytes)) }
                 }
             }
             override fun onStateChange() {
-                Logger.log(tag, "DataChannel state for '$peerId' changed to: ${dataChannel?.state()}")
+                Logger.log(tag, "onStateChange DataChannel state for '$peerId' changed to: ${dataChannel?.state()}")
             }
             override fun onBufferedAmountChange(previousAmount: Long) {}
         })
     }
 
     fun close() {
-        Logger.log(tag, "Closing connection for '$peerId'")
+        Logger.log(tag, "close Closing connection for '$peerId'")
         dataChannel?.close()
         peerConnection?.close()
         scope.cancel()

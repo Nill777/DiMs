@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -138,52 +139,7 @@ class MainActivity : ComponentActivity() {
     private val appSettingsService by lazy { AppSettingsService(repositories.appSettingsRepository) }
 
     // 4. ViewModels
-    private val authViewModel: AuthViewModel by viewModels {
-        factory {
-            AuthViewModel(
-                userService
-            )
-        }
-    }
-    private val chatListViewModel: ChatListViewModel by viewModels {
-        factory {
-            ChatListViewModel(
-                chatService,
-                messageService,
-                userService
-            )
-        }
-    }
-    private val newChatViewModel: NewChatViewModel by viewModels {
-        factory {
-            NewChatViewModel(
-                userService,
-                chatService
-            )
-        }
-    }
-    private val messageHistoryViewModel: MessageHistoryViewModel by viewModels {
-        factory {
-            MessageHistoryViewModel(
-                messageService
-            )
-        }
-    }
-    private val profileViewModel: ProfileViewModel by viewModels {
-        factory {
-            ProfileViewModel(
-                userService
-            )
-        }
-    }
-    private val adminViewModel: AdminViewModel by viewModels {
-        factory {
-            AdminViewModel(
-                userService,
-                blockService
-            )
-        }
-    }
+
     private val appSettingsViewModel: AppSettingsViewModel by viewModels {
         factory {
             AppSettingsViewModel(
@@ -203,6 +159,9 @@ class MainActivity : ComponentActivity() {
         dataSyncer.start()
 
         setContent {
+            val appSettingsViewModel: AppSettingsViewModel = viewModel(
+                factory = factory { AppSettingsViewModel(appSettingsService) }
+            )
             DistributedMessengerTheme(
                 appSettingsViewModel = appSettingsViewModel
             ) {
@@ -212,8 +171,11 @@ class MainActivity : ComponentActivity() {
 
                 NavHost(navController, startDestination = "auth") {
                     composable("auth") {
+                        val viewModel: AuthViewModel = viewModel(
+                            factory = factory { AuthViewModel(userService) }
+                        )
                         AuthScreen(
-                            viewModel = authViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
@@ -221,6 +183,16 @@ class MainActivity : ComponentActivity() {
                         MainScreen(navigationController = navigationController)
                     }
                     composable("chat_list") {
+                        val chatListViewModel: ChatListViewModel = viewModel(
+                            factory = factory { ChatListViewModel(chatService, messageService, userService) }
+                        )
+                        // Мы можем получить доступ к любой другой ViewModel точно так же.
+                        // Compose сам разберется, что AuthViewModel привязана к родительской активности
+                        // и вернет тот же экземпляр.
+                        val authViewModel: AuthViewModel = viewModel(
+                            factory = factory { AuthViewModel(userService) }
+                        )
+
                         ChatListScreen(
                             viewModel = chatListViewModel,
                             authViewModel = authViewModel,
@@ -230,37 +202,46 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("chat/{chatId}") { backStackEntry ->
                         val chatId = UUID.fromString(backStackEntry.arguments?.getString("chatId"))
+
+                        // Точно так же работает и для VM с параметрами из навигации
+                        val viewModel: ChatViewModel = viewModel(
+                            // Важно передать ключ (key), чтобы Compose знал, что для разных chatId
+                            // нужны РАЗНЫЕ экземпляры ViewModel.
+                            key = "chat_vm_$chatId",
+                            factory = factory { ChatViewModel(messageService, chatService, chatId) }
+                        )
                         ChatScreen(
-                            viewModel = ChatViewModel(
-                                messageService = messageService,
-                                chatService = chatService,
-                                chatId = chatId
-                            ),
-//                            listViewModel = ChatListViewModel(
-//                                chatService = chatService,
-//                                messageService = messageService
-//                            ),
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
                     composable("new_chat") {
+                        val viewModel: NewChatViewModel = viewModel(
+                            factory = factory { NewChatViewModel(userService, chatService) }
+                        )
                         NewChatScreen(
-                            viewModel = newChatViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
                     composable("message_history/{messageId}") { backStackEntry ->
-                        val messageId =
-                            UUID.fromString(backStackEntry.arguments?.getString("messageId"))
+                        val messageId = UUID.fromString(backStackEntry.arguments?.getString("messageId"))
+                        val viewModel: MessageHistoryViewModel = viewModel(
+                            key = "history_vm_$messageId",
+                            factory = factory { MessageHistoryViewModel(messageService) }
+                        )
                         MessageHistoryScreen(
-                            viewModel = messageHistoryViewModel,
+                            viewModel = viewModel,
                             messageId = messageId,
                             navigationController = navigationController
                         )
                     }
                     composable("profile") {
+                        val viewModel: ProfileViewModel = viewModel(
+                            factory = factory { ProfileViewModel(userService) }
+                        )
                         ProfileScreen(
-                            viewModel = profileViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
@@ -271,20 +252,29 @@ class MainActivity : ComponentActivity() {
                         AboutScreen()
                     }
                     composable("admin_dashboard") {
+                        val viewModel: AdminViewModel = viewModel(
+                            factory = factory { AdminViewModel(userService, blockService) }
+                        )
                         AdminDashboardScreen(
-                            viewModel = adminViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
                     composable("role_management") {
+                        val viewModel: AdminViewModel = viewModel(
+                            factory = factory { AdminViewModel(userService, blockService) }
+                        )
                         AdminPanelScreen(
-                            viewModel = adminViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
                     composable("block_management") {
+                        val viewModel: AdminViewModel = viewModel(
+                            factory = factory { AdminViewModel(userService, blockService) }
+                        )
                         BlockManagementScreen(
-                            viewModel = adminViewModel,
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }
@@ -303,7 +293,10 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
 
         // Корректно завершаем работу сети
-        p2pTransportManager.shutdown()
+        lifecycleScope.launch {
+            // Теперь это вызов suspend-функции
+            p2pTransportManager.shutdown()
+        }
     }
 
     // Вспомогательная функция для создания фабрик ViewModel

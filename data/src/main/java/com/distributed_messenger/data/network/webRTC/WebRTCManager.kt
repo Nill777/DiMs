@@ -33,13 +33,13 @@ class WebRTCManager(context: Context) {
     }
 
     fun createPeerConnection(observer: PeerConnection.Observer): PeerConnection? {
-        Logger.log(tag, "Creating a new PeerConnection object.", LogLevel.DEBUG)
+        Logger.log(tag, "createPeerConnection Creating a new PeerConnection object.", LogLevel.DEBUG)
         val rtcConfig = PeerConnection.RTCConfiguration(iceServers)
         return peerConnectionFactory.createPeerConnection(rtcConfig, observer)
     }
 
     fun release() {
-        Logger.log(tag, "Releasing WebRTC resources.")
+        Logger.log(tag, "release Releasing WebRTC resources.")
         peerConnectionFactory.dispose()
         eglBase.release()
     }

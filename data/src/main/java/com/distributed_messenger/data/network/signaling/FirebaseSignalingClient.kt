@@ -30,24 +30,29 @@ class FirebaseSignalingClient(private val gson: Gson) : ISignalingClient {
 
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                Logger.log(tag, "onDataChange triggered for room '$chatId'", LogLevel.DEBUG)
+                Logger.log(tag, "onDataChange triggered for room '$chatId'. Found ${snapshot.childrenCount} peers.", LogLevel.DEBUG)
                 snapshot.children.forEach { peerSnapshot ->
                     val peerId = peerSnapshot.key
+                    // Мы реагируем на данные всех, кроме себя
                     if (peerId != null && peerId != myId) {
                         val signalData = peerSnapshot.getValue(String::class.java)
                         if (signalData != null) {
-                            Logger.log(tag, "Received data from peer '$peerId': $signalData", LogLevel.DEBUG)
+                            try {
                             // Десериализуем сообщение и отправляем в Flow
-                            val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
-                            Logger.log(tag, "Parsed signal '${signalMessage::class.simpleName}' from peer '$peerId'")
-                            trySend(Pair(peerId, signalMessage))
+                                val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
+                                Logger.log(tag, "Parsed signal '${signalMessage::class.simpleName}' from peer '$peerId'")
+                                trySend(Pair(peerId, signalMessage))
+                            } catch (e: Exception) {
+                                Logger.log(tag, "Failed to parse signal from peer '$peerId'. Data: $signalData", LogLevel.ERROR, e)
+                            }
                         }
                     }
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                Logger.log(tag, "Listener for room '$chatId' was cancelled. Error: ${error.message}", LogLevel.ERROR, error.toException())
-                close(error.toException()) }
+                Logger.log(tag, "onCancelled Listener for room '$chatId' was cancelled. Error: ${error.message}", LogLevel.ERROR, error.toException())
+                close(error.toException())
+            }
         }
 
         roomRef.addValueEventListener(listener)
@@ -59,22 +64,16 @@ class FirebaseSignalingClient(private val gson: Gson) : ISignalingClient {
         }
     }
 
-    override fun sendSignal(chatId: UUID, myId: PeerId, targetId: PeerId, signalMessage: SignalMessage) {
+    override fun sendSignal(chatId: UUID, myId: PeerId, signalMessage: SignalMessage) {
         val signalType = signalMessage::class.simpleName
-        Logger.log(tag, "Sending signal '$signalType' to '$targetId' in room '$chatId'")
+        Logger.log(tag, "sendSignal Sending/updating my signal '$signalType' in room '$chatId'")
+
         val roomRef = database.getReference("rooms").child(chatId.toString())
-        val targetRef = roomRef.child(targetId)
+        // Мы всегда пишем данные ТОЛЬКО В СВОЙ УЗЕЛ.
+        val myRef = roomRef.child(myId)
         val signalJson = gson.toJson(signalMessage)
 
-        // Мы пишем данные в узел, который слушает наш оппонент, с ключом нашего ID.
-        // Firebase не позволяет писать напрямую в чужой узел без вложенности.
-        // Это значит, что targetId будет слушать изменения в `rooms/{chatId}/{targetId}`
-        // и увидит там дочерний узел с ключом `myId` и нашими данными.
-        // Структура в Firebase: rooms/{chatId}/{targetId}/{myId}: "{signalJson}"
-        // Для того чтобы это работало, логика в onDataChange должна быть немного сложнее,
-        // она должна обходить дочерние узлы каждого пира.
-        // Я оставлю вашу логику отправки, но добавлю лог.
-        Logger.log(tag, "Writing to path: ${targetRef}/$myId", LogLevel.DEBUG)
-        targetRef.child(myId).setValue(signalJson)
+        Logger.log(tag, "Writing to path: ${myRef.toString()}", LogLevel.DEBUG)
+        myRef.setValue(signalJson)
     }
 }

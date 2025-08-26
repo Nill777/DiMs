@@ -26,5 +26,5 @@ interface ISignalingClient {
      * @param targetId ID пира-получателя.
      * @param signalMessage Сигнальное сообщение для отправки.
      */
-    fun sendSignal(chatId: UUID, myId: PeerId, targetId: PeerId, signalMessage: SignalMessage)
+    fun sendSignal(chatId: UUID, myId: PeerId, signalMessage: SignalMessage)
 }

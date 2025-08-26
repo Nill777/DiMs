@@ -23,7 +23,7 @@ class DataSyncer(
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun start() {
-        Logger.log(tag, "Starting and listening for incoming messages.")
+        Logger.log(tag, "start Starting and listening for incoming messages.")
         p2pTransport.incomingMessages
             .onEach { (peerId, dataMessage) ->
                 val messageType = dataMessage::class.simpleName
@@ -39,7 +39,7 @@ class DataSyncer(
 
     private fun handleChatMessage(msg: DataMessage.ChatMessage) {
         scope.launch {
-            Logger.log(tag, "Handling ChatMessage with id '${msg.messageId}'", LogLevel.DEBUG)
+            Logger.log(tag, "handleChatMessage Handling ChatMessage with id '${msg.messageId}'", LogLevel.DEBUG)
             // Проверяем, нет ли у нас уже такого сообщения
             if (messageRepository.getMessage(msg.messageId) == null) {
                 Logger.log(tag, "Message '${msg.messageId}' is new. Adding to repository.")
@@ -55,7 +55,7 @@ class DataSyncer(
                 // Вам нужно будет добавить такой метод в репозиторий.
                 messageRepository.addMessageFromNetwork(domainMessage) // ПРЕДПОЛАГАЕТСЯ НОВЫЙ МЕТОД
             } else {
-                Logger.log(tag, "Message '${msg.messageId}' already exists. Ignoring.", LogLevel.DEBUG)
+                Logger.log(tag, "handleChatMessage Message '${msg.messageId}' already exists. Ignoring.", LogLevel.DEBUG)
             }
         }
     }
@@ -67,7 +67,7 @@ class DataSyncer(
      */
     private fun handleSyncRequest(requesterId: PeerId, request: DataMessage.SyncRequest) {
         scope.launch {
-            Logger.log(tag, "Handling SyncRequest from '$requesterId' for chat '${request.chatId}'")
+            Logger.log(tag, "handleSyncRequest Handling SyncRequest from '$requesterId' for chat '${request.chatId}'")
             // 1. Получаем из БД все сообщения для нужного чата после нужной временной метки.
             val messagesToSend = messageRepository.getMessagesAfter(
                 chatId = request.chatId,
@@ -92,7 +92,7 @@ class DataSyncer(
                 // Отправляем ответ только тому, кто спросил
                 p2pTransport.sendMessageToPeer(request.chatId, requesterId, response)
             } else {
-                Logger.log(tag, "No new messages found for sync request from '$requesterId'", LogLevel.DEBUG)
+                Logger.log(tag, "handleSyncRequest No new messages found for sync request from '$requesterId'", LogLevel.DEBUG)
             }
         }
     }
@@ -103,7 +103,7 @@ class DataSyncer(
      */
     private fun handleSyncResponse(response: DataMessage.SyncResponse) {
         scope.launch {
-            Logger.log(tag, "Handling SyncResponse with ${response.messages.size} messages.")
+            Logger.log(tag, "handleSyncResponse Handling SyncResponse with ${response.messages.size} messages.")
             // Просто перебираем все сообщения и добавляем их, если у нас таких нет.
             // Логика идентична handleChatMessage.
             for (msg in response.messages) {

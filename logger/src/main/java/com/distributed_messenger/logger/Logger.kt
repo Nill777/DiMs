@@ -33,7 +33,8 @@ object Logger : ILogger {
     }
 
     override fun log(tag: String, message: String, level: LogLevel, throwable: Throwable?) {
-        val formattedMessage = "$tag - $message"
+//        val formattedMessage = "$tag - $message"
+        val formattedMessage = "$message;"
         when (level) {
             LogLevel.DEBUG -> Timber.tag(tag).d(throwable, formattedMessage)
             LogLevel.INFO -> Timber.tag(tag).i(throwable, formattedMessage)
