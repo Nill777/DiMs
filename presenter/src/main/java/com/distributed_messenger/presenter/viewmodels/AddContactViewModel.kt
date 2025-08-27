@@ -35,9 +35,7 @@ class AddContactViewModel(
             // 2. Обновляем UI, чтобы показать пользователю, что мы ждем.
             _state.value = AddContactState.WaitingForPeer("Waiting for someone to scan your code...")
 
-            // 3. Явно сообщаем сервису, что мы - ИНИЦИАТОР.
-            // Этот вызов заставит P2P-уровень немедленно сгенерировать и отправить Offer в Firebase.
-            chatService.initiateContactRequest(inviteId)
+
 
             // 4. ОДНОВРЕМЕННО начинаем слушать P2P-канал в ожидании рукопожатия от Боба.
             // Как только Боб подключится и отправит свои данные, этот блок сработает.
@@ -52,6 +50,9 @@ class AddContactViewModel(
                     chatService.performHandshake(inviteId, myHandshake)
                 }
                 .launchIn(viewModelScope)
+            // 3. Явно сообщаем сервису, что мы - ИНИЦИАТОР.
+            // Этот вызов заставит P2P-уровень немедленно сгенерировать и отправить Offer в Firebase.
+            chatService.initiateContactRequest(inviteId)
         }
         // 7. Немедленно возвращаем ID, чтобы UI мог сгенерировать QR-код.
         return inviteId

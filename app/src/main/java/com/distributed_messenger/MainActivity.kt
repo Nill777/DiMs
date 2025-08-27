@@ -31,6 +31,8 @@ import com.distributed_messenger.data.repositories.MessageRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.data.network.crypto.AesGcmMessageCrypto
 import com.distributed_messenger.data.network.crypto.INetworkCrypto
+import com.distributed_messenger.data.network.model.SignalMessage
+import com.distributed_messenger.data.network.model.SignalMessageTypeAdapter
 import com.distributed_messenger.data.network.signaling.FirebaseSignalingClient
 import com.distributed_messenger.data.network.signaling.ISignalingClient
 import com.distributed_messenger.data.network.syncer.DataSyncer
@@ -95,7 +97,12 @@ class MainActivity : ComponentActivity() {
     // 2. Сетевые компоненты
     // --- НОВАЯ ИНИЦИАЛИЗАЦИЯ СЕТЕВОГО СЛОЯ ---
 
-    private val gson by lazy { Gson() }
+    private val gson: Gson by lazy {
+        GsonBuilder()
+            // Регистрируем наш кастомный адаптер для интерфейса SignalMessage
+            .registerTypeAdapter(SignalMessage::class.java, SignalMessageTypeAdapter())
+            .create()
+    }
 
     // 1. Модуль шифрования (замените на свой по необходимости)
     private val messageCrypto: INetworkCrypto by lazy { AesGcmMessageCrypto() }

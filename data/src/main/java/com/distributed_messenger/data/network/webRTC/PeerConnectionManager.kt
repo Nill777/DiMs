@@ -4,6 +4,7 @@ import com.distributed_messenger.data.network.PeerId
 import com.distributed_messenger.data.network.model.SignalMessage
 import com.distributed_messenger.logger.LogLevel
 import com.distributed_messenger.logger.Logger
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -73,7 +74,7 @@ class PeerConnectionManager(
             Logger.log(tag, "Creating data channel as initiator for '$peerId'")
             dataChannel = peerConnection?.createDataChannel("data_channel", DataChannel.Init())
             setupDataChannelObserver()
-            createOffer()
+//            createOffer()
         }
     }
 
@@ -98,30 +99,28 @@ class PeerConnectionManager(
         }
     }
 
-    private fun createOffer() {
-        Logger.log(tag, "createOffer Creating Offer for '$peerId'")
+    suspend fun createOffer(): SignalMessage.Offer {
+        val offerDeferred = CompletableDeferred<SignalMessage.Offer>()
         peerConnection?.createOffer(object : SdpObserverAdapter() {
             override fun onCreateSuccess(desc: SessionDescription?) {
-                Logger.log(tag, "onCreateSuccess Offer created successfully for '$peerId'")
                 peerConnection?.setLocalDescription(object : SdpObserverAdapter() {
                     override fun onSetSuccess() {
                         desc?.let {
-                            Logger.log(tag, "onSetSuccess Local description (Offer) set successfully for '$peerId'")
-                            val offer = SignalMessage.Offer(
-                                sdp = it.description
-                            )
-                            scope.launch { _outgoingSignal.emit(offer) }
-                        }
+                            val offer = SignalMessage.Offer(sdp = it.description)
+                            offerDeferred.complete(offer)
+                        } ?: offerDeferred.completeExceptionally(Exception("SessionDescription is null"))
                     }
                     override fun onSetFailure(error: String?) {
-                        Logger.log(tag, "onSetFailure Failed to set Local Description (Offer) for '$peerId': $error", LogLevel.ERROR)
+                        offerDeferred.completeExceptionally(Exception("SetLocalDescription failed: $error"))
                     }
                 }, desc)
             }
             override fun onCreateFailure(error: String?) {
-                Logger.log(tag, "onCreateFailure Failed to create Offer for '$peerId': $error", LogLevel.ERROR)
+                offerDeferred.completeExceptionally(Exception("CreateOffer failed: $error"))
             }
         }, MediaConstraints())
+
+        return offerDeferred.await()
     }
 
     private fun handleOffer(offer: SignalMessage.Offer) {
