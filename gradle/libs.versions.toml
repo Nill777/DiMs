@@ -34,6 +34,7 @@ firebaseBom = "33.0.0"
 gson = "2.10.1"
 sqlcipher = "4.5.4"
 androidx-sqlite = "2.4.0"
+zxing = "3.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -96,9 +97,12 @@ firebase-database-ktx = { group = "com.google.firebase", name = "firebase-databa
 # JSON
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
-#Crypto
+# Crypto
 sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlcipher" }
 androidx-sqlite = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "androidx-sqlite" }
+
+# QRCode
+zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

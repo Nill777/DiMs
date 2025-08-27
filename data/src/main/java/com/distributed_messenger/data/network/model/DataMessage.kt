@@ -32,4 +32,12 @@ sealed class DataMessage {
     data class SyncResponse(
         val messages: List<ChatMessage>
     ) : DataMessage()
+
+    /**
+     * Рукопожатие
+     */
+    data class Handshake(
+        val userId: UUID,
+        val username: String
+    ) : DataMessage()
 }

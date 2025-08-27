@@ -232,6 +232,20 @@ fun ChatListScreen(viewModel: ChatListViewModel,
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     item {
                         SideMenuItem(
+                            icon = R.drawable.side_menu_add_contact_1,
+                            text = "Add Contact",
+                            onClick = { navigationController.navigateToAddContact() }
+                        )
+                    }
+                    item {
+                        SideMenuItem(
+                            icon = R.drawable.side_menu_share_contact_0,
+                            text = "Share Contact",
+                            onClick = { navigationController.navigateToShareContact() }
+                        )
+                    }
+                    item {
+                        SideMenuItem(
                             icon = R.drawable.side_menu_profile,
                             text = "My Profile",
                             onClick = { navigationController.navigateToProfile() }

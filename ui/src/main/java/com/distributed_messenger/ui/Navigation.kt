@@ -12,6 +12,8 @@ class NavigationController (private val navController: NavHostController) {
         const val MESSAGE_HISTORY = "message_history/{messageId}"
         const val NEW_CHAT = "new_chat"
         const val HOME = "home"
+        const val ADD_CONTACT = "add_contact"
+        const val SHARE_CONTACT = "share_contact"
         const val PROFILE = "profile"
         const val SETTINGS = "settings"
         const val ABOUT_PROGRAM = "about_program"
@@ -44,6 +46,14 @@ class NavigationController (private val navController: NavHostController) {
 
     fun navigateToNewChat() {
         navController.navigate(Routes.NEW_CHAT)
+    }
+
+    fun navigateToAddContact() {
+        navController.navigate(Routes.ADD_CONTACT)
+    }
+
+    fun navigateToShareContact() {
+        navController.navigate(Routes.SHARE_CONTACT)
     }
 
     fun navigateToProfile() {

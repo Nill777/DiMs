@@ -2,6 +2,7 @@ package com.distributed_messenger.data.network.transport
 
 import com.distributed_messenger.data.network.PeerId
 import com.distributed_messenger.data.network.model.DataMessage
+import com.distributed_messenger.data.network.model.SignalMessage
 import com.distributed_messenger.data.network.signaling.ISignalingClient
 import com.distributed_messenger.data.network.webRTC.PeerConnectionManager
 import com.distributed_messenger.data.network.webRTC.WebRTCManager
@@ -69,7 +70,7 @@ class P2PTransportManager(
     }
 
     override suspend fun joinChat(chatId: UUID) {
-        // Если уже в чате, ничего не делаем
+    /**    // Если уже в чате, ничего не делаем
         if (activeConnections.containsKey(chatId)) {
             Logger.log(tag, "joinChat Already joined chat '$chatId', ignoring.", LogLevel.WARN)
             return
@@ -80,18 +81,94 @@ class P2PTransportManager(
 
         scope.launch {
             signalingClient.joinRoom(chatId, myId)
-                .collect { (peerId, signalMessage) ->
-                    Logger.log(tag, "Received signal for peer '$peerId' in chat '$chatId'")
-                    // Получаем или создаем PeerConnectionManager для этого пира
-                    val pcManager = chatConnections.getOrPut(peerId) {
-                        // isInitiator = true, если наш ID "больше" ID пира.
-                        // Это простой способ гарантировать, что только один из двух создаст offer.
-                        val isInitiator = myId > peerId
-                        Logger.log(tag, "Peer '$peerId' is new for this chat. Creating connection. I am initiator: $isInitiator")
-                        createAndSetupPcManager(chatId, peerId, isInitiator)
+//                .collect { (peerId, signalMessage) ->
+//                    Logger.log(tag, "Received signal for peer '$peerId' in chat '$chatId'")
+//                    // Получаем или создаем PeerConnectionManager для этого пира
+//                    val pcManager = chatConnections.getOrPut(peerId) {
+//                        // isInitiator = true, если наш ID "больше" ID пира.
+//                        // Это простой способ гарантировать, что только один из двух создаст offer.
+//                        val isInitiator = myId > peerId
+//                        Logger.log(tag, "Peer '$peerId' is new for this chat. Creating connection. I am initiator: $isInitiator")
+//                        createAndSetupPcManager(chatId, peerId, isInitiator)
+//                    }
+//                    pcManager.handleIncomingSignal(signalMessage)
+//                }
+                .onEach { peersMap ->
+                    Logger.log(tag, "Received room update with peers: ${peersMap.keys}")
+
+                    // Для каждого пира из карты...
+                    for ((peerId, signalData) in peersMap) {
+                        // 1. Получаем или создаем для него PeerConnectionManager
+                        val pcManager = chatConnections.getOrPut(peerId) {
+                            val isInitiator = myId > peerId
+                            Logger.log(tag, "Peer '$peerId' is new. Creating connection. I am initiator: $isInitiator")
+                            createAndSetupPcManager(chatId, peerId, isInitiator)
+                        }
+
+                        // 2. Если для этого пира есть сигнальные данные, обрабатываем их
+                        if (signalData != null) {
+                            try {
+                                val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
+                                pcManager.handleIncomingSignal(signalMessage)
+                            } catch (e: Exception) { /* ... */ }
+                        }
                     }
-                    pcManager.handleIncomingSignal(signalMessage)
+
+                    // TODO: Добавить логику удаления пиров, которых больше нет в peersMap
                 }
+        }
+    **/
+        // Мы используем withContext, чтобы быть уверенными, что работа с ConcurrentHashMap
+        // и запуск Flow происходят в правильном контексте.
+        withContext(Dispatchers.Default) {
+            if (activeConnections.containsKey(chatId)) {
+                Logger.log(tag, "joinChat: Already joined chat '$chatId', ignoring.", LogLevel.WARN)
+                return@withContext
+            }
+            Logger.log(tag, "Joining chat '$chatId'")
+            val chatConnections = ConcurrentHashMap<PeerId, PeerConnectionManager>()
+            activeConnections[chatId] = chatConnections
+
+            // Запускаем слушатель в фоновом режиме
+            signalingClient.joinRoom(chatId, myId)
+                // ИСПРАВЛЕНО: Теперь мы получаем `peersMap`
+                .onEach { peersMap ->
+                    Logger.log(tag, "Received room update with peers: ${peersMap.keys}")
+
+                    // Для каждого пира из карты...
+                    for ((peerId, signalData) in peersMap) {
+                        // 1. Получаем или создаем для него PeerConnectionManager.
+                        // Эта логика гарантирует, что createAndSetupPcManager вызовется
+                        // только один раз для каждого нового пира.
+                        val pcManager = chatConnections.getOrPut(peerId) {
+                            val isInitiator = myId > peerId
+                            Logger.log(tag, "Peer '$peerId' is new. Creating connection. I am initiator: $isInitiator")
+                            createAndSetupPcManager(chatId, peerId, isInitiator)
+                        }
+
+                        // 2. Если для этого пира есть сигнальные данные (не `true` и не `null`), обрабатываем их.
+                        if (signalData != null) {
+                            try {
+                                val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
+                                // Передаем сигнал в соответствующий PeerConnectionManager
+                                pcManager.handleIncomingSignal(signalMessage)
+                            } catch (e: Exception) {
+                                // Это может случиться, если данные еще не являются валидным JSON, игнорируем
+                                Logger.log(tag, "Could not parse signal from peer '$peerId', it might be a presence signal. Data: $signalData", LogLevel.DEBUG)
+                            }
+                        }
+                    }
+
+                    // (Опционально, но хорошая практика) Логика удаления "отвалившихся" пиров
+                    val disappearedPeers = chatConnections.keys - peersMap.keys
+                    if (disappearedPeers.isNotEmpty()) {
+                        Logger.log(tag, "Peers disappeared: $disappearedPeers. Closing their connections.")
+                        for (peerId in disappearedPeers) {
+                            chatConnections.remove(peerId)?.close()
+                        }
+                    }
+                }
+                .launchIn(scope) // launchIn запускает collect в scope этого менеджера
         }
     }
 

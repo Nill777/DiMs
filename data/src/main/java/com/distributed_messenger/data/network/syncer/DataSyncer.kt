@@ -32,6 +32,7 @@ class DataSyncer(
                     is DataMessage.ChatMessage -> handleChatMessage(dataMessage)
                     is DataMessage.SyncRequest -> handleSyncRequest(peerId, dataMessage)
                     is DataMessage.SyncResponse -> handleSyncResponse(dataMessage)
+                    is DataMessage.Handshake -> null // TODO
                 }
             }
             .launchIn(scope)

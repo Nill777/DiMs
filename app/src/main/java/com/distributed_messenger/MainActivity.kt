@@ -43,6 +43,7 @@ import com.distributed_messenger.domain.services.ChatService
 import com.distributed_messenger.domain.services.FileService
 import com.distributed_messenger.domain.services.MessageService
 import com.distributed_messenger.domain.services.UserService
+import com.distributed_messenger.presenter.viewmodels.AddContactViewModel
 import com.distributed_messenger.presenter.viewmodels.AdminViewModel
 import com.distributed_messenger.presenter.viewmodels.AppSettingsViewModel
 import com.distributed_messenger.presenter.viewmodels.AuthViewModel
@@ -53,6 +54,7 @@ import com.distributed_messenger.presenter.viewmodels.NewChatViewModel
 import com.distributed_messenger.presenter.viewmodels.ProfileViewModel
 import com.distributed_messenger.ui.NavigationController
 import com.distributed_messenger.ui.screens.AboutScreen
+import com.distributed_messenger.ui.screens.AddContactScreen
 import com.distributed_messenger.ui.screens.AdminDashboardScreen
 import com.distributed_messenger.ui.screens.AdminPanelScreen
 import com.distributed_messenger.ui.screens.AppSettingsScreen
@@ -66,6 +68,7 @@ import com.distributed_messenger.ui.screens.NewChatScreen
 //import com.distributed_messenger.ui.screens.NewChatScreen
 import com.distributed_messenger.ui.screens.ProfileScreen
 import com.distributed_messenger.ui.screens.SettingsScreen
+import com.distributed_messenger.ui.screens.ShareContactScreen
 import com.distributed_messenger.ui.theme.DistributedMessengerTheme
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -233,6 +236,24 @@ class MainActivity : ComponentActivity() {
                         MessageHistoryScreen(
                             viewModel = viewModel,
                             messageId = messageId,
+                            navigationController = navigationController
+                        )
+                    }
+                    composable("add_contact") {
+                        val viewModel: AddContactViewModel = viewModel(
+                            factory = factory { AddContactViewModel(chatService, userService) }
+                        )
+                        AddContactScreen(
+                            viewModel = viewModel,
+                            navigationController = navigationController
+                        )
+                    }
+                    composable("share_contact") {
+                        val viewModel: AddContactViewModel = viewModel(
+                            factory = factory { AddContactViewModel(chatService, userService) }
+                        )
+                        ShareContactScreen(
+                            viewModel = viewModel,
                             navigationController = navigationController
                         )
                     }

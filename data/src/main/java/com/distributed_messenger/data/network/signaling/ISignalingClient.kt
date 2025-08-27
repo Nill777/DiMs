@@ -17,7 +17,7 @@ interface ISignalingClient {
      * @param myId Наш уникальный ID в этой комнате.
      * @return Flow, который эмитит пару (ID пира-отправителя, Сигнальное сообщение).
      */
-    fun joinRoom(chatId: UUID, myId: PeerId): Flow<Pair<PeerId, SignalMessage>>
+    fun joinRoom(chatId: UUID, myId: PeerId): Flow<Map<PeerId, String?>>
 
     /**
      * Отправить сигнальное сообщение конкретному пиру в комнате.
