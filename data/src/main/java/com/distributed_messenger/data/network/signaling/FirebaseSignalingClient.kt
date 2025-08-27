@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -31,10 +32,10 @@ class FirebaseSignalingClient(private val gson: Gson) : ISignalingClient {
         // Немедленно объявляем о своем присутствии, записывая простое значение.
         // Это действие создаст узел rooms/{chatId}/{myId} в Firebase,
         // и все остальные слушатели комнаты получат уведомление onDataChange.
-        myRef.setValue("presence")
-            .addOnSuccessListener {
-                Logger.log(tag, "Successfully announced presence in room '$chatId'", LogLevel.DEBUG)
-            }
+//        myRef.setValue("presence")
+//            .addOnSuccessListener {
+//                Logger.log(tag, "Successfully announced presence in room '$chatId'", LogLevel.DEBUG)
+//            }
 
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -74,7 +75,7 @@ class FirebaseSignalingClient(private val gson: Gson) : ISignalingClient {
 
     // первая операция записи — это вызов `myRef.setValue(signalJson)` внутри функции `sendSignal`.
     override fun sendSignal(chatId: UUID, myId: PeerId, signalMessage: SignalMessage) {
-        val signalType = signalMessage::class.simpleName
+        val signalType = signalMessage.type
         Logger.log(tag, "sendSignal Sending/updating my signal '$signalType' in room '$chatId'")
 
         val roomRef = database.getReference("rooms").child(chatId.toString())

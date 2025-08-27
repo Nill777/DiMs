@@ -15,5 +15,8 @@ interface IChatService {
     suspend fun joinChatNetwork(chatId: UUID)
     suspend fun leaveChatNetwork(chatId: UUID)
     suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean
-    fun listenForHandshake(inviteId: UUID): Flow<UserHandshake>
+    suspend fun listenForHandshake(inviteId: UUID): Flow<UserHandshake>
+    // Новые, более явные методы для рукопожатия
+    suspend fun initiateContactRequest(inviteId: UUID)
+    suspend fun acceptContactRequest(inviteId: UUID)
 }

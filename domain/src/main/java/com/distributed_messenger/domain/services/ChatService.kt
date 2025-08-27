@@ -80,14 +80,16 @@ class ChatService(private val chatRepository: IChatRepository,
         }
 
     // Метод для присоединения к чату (вызывать при открытии экрана чата)
-    override suspend fun joinChatNetwork(chatId: UUID) {
-        p2pTransport.joinChat(chatId)
-    }
+    override suspend fun joinChatNetwork(chatId: UUID) =
+        loggingWrapper {
+            p2pTransport.joinChat(chatId)
+        }
 
     // Метод для выхода из чата (вызывать при закрытии экрана чата)
-    override suspend fun leaveChatNetwork(chatId: UUID) {
-        p2pTransport.leaveChat(chatId)
-    }
+    override suspend fun leaveChatNetwork(chatId: UUID) =
+        loggingWrapper {
+            p2pTransport.leaveChat(chatId)
+        }
 
     override suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean {
         // Преобразуем в DTO и отправляем
@@ -99,12 +101,27 @@ class ChatService(private val chatRepository: IChatRepository,
         return true
     }
 
-    override fun listenForHandshake(inviteId: UUID): Flow<UserHandshake> {
-        return p2pTransport.incomingMessages
-            .filter { (peerId, dataMessage) -> dataMessage is DataMessage.Handshake }
-            .map { (_, dataMessage) ->
-                val handshake = dataMessage as DataMessage.Handshake
-                UserHandshake(handshake.userId, handshake.username)
-            }
-    }
+    override suspend fun listenForHandshake(inviteId: UUID): Flow<UserHandshake> =
+        loggingWrapper {
+            p2pTransport.incomingMessages
+                .filter { (peerId, dataMessage) -> dataMessage is DataMessage.Handshake }
+                .map { (_, dataMessage) ->
+                    val handshake = dataMessage as DataMessage.Handshake
+                    UserHandshake(handshake.userId, handshake.username)
+                }
+        }
+
+// --- РЕАЛИЗАЦИЯ НОВЫХ МЕТОДОВ ---
+    override suspend fun initiateContactRequest(inviteId: UUID) =
+        loggingWrapper {
+            // Мы просто делегируем вызов транспортному уровню,
+            // сообщая ему, что мы хотим быть инициатором в этой комнате.
+            p2pTransport.initiateHandshake(inviteId)
+        }
+
+    override suspend fun acceptContactRequest(inviteId: UUID) =
+        loggingWrapper {
+            // Делегируем вызов, сообщая, что мы принимающая сторона.
+            p2pTransport.acceptHandshake(inviteId)
+        }
 }

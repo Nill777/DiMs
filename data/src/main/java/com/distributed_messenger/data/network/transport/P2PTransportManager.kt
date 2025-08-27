@@ -90,6 +90,65 @@ class P2PTransportManager(
         return pcManager
     }
 
+    private suspend fun manageHandshake(inviteId: UUID, isInitiator: Boolean) {
+        withContext(Dispatchers.Default) {
+            if (activeConnections.containsKey(inviteId)) {
+                Logger.log(tag, "manageHandshake: Already managing handshake for '$inviteId'.", LogLevel.WARN)
+                return@withContext
+            }
+            Logger.log(tag, "manageHandshake: Starting for room '$inviteId'. Is initiator: $isInitiator")
+            val chatConnections = ConcurrentHashMap<PeerId, PeerConnectionManager>()
+            activeConnections[inviteId] = chatConnections
+
+            if (isInitiator) {
+                // 1. СРАЗУ создаем временный PeerConnectionManager, чтобы сгенерировать Offer.
+                // Он еще не привязан к конкретному peerId.
+                val offerPcManager = PeerConnectionManager(webRTCManager, "initiator_placeholder", true)
+
+                // 2. Слушаем его самый первый исходящий сигнал (это будет Offer).
+                offerPcManager.outgoingSignal
+                    .take(1) // Берем только первое значение (Offer) и отписываемся.
+                    .onEach { offer ->
+                        Logger.log(tag, "Generated Offer, sending to room '$inviteId'")
+                        signalingClient.sendSignal(inviteId, myId, offer)
+                    }
+                    .launchIn(scope)
+            }
+            // 1. Присоединяемся к комнате и начинаем слушать.
+            signalingClient.joinRoom(inviteId, myId)
+                .onEach { peersMap ->
+                    Logger.log(tag, "Handshake room update. Peers: ${peersMap.keys}")
+                    // 2. РЕАГИРУЕМ на появление пира.
+                    for ((peerId, signalData) in peersMap) {
+                        val pcManager = chatConnections.getOrPut(peerId) {
+                            Logger.log(tag, "New peer '$peerId' detected in handshake room. Creating connection.")
+                            // 3. Создаем менеджер для пира С ПРАВИЛЬНОЙ РОЛЬЮ.
+                            // Передаем фиксированную роль
+                            createAndSetupPcManager(inviteId, peerId, isInitiator)
+                        }
+                        if (signalData != null) {
+                            try {
+                                val signalMessage =
+                                    gson.fromJson(signalData, SignalMessage::class.java)
+                                pcManager.handleIncomingSignal(signalMessage)
+                            } catch (e: Exception) {
+                                Logger.log(tag, "manageHandshake signalData == null", LogLevel.ERROR, e)
+                            }
+                        }
+                    }
+                }.launchIn(scope)
+        }
+    }
+
+    // Новые публичные методы
+    override suspend fun initiateHandshake(inviteId: UUID) {
+        manageHandshake(inviteId, true)
+    }
+
+    override suspend fun acceptHandshake(inviteId: UUID) {
+        manageHandshake(inviteId, false)
+    }
+
     override suspend fun joinChat(chatId: UUID) {
         if (activeConnections.containsKey(chatId)) {
             Logger.log(tag, "joinChat: Already joined chat '$chatId', ignoring.", LogLevel.WARN)
@@ -112,7 +171,10 @@ class P2PTransportManager(
                     // только один раз для каждого нового пира.
                     val pcManager = chatConnections.getOrPut(peerId) {
                         val isInitiator = myId > peerId
-                        Logger.log(tag, "Peer '$peerId' is new. Creating connection. I am initiator: $isInitiator")
+                        Logger.log(
+                            tag,
+                            "Peer '$peerId' is new. Creating connection. I am initiator: $isInitiator"
+                        )
                         createAndSetupPcManager(chatId, peerId, isInitiator)
                     }
 
@@ -124,7 +186,11 @@ class P2PTransportManager(
                             pcManager.handleIncomingSignal(signalMessage)
                         } catch (e: Exception) {
                             // Это может случиться, если данные еще не являются валидным JSON, игнорируем
-                            Logger.log(tag, "Could not parse signal from peer '$peerId', it might be a presence signal. Data: $signalData", LogLevel.DEBUG)
+                            Logger.log(
+                                tag,
+                                "Could not parse signal from peer '$peerId', it might be a presence signal. Data: $signalData",
+                                LogLevel.DEBUG
+                            )
                         }
                     }
                 }
@@ -132,7 +198,10 @@ class P2PTransportManager(
                 // (Опционально, но хорошая практика) Логика удаления "отвалившихся" пиров
                 val disappearedPeers = chatConnections.keys - peersMap.keys
                 if (disappearedPeers.isNotEmpty()) {
-                    Logger.log(tag, "Peers disappeared: $disappearedPeers. Closing their connections.")
+                    Logger.log(
+                        tag,
+                        "Peers disappeared: $disappearedPeers. Closing their connections."
+                    )
                     for (peerId in disappearedPeers) {
                         chatConnections.remove(peerId)?.close()
                     }

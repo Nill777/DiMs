@@ -45,7 +45,11 @@ class PeerConnectionManager(
             override fun onIceCandidate(candidate: IceCandidate?) {
                 candidate?.let {
                     Logger.log(tag, "onIceCandidate Generated ICE candidate for '$peerId'")
-                    val signal = SignalMessage.IceCandidate(it.sdp, it.sdpMid, it.sdpMLineIndex)
+                    val signal = SignalMessage.IceCandidate(
+                        sdp = it.sdp,
+                        sdpMid = it.sdpMid,
+                        sdpMLineIndex = it.sdpMLineIndex
+                    )
                     scope.launch { _outgoingSignal.emit(signal) }
                 }
             }
@@ -103,7 +107,9 @@ class PeerConnectionManager(
                     override fun onSetSuccess() {
                         desc?.let {
                             Logger.log(tag, "onSetSuccess Local description (Offer) set successfully for '$peerId'")
-                            val offer = SignalMessage.Offer(it.description)
+                            val offer = SignalMessage.Offer(
+                                sdp = it.description
+                            )
                             scope.launch { _outgoingSignal.emit(offer) }
                         }
                     }
@@ -141,7 +147,9 @@ class PeerConnectionManager(
                     override fun onSetSuccess() {
                         desc?.let {
                             Logger.log(tag, "onSetSuccess Local description (Answer) set successfully for '$peerId'")
-                            val answer = SignalMessage.Answer(it.description)
+                            val answer = SignalMessage.Answer(
+                                sdp = it.description
+                            )
                             scope.launch { _outgoingSignal.emit(answer) }
                         }
                     }

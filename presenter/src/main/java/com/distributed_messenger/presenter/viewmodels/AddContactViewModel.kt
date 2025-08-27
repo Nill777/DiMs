@@ -21,58 +21,72 @@ class AddContactViewModel(
     private val _state = MutableStateFlow<AddContactState>(AddContactState.Idle)
     val state: StateFlow<AddContactState> = _state
 
+
     /**
-     * Пользователь А: Генерирует одноразовое приглашение и начинает слушать.
+     * ИНИЦИАТОР (Алиса): Генерирует одноразовое приглашение, инициирует P2P-соединение (как Offer-сторона)
+     * и начинает слушать ответное рукопожатие.
      * @return Уникальный inviteId, который нужно показать в QR-коде.
      */
     fun generateInvite(): UUID {
+        // 1. Генерируем уникальный, одноразовый ID для этой сессии рукопожатия.
         val inviteId = UUID.randomUUID()
-        viewModelScope.launch {
-            _state.value = AddContactState.WaitingForPeer("Waiting for someone to scan your code...")
-            // Начинаем слушать временную комнату
-            chatService.joinChatNetwork(inviteId)
 
-            // Подписываемся на входящие P2P сообщения в этой комнате
-            // и ждем рукопожатия от Пользователя Б
+        viewModelScope.launch {
+            // 2. Обновляем UI, чтобы показать пользователю, что мы ждем.
+            _state.value = AddContactState.WaitingForPeer("Waiting for someone to scan your code...")
+
+            // 3. Явно сообщаем сервису, что мы - ИНИЦИАТОР.
+            // Этот вызов заставит P2P-уровень немедленно сгенерировать и отправить Offer в Firebase.
+            chatService.initiateContactRequest(inviteId)
+
+            // 4. ОДНОВРЕМЕННО начинаем слушать P2P-канал в ожидании рукопожатия от Боба.
+            // Как только Боб подключится и отправит свои данные, этот блок сработает.
             chatService.listenForHandshake(inviteId)
-                .onEach { handshake ->
-                    // Мы получили данные пользователя Б!
-                    _state.value = AddContactState.PeerFound(handshake.username)
-                    createChatAndFinalize(handshake.userId, handshake.username)
+                .onEach { handshakeFromPeer ->
+                    _state.value = AddContactState.PeerFound(handshakeFromPeer.username)
+                    // 5. Получив данные Боба, создаем чат.
+                    createChatAndFinalize(handshakeFromPeer.userId, handshakeFromPeer.username)
+
+                    // 6. ВАЖНО: Отправляем наше собственное рукопожатие в ответ, чтобы Боб тоже мог создать чат.
+                    val myHandshake = UserHandshake(SessionManager.currentUserId, SessionManager.currentUserName)
+                    chatService.performHandshake(inviteId, myHandshake)
                 }
                 .launchIn(viewModelScope)
         }
+        // 7. Немедленно возвращаем ID, чтобы UI мог сгенерировать QR-код.
         return inviteId
     }
 
     /**
-     * Пользователь Б: Принимает приглашение и инициирует рукопожатие.
-     * @param inviteId ID, полученный от пользователя А.
+     * ПОЛУЧАТЕЛЬ (Боб): Принимает приглашение, инициирует P2P-соединение (как Answer-сторона)
+     * и отправляет свое рукопожатие.
+     * @param inviteId ID, полученный от Алисы.
      */
     fun acceptInvite(inviteId: UUID) {
         viewModelScope.launch {
+            // 1. Обновляем UI.
             _state.value = AddContactState.Connecting("Connecting to peer...")
-            // Присоединяемся к временной комнате
-            chatService.joinChatNetwork(inviteId)
 
-            // Отправляем наши данные по P2P каналу, как только он установится
+            // 2. Явно сообщаем сервису, что мы - ПРИНИМАЮЩАЯ СТОРОНА.
+            // Этот вызов заставит P2P-уровень слушать Firebase в ожидании Offer'а от Алисы.
+            chatService.acceptContactRequest(inviteId)
+
+            // 3. ОДНОВРЕМЕННО начинаем слушать P2P-канал в ожидании рукопожатия от Алисы.
+            chatService.listenForHandshake(inviteId)
+                .onEach { handshakeFromPeer ->
+                    _state.value = AddContactState.PeerFound(handshakeFromPeer.username)
+                    // 4. Получив данные Алисы, создаем чат.
+                    createChatAndFinalize(handshakeFromPeer.userId, handshakeFromPeer.username)
+                }
+                .launchIn(viewModelScope)
+
+            // 5. ВАЖНО: Отправляем наше собственное рукопожатие, чтобы Алиса узнала о нас.
+            // Мы делаем это сразу, так как знаем, что Алиса уже слушает.
             val myHandshake = UserHandshake(
                 userId = SessionManager.currentUserId,
                 username = SessionManager.currentUserName
             )
-            val success = chatService.performHandshake(inviteId, myHandshake)
-            if (!success) {
-                _state.value = AddContactState.Error("Failed to connect to peer.")
-            } else {
-                // Мы отправили свои данные, теперь ждем данные от Пользователя А
-                _state.value = AddContactState.WaitingForPeer("Waiting for peer to respond...")
-                chatService.listenForHandshake(inviteId)
-                    .onEach { handshake ->
-                        _state.value = AddContactState.PeerFound(handshake.username)
-                        createChatAndFinalize(handshake.userId, handshake.username)
-                    }
-                    .launchIn(viewModelScope)
-            }
+            chatService.performHandshake(inviteId, myHandshake)
         }
     }
 
@@ -100,6 +114,10 @@ class AddContactViewModel(
             deterministicChatId
         }
         _state.value = AddContactState.Success(finalChatId)
+    }
+
+    fun resetState() {
+        _state.value = AddContactState.Idle
     }
 
     override fun onCleared() {

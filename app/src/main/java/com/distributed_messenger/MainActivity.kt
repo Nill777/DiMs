@@ -71,6 +71,7 @@ import com.distributed_messenger.ui.screens.SettingsScreen
 import com.distributed_messenger.ui.screens.ShareContactScreen
 import com.distributed_messenger.ui.theme.DistributedMessengerTheme
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.UUID

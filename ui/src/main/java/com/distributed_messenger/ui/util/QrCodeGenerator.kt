@@ -20,7 +20,7 @@ object QrCodeGenerator {
      * @return ImageBitmap или null в случае ошибки.
      */
     fun generateQrCode(content: String, size: Int): ImageBitmap? {
-        Logger.log("generateQrCode", "generating QRCode")
+        Logger.log("QrCodeGenerator", "generating QRCode")
         var result: ImageBitmap?
         try {
             val writer = QRCodeWriter()
@@ -34,7 +34,7 @@ object QrCodeGenerator {
             }
             result = bitmap.asImageBitmap()
         } catch (e: Exception) {
-            Logger.log("generateQrCode", "error generating QRCode", LogLevel.ERROR, e)
+            Logger.log("QrCodeGenerator", "error generating QRCode", LogLevel.ERROR, e)
             result = null
         }
         return result

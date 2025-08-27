@@ -2,6 +2,8 @@ package com.distributed_messenger.data.network.transport
 
 import com.distributed_messenger.data.network.PeerId
 import com.distributed_messenger.data.network.model.DataMessage
+import com.distributed_messenger.data.network.model.SignalMessage
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import java.util.UUID
 
@@ -23,6 +25,20 @@ interface IP2PTransport {
      * @param chatId ID чата для присоединения.
      */
     suspend fun joinChat(chatId: UUID)
+
+    /**
+     * Инициирует запрос на добавление контакта.
+     * Эта сторона будет создавать Offer.
+     * @param inviteId Временный ID комнаты для рукопожатия.
+     */
+    suspend fun initiateHandshake(inviteId: UUID)
+
+    /**
+     * Принимает запрос на добавление контакта.
+     * Эта сторона будет ждать Offer и создавать Answer.
+     * @param inviteId Временный ID комнаты для рукопожатия.
+     */
+    suspend fun acceptHandshake(inviteId: UUID)
 
     /**
      * Отправить сообщение всем участникам чата.
