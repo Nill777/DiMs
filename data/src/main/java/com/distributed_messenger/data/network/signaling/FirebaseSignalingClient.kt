@@ -40,34 +40,20 @@ class FirebaseSignalingClient(private val gson: Gson) : ISignalingClient {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Logger.log(tag, "onDataChange triggered for room '$chatId'. Found ${snapshot.childrenCount} peers.", LogLevel.DEBUG)
                 // Собираем всех пиров в комнате
-                val peers = snapshot.children.associate { peerSnapshot ->
-                    (peerSnapshot.key ?: "") to peerSnapshot.getValue(String::class.java)
-                }.filterKeys { it.isNotEmpty() && it != myId } // Убираем себя и пустые ключи
+                val peersMap = snapshot.children.mapNotNull { peerSnapshot ->
+                    val peerId = peerSnapshot.key
+                    if (peerId.isNullOrEmpty() || peerId == myId) {
+                        null
+                    } else {
+                        // Firebase без проблем прочитает "presence" или JSON как String.
+                        val signalData = peerSnapshot.getValue(String::class.java)
+                        peerId to signalData
+                    }
+                }.toMap() // Убираем себя и пустые ключи
 
-                Logger.log(tag, "onDataChange Room state updated. Peers found: ${peers.keys}", LogLevel.DEBUG)
-                trySend(peers) // Отправляем полную карту состояния комнаты
+                Logger.log(tag, "onDataChange Room state updated. Peers found: ${peersMap.keys}", LogLevel.DEBUG)
+                trySend(peersMap) // Отправляем полную карту состояния комнаты
             }
-//                snapshot.children.forEach { peerSnapshot ->
-//                    val peerId = peerSnapshot.key
-//                    // Мы реагируем на данные всех, кроме себя
-//                    if (peerId != null && peerId != myId) {
-//                        // Теперь эта логика будет работать, так как она увидит узел другого пира.
-//                        // Сначала она увидит значение `true`, getValue(String::class.java) вернет null, и ничего не произойдет.
-//                        // Затем, когда пир запишет свой Offer/Answer, getValue вернет строку, и код сработает.
-//                        val signalData = peerSnapshot.getValue(String::class.java)
-//                        if (signalData != null) {
-//                            try {
-//                            // Десериализуем сообщение и отправляем в Flow
-//                                val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
-//                                Logger.log(tag, "Parsed signal '${signalMessage::class.simpleName}' from peer '$peerId'")
-//                                trySend(Pair(peerId, signalMessage))
-//                            } catch (e: Exception) {
-//                                Logger.log(tag, "Failed to parse signal from peer '$peerId'. Data: $signalData", LogLevel.ERROR, e)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
             override fun onCancelled(error: DatabaseError) {
                 Logger.log(tag, "onCancelled Listener for room '$chatId' was cancelled. Error: ${error.message}", LogLevel.ERROR, error.toException())
                 close(error.toException())
