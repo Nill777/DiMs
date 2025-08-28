@@ -27,7 +27,7 @@ class P2PTransportManager(
 ) : IP2PTransport {
     private val tag = "P2PTransportManager"
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-    private val myId: PeerId = UUID.randomUUID().toString().also {
+    private val myId: PeerId = UUID.randomUUID().toString().also {  // TODO протащить между слоями
         Logger.log(tag, "Manager initialized with myId: $it")
     }
 
@@ -92,6 +92,57 @@ class P2PTransportManager(
         return pcManager
     }
 
+    private fun setupPcManager(
+        pcManager: PeerConnectionManager,
+        chatId: UUID,
+        peerId: PeerId,
+        isInitiator: Boolean
+    ): PeerConnectionManager {
+        Logger.log(
+            tag,
+            "setupPcManager Creating and setting up PeerConnectionManager for '$peerId' in chat '$chatId'"
+        )
+
+        // Перенаправляем исходящие сигналы в SignalingClient
+        // 2. Настройка слушателя для исходящих сигналов.
+        pcManager.outgoingSignal
+            .onEach { signal ->
+                Logger.log(
+                    tag,
+                    "Forwarding outgoing '${signal::class.simpleName}' to signaling client (for peer '$peerId')",
+                    LogLevel.DEBUG
+                )
+                // Этот блок кода НЕ выполняется сейчас.
+                // Он будет выполнен ПОЗЖЕ, когда Flow `outgoingSignal` что-то выпустит.
+                signalingClient.sendSignal(chatId, myId, signal)
+            }
+            .launchIn(scope)
+
+        // Перенаправляем входящие данные в общий поток
+        // 3. Настройка слушателя для входящих данных.
+        pcManager.incomingData
+            .onEach { dataJson ->
+                try {
+                    val dataMessage = gson.fromJson(dataJson, DataMessage::class.java)
+                    Logger.log(
+                        tag,
+                        "Received data message '${dataMessage::class.simpleName}' from '$peerId' in chat '$chatId'"
+                    )
+                    _incomingMessages.emit(Pair(peerId, dataMessage))
+                } catch (e: Exception) {
+                    Logger.log(
+                        tag,
+                        "Failed to parse incoming data from '$peerId'. Data: $dataJson",
+                        LogLevel.ERROR,
+                        e
+                    )
+                }
+            }
+            .launchIn(scope)
+
+        return pcManager
+    }
+
     private suspend fun manageHandshake(inviteId: UUID, isInitiator: Boolean) {
         withContext(Dispatchers.Default) {
             if (activeConnections.containsKey(inviteId)) {
@@ -105,13 +156,10 @@ class P2PTransportManager(
             // Инициализируем хранилище для этой комнаты
             processedSignals[inviteId] = ConcurrentHashMap()
 
+            val pcManager = PeerConnectionManager(webRTCManager, "initiator_placeholder", isInitiator)
             if (isInitiator) {
-                // 2. Создаем PeerConnectionManager СТРОГО для генерации Offer.
-                // Он будет инициатором.
-                val offerPcManager = PeerConnectionManager(webRTCManager, "initiator_placeholder", true)
-
                 // 3. ПОСЛЕДОВАТЕЛЬНО: Ждем, пока Offer будет создан.
-                val offer = offerPcManager.createOffer()
+                val offer = pcManager.createOffer()
                 Logger.log(tag, "Offer generated, publishing to Firebase...")
 
                 // 4. Публикуем Offer в Firebase.
@@ -129,14 +177,14 @@ class P2PTransportManager(
 
                         // Обрабатываем сигнал, только если он новый
                         if (currentSignalHash != lastProcessedHash) {
-                            val pcManager = chatConnections.getOrPut(peerId) {
+                            chatConnections.getOrPut(peerId) {
                                 Logger.log(
                                     tag,
                                     "New peer '$peerId' detected in handshake room. Creating connection."
                                 )
                                 // 3. Создаем менеджер для пира С ПРАВИЛЬНОЙ РОЛЬЮ.
                                 // Передаем фиксированную роль
-                                createAndSetupPcManager(inviteId, peerId, isInitiator)
+                                setupPcManager(pcManager, inviteId, peerId, isInitiator)
                             }
                             if (signalData != null) {
                                 try {
@@ -146,12 +194,7 @@ class P2PTransportManager(
                                     // Запоминаем, что мы обработали этот сигнал
                                     processedSignals[inviteId]?.put(peerId, currentSignalHash)
                                 } catch (e: Exception) {
-                                    Logger.log(
-                                        tag,
-                                        "manageHandshake signalData == null",
-                                        LogLevel.ERROR,
-                                        e
-                                    )
+                                    Logger.log(tag, "manageHandshake signalData == null", LogLevel.ERROR, e)
                                 }
                             }
                         }

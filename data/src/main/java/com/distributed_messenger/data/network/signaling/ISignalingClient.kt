@@ -23,7 +23,6 @@ interface ISignalingClient {
      * Отправить сигнальное сообщение конкретному пиру в комнате.
      * @param chatId ID комнаты.
      * @param myId Наш ID (для идентификации отправителя).
-     * @param targetId ID пира-получателя.
      * @param signalMessage Сигнальное сообщение для отправки.
      */
     fun sendSignal(chatId: UUID, myId: PeerId, signalMessage: SignalMessage)
