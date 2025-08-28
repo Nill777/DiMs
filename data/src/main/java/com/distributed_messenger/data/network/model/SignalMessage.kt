@@ -25,4 +25,9 @@ sealed interface SignalMessage {
         @SerializedName("sdpMid") val sdpMid: String,
         @SerializedName("sdpMLineIndex") val sdpMLineIndex: Int
     ) : SignalMessage
+
+    data class IceCandidates(
+        @SerializedName("type") override val type: String = "ICE_CANDIDATES",
+        @SerializedName("candidates") val candidates: List<IceCandidate>
+    ) : SignalMessage
 }

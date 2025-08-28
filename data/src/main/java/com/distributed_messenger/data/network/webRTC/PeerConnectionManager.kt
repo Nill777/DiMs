@@ -29,6 +29,9 @@ class PeerConnectionManager(
     private var peerConnection: PeerConnection? = null
     private var dataChannel: DataChannel? = null
 
+    private val iceCandidatePool = mutableListOf<SignalMessage.IceCandidate>()
+    private var isIcePoolSent = false // Флаг, чтобы не отправлять пул дважды
+
     private val _incomingData = MutableSharedFlow<String>()
     val incomingData: SharedFlow<String> = _incomingData.asSharedFlow()
 
@@ -45,13 +48,30 @@ class PeerConnectionManager(
         peerConnection = webRTCManager.createPeerConnection(object : PeerConnectionObserverAdapter() {
             override fun onIceCandidate(candidate: IceCandidate?) {
                 candidate?.let {
-                    Logger.log(tag, "onIceCandidate Generated ICE candidate for '$peerId'")
-                    val signal = SignalMessage.IceCandidate(
+                    // --- ИЗМЕНЕНИЕ: НЕ ОТПРАВЛЯЕМ СРАЗУ, А ДОБАВЛЯЕМ В ПУЛ ---
+                    Logger.log(tag, "onIceCandidate: Generated and added to pool for '$peerId'")
+                    val newCandidate = SignalMessage.IceCandidate(
                         sdp = it.sdp,
                         sdpMid = it.sdpMid,
                         sdpMLineIndex = it.sdpMLineIndex
                     )
-                    scope.launch { _outgoingSignal.emit(signal) }
+                    iceCandidatePool.add(newCandidate)
+                }
+            }
+
+            override fun onIceGatheringChange(newState: PeerConnection.IceGatheringState?) {
+                Logger.log(tag, "onIceGatheringChange state for '$peerId' changed to: $newState")
+                // --- ИЗМЕНЕНИЕ: ОТПРАВЛЯЕМ ПУЛ, КОГДА СБОР ЗАВЕРШЕН ---
+                if (newState == PeerConnection.IceGatheringState.COMPLETE) {
+                    Logger.log(tag, "ICE gathering complete.")
+                    // Ответчик (Боб) может отправить кандидатов сразу, т.к. он уже обработал Offer.
+                    // Инициатор (Алиса) должен ждать Answer от Боба.
+                    if (!isInitiator) {
+                        sendIceCandidatePool()
+                    }
+//                    Logger.log(tag, "ICE gathering complete. Sending pool of ${iceCandidatePool.size} candidates.")
+//                    val signal = SignalMessage.IceCandidates(candidates = iceCandidatePool)
+//                    scope.launch { _outgoingSignal.emit(signal) }
                 }
             }
 
@@ -84,7 +104,8 @@ class PeerConnectionManager(
         when (signal) {
             is SignalMessage.Offer -> handleOffer(signal)
             is SignalMessage.Answer -> handleAnswer(signal)
-            is SignalMessage.IceCandidate -> handleIceCandidate(signal)
+            is SignalMessage.IceCandidate -> handleIceCandidate(signal) // не пользуем
+            is SignalMessage.IceCandidates -> handleIceCandidates(signal)
         }
     }
 
@@ -169,6 +190,9 @@ class PeerConnectionManager(
         peerConnection?.setRemoteDescription(object : SdpObserverAdapter() {
             override fun onSetSuccess() {
                 Logger.log(tag, "onSetSuccess Remote description (Answer) set successfully for '$peerId'")
+                // Теперь, когда инициатор (Алиса) успешно обработал Answer,
+                // самое время отправить накопленный пул ICE-кандидатов.
+                sendIceCandidatePool()
             }
             override fun onSetFailure(error: String?) {
                 Logger.log(tag, "onSetFailure Failed to set Remote Description (Answer) for '$peerId': $error", LogLevel.ERROR)
@@ -180,6 +204,34 @@ class PeerConnectionManager(
         val iceCandidate = IceCandidate(candidate.sdpMid, candidate.sdpMLineIndex, candidate.sdp)
         Logger.log(tag, "handleIceCandidate Adding received ICE candidate for '$peerId'", LogLevel.DEBUG)
         peerConnection?.addIceCandidate(iceCandidate)
+    }
+
+    private fun handleIceCandidates(candidates: SignalMessage.IceCandidates) {
+        Logger.log(tag, "handleIceCandidates: Adding ${candidates.candidates.size} received ICE candidates for '$peerId'")
+        candidates.candidates.forEach { candidate ->
+            val iceCandidate = IceCandidate(candidate.sdpMid, candidate.sdpMLineIndex, candidate.sdp)
+            peerConnection?.addIceCandidate(iceCandidate)
+        }
+    }
+
+    /**
+     * Отправляет накопленный пул ICE-кандидатов.
+     * Потокобезопасен благодаря флагу isIcePoolSent.
+     */
+    private fun sendIceCandidatePool() {
+        // synchronized для гарантии атомарности проверки и установки флага
+        synchronized(this) {
+            if (isIcePoolSent || iceCandidatePool.isEmpty()) {
+                if (isIcePoolSent)
+                    Logger.log(tag, "sendIceCandidatePool: Pool already sent, skipping.")
+                return
+            }
+            isIcePoolSent = true
+        }
+
+        Logger.log(tag, "Sending ICE candidate pool with ${iceCandidatePool.size} candidates.")
+        val signal = SignalMessage.IceCandidates(candidates = ArrayList(iceCandidatePool))
+        scope.launch { _outgoingSignal.emit(signal) }
     }
 
     private fun setupDataChannelObserver() {

@@ -48,7 +48,7 @@ class SignalMessageTypeAdapter : JsonSerializer<SignalMessage>, JsonDeserializer
         val clazz = when (type) {
             "OFFER" -> SignalMessage.Offer::class.java
             "ANSWER" -> SignalMessage.Answer::class.java
-            "ICE_CANDIDATE" -> SignalMessage.IceCandidate::class.java
+            "ICE_CANDIDATES" -> SignalMessage.IceCandidates::class.java
             else -> throw JsonParseException("Unknown signal type: $type")
         }
 

@@ -31,6 +31,9 @@ class P2PTransportManager(
         Logger.log(tag, "Manager initialized with myId: $it")
     }
 
+    // Ключ - inviteId, Значение - единственный PeerConnectionManager для этой сессии
+    private val handshakeConnections = ConcurrentHashMap<UUID, PeerConnectionManager>()
+
     // Хранит активные соединения для каждого чата. Ключ - ChatID, Значение - карта PeerId -> PeerConnectionManager
     private val activeConnections = ConcurrentHashMap<UUID, ConcurrentHashMap<PeerId, PeerConnectionManager>>()
 
@@ -143,67 +146,154 @@ class P2PTransportManager(
         return pcManager
     }
 
+//    private suspend fun manageHandshake(inviteId: UUID, isInitiator: Boolean) {
+//        withContext(Dispatchers.Default) {
+//            if (activeConnections.containsKey(inviteId)) {
+//                Logger.log(tag, "manageHandshake: Already managing handshake for '$inviteId'.", LogLevel.WARN)
+//                return@withContext
+//            }
+//            Logger.log(tag, "manageHandshake: Starting for room '$inviteId'. Is initiator: $isInitiator")
+//            val chatConnections = ConcurrentHashMap<PeerId, PeerConnectionManager>()
+//            activeConnections[inviteId] = chatConnections
+//
+//            // Инициализируем хранилище для этой комнаты
+//            processedSignals[inviteId] = ConcurrentHashMap()
+//
+//            val pcManager = PeerConnectionManager(webRTCManager, myId, isInitiator)
+//            if (isInitiator) {
+//                // 3. ПОСЛЕДОВАТЕЛЬНО: Ждем, пока Offer будет создан.
+//                val offer = pcManager.createOffer()
+//                Logger.log(tag, "Offer generated, publishing to Firebase...")
+//
+//                // 4. Публикуем Offer в Firebase.
+//                signalingClient.sendSignal(inviteId, myId, offer)
+//            }
+//            // 1. Присоединяемся к комнате и начинаем слушать.
+//            signalingClient.joinRoom(inviteId, myId)
+//                .onEach { peersMap ->
+//                    Logger.log(tag, "Handshake room update. Peers: ${peersMap.keys}")
+//                    // 2. РЕАГИРУЕМ на появление пира.
+//                    for ((peerId, signalData) in peersMap) {
+//                        // --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Проверка на дубликаты ---
+//                        val currentSignalHash = signalData?.hashCode() ?: 0
+//                        val lastProcessedHash = processedSignals[inviteId]?.get(peerId)
+//
+//                        // Обрабатываем сигнал, только если он новый
+//                        if (currentSignalHash != lastProcessedHash) {
+//                            chatConnections.getOrPut(peerId) {
+//                                Logger.log(
+//                                    tag,
+//                                    "New peer '$peerId' detected in handshake room. Creating connection."
+//                                )
+//                                // 3. Создаем менеджер для пира С ПРАВИЛЬНОЙ РОЛЬЮ.
+//                                // Передаем фиксированную роль
+//                                setupPcManager(pcManager, inviteId, peerId, isInitiator)
+//                            }
+//                            if (signalData != null) {
+//                                try {
+//                                    val signalMessage =
+//                                        gson.fromJson(signalData, SignalMessage::class.java)
+//                                    pcManager.handleIncomingSignal(signalMessage)
+//                                    // Запоминаем, что мы обработали этот сигнал
+//                                    processedSignals[inviteId]?.put(peerId, currentSignalHash)
+//                                } catch (e: Exception) {
+//                                    Logger.log(tag, "manageHandshake signalData == null", LogLevel.ERROR, e)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }.launchIn(scope)
+//        }
+//    }
+//
+//    // Новые публичные методы
+//    override suspend fun initiateHandshake(inviteId: UUID) {
+//        manageHandshake(inviteId, true)
+//    }
+//
+//    override suspend fun acceptHandshake(inviteId: UUID) {
+//        manageHandshake(inviteId, false)
+//    }
+
     private suspend fun manageHandshake(inviteId: UUID, isInitiator: Boolean) {
         withContext(Dispatchers.Default) {
-            if (activeConnections.containsKey(inviteId)) {
+            // Проверяем, не идет ли уже рукопожатие для этого ID
+            if (handshakeConnections.containsKey(inviteId)) {
                 Logger.log(tag, "manageHandshake: Already managing handshake for '$inviteId'.", LogLevel.WARN)
                 return@withContext
             }
             Logger.log(tag, "manageHandshake: Starting for room '$inviteId'. Is initiator: $isInitiator")
-            val chatConnections = ConcurrentHashMap<PeerId, PeerConnectionManager>()
-            activeConnections[inviteId] = chatConnections
 
-            // Инициализируем хранилище для этой комнаты
-            processedSignals[inviteId] = ConcurrentHashMap()
+            // 1. СОЗДАЕМ ЕДИНСТВЕННЫЙ PeerConnectionManager ДЛЯ ЭТОГО РУКОПОЖАТИЯ.
+            // PeerId здесь не так важен, это временное соединение.
+            val pcManager = PeerConnectionManager(webRTCManager, "handshake_peer", isInitiator)
+            handshakeConnections[inviteId] = pcManager
 
-            val pcManager = PeerConnectionManager(webRTCManager, "initiator_placeholder", isInitiator)
-            if (isInitiator) {
-                // 3. ПОСЛЕДОВАТЕЛЬНО: Ждем, пока Offer будет создан.
-                val offer = pcManager.createOffer()
-                Logger.log(tag, "Offer generated, publishing to Firebase...")
+            // 2. НАСТРАИВАЕМ СЛУШАТЕЛЕЙ ДЛЯ ЭТОГО pcManager.
+            // Перенаправляем исходящие сигналы (Offer, Answer, IceCandidates) в Firebase.
+            pcManager.outgoingSignal
+                .onEach { signal ->
+                    val signalType = signal::class.simpleName
+                    Logger.log(tag, "Handshake: Forwarding outgoing '$signalType' to signaling client for room '$inviteId'")
+                    signalingClient.sendSignal(inviteId, myId, signal)
+                }
+                .launchIn(scope)
 
-                // 4. Публикуем Offer в Firebase.
-                signalingClient.sendSignal(inviteId, myId, offer)
-            }
-            // 1. Присоединяемся к комнате и начинаем слушать.
+            // Перенаправляем входящие P2P-сообщения (уже после установки соединения) в общий поток.
+            pcManager.incomingData
+                .onEach { dataJson ->
+                    try {
+                        val dataMessage = gson.fromJson(dataJson, DataMessage::class.java)
+                        Logger.log(tag, "Handshake: Received P2P data message '${dataMessage::class.simpleName}'")
+                        _incomingMessages.emit(Pair("handshake_peer", dataMessage))
+                    } catch (e: Exception) {
+                        Logger.log(tag, "Handshake: Failed to parse incoming data: $dataJson", LogLevel.ERROR, e)
+                    }
+                }
+                .launchIn(scope)
+
+
+            // 3. НАЧИНАЕМ СЛУШАТЬ КОМНАТУ В FIREBASE.
             signalingClient.joinRoom(inviteId, myId)
                 .onEach { peersMap ->
-                    Logger.log(tag, "Handshake room update. Peers: ${peersMap.keys}")
-                    // 2. РЕАГИРУЕМ на появление пира.
-                    for ((peerId, signalData) in peersMap) {
-                        // --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Проверка на дубликаты ---
-                        val currentSignalHash = signalData?.hashCode() ?: 0
-                        val lastProcessedHash = processedSignals[inviteId]?.get(peerId)
+                    Logger.log(tag, "Handshake room update. Peers found: ${peersMap.keys}")
+                    // Нам нужен только один пир, который не мы.
+                    val otherPeer = peersMap.entries.firstOrNull()
+                    if (otherPeer?.value != null) {
+                        val peerId = otherPeer.key
+                        val signalData = otherPeer.value
+                        val currentSignalHash = signalData.hashCode()
 
-                        // Обрабатываем сигнал, только если он новый
+                        // Простая проверка, чтобы не обрабатывать один и тот же сигнал дважды
+                        val lastProcessedHash = processedSignals.getOrPut(inviteId) { ConcurrentHashMap() }[peerId]
+
                         if (currentSignalHash != lastProcessedHash) {
-                            chatConnections.getOrPut(peerId) {
-                                Logger.log(
-                                    tag,
-                                    "New peer '$peerId' detected in handshake room. Creating connection."
-                                )
-                                // 3. Создаем менеджер для пира С ПРАВИЛЬНОЙ РОЛЬЮ.
-                                // Передаем фиксированную роль
-                                setupPcManager(pcManager, inviteId, peerId, isInitiator)
-                            }
-                            if (signalData != null) {
-                                try {
-                                    val signalMessage =
-                                        gson.fromJson(signalData, SignalMessage::class.java)
-                                    pcManager.handleIncomingSignal(signalMessage)
-                                    // Запоминаем, что мы обработали этот сигнал
-                                    processedSignals[inviteId]?.put(peerId, currentSignalHash)
-                                } catch (e: Exception) {
-                                    Logger.log(tag, "manageHandshake signalData == null", LogLevel.ERROR, e)
-                                }
+                            Logger.log(tag, "Handshake: New signal data from peer '$peerId'.")
+                            try {
+                                val signalMessage = gson.fromJson(signalData, SignalMessage::class.java)
+                                // 4. ПЕРЕДАЕМ ВХОДЯЩИЙ СИГНАЛ В НАШ ЕДИНСТВЕННЫЙ pcManager.
+                                pcManager.handleIncomingSignal(signalMessage)
+                                processedSignals[inviteId]?.put(peerId, currentSignalHash)
+                            } catch (e: Exception) {
+                                Logger.log(tag, "Handshake: Could not parse signal from peer '$peerId'. Data: $signalData", LogLevel.WARN, e)
                             }
                         }
                     }
                 }.launchIn(scope)
+
+            // 5. ЕСЛИ МЫ ИНИЦИАТОР (Алиса), СОЗДАЕМ OFFER.
+            // Это запустит всю цепочку: createOffer -> setLocalDescription -> onIceCandidate -> onIceGatheringChange.
+            if (isInitiator) {
+                Logger.log(tag, "Handshake: As initiator, creating Offer...")
+                val offer = pcManager.createOffer()
+                // Отправляем Offer напрямую через сигнальный клиент.
+                Logger.log(tag, "Handshake: Offer created, sending directly via SignalingClient.")
+                signalingClient.sendSignal(inviteId, myId, offer)
+            }
         }
     }
 
-    // Новые публичные методы
+    // Публичные методы остаются без изменений, но теперь вызывают новую реализацию
     override suspend fun initiateHandshake(inviteId: UUID) {
         manageHandshake(inviteId, true)
     }
