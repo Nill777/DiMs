@@ -22,6 +22,9 @@ class ChatService(private val chatRepository: IChatRepository,
         tag = "ChatService"
     )
 
+    override val handshakeChannelReady: Flow<UUID>
+        get() = p2pTransport.handshakeChannelReady
+
     override suspend fun createChat(
         name: String,
         creatorId: UUID,
@@ -91,15 +94,30 @@ class ChatService(private val chatRepository: IChatRepository,
             p2pTransport.leaveChat(chatId)
         }
 
-    override suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean {
-        // Преобразуем в DTO и отправляем
-        val handshakeDto = DataMessage.Handshake(handshake.userId, handshake.username)
-        // TODO: Нужен механизм ожидания установки P2P соединения перед отправкой
-        // Это сложный момент. Простой вариант - небольшая задержка.
-        kotlinx.coroutines.delay(3000) // Ждем 3 секунды в надежде, что P2P установится
-        p2pTransport.sendMessageToChat(inviteId, handshakeDto)
-        return true
-    }
+//    override suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean {
+//        // Преобразуем в DTO и отправляем
+//        val handshakeDto = DataMessage.Handshake(handshake.userId, handshake.username)
+//        // TODO: Нужен механизм ожидания установки P2P соединения перед отправкой
+//        // Это сложный момент. Простой вариант - небольшая задержка.
+//        kotlinx.coroutines.delay(3000) // Ждем 3 секунды в надежде, что P2P установится
+//        p2pTransport.sendMessageToChat(inviteId, handshakeDto)
+//        return true
+//    }
+
+    override suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean  =
+        loggingWrapper {
+            val handshakeDto = DataMessage.Handshake(handshake.userId, handshake.username)
+
+            // Убираем задержку, она больше не нужна и вредна.
+            // Отправка произойдет, как только ViewModel ее вызовет.
+            // kotlinx.coroutines.delay(3000)
+
+            // --- ИЗМЕНЕНИЕ ---
+            // Используем новый, правильный метод для отправки
+            p2pTransport.sendHandshakeMessage(inviteId, handshakeDto)
+
+            true
+        }
 
     override suspend fun listenForHandshake(inviteId: UUID): Flow<UserHandshake> =
         loggingWrapper {
@@ -123,5 +141,9 @@ class ChatService(private val chatRepository: IChatRepository,
         loggingWrapper {
             // Делегируем вызов, сообщая, что мы принимающая сторона.
             p2pTransport.acceptHandshake(inviteId)
+        }
+    override suspend fun finalizeHandshake(inviteId: UUID) =
+        loggingWrapper {
+            p2pTransport.finalizeHandshake(inviteId)
         }
 }

@@ -38,6 +38,9 @@ class PeerConnectionManager(
     private val _outgoingSignal = MutableSharedFlow<SignalMessage>()
     val outgoingSignal: SharedFlow<SignalMessage> = _outgoingSignal.asSharedFlow()
 
+    private val _dataChannelOpen = MutableSharedFlow<Boolean>(replay = 1)
+    val dataChannelOpen: SharedFlow<Boolean> = _dataChannelOpen.asSharedFlow()
+
     init {
         Logger.log(tag, "Initializing for peer '$peerId'. IsInitiator: $isInitiator")
         setupPeerConnection()
@@ -47,6 +50,7 @@ class PeerConnectionManager(
         Logger.log(tag, "setupPeerConnection Setting up PeerConnection for '$peerId'")
         peerConnection = webRTCManager.createPeerConnection(object : PeerConnectionObserverAdapter() {
             override fun onIceCandidate(candidate: IceCandidate?) {
+                Logger.log(tag, "onIceCandidate")
                 candidate?.let {
                     // --- ИЗМЕНЕНИЕ: НЕ ОТПРАВЛЯЕМ СРАЗУ, А ДОБАВЛЯЕМ В ПУЛ ---
                     Logger.log(tag, "onIceCandidate: Generated and added to pool for '$peerId'")
@@ -246,7 +250,12 @@ class PeerConnectionManager(
                 }
             }
             override fun onStateChange() {
-                Logger.log(tag, "onStateChange DataChannel state for '$peerId' changed to: ${dataChannel?.state()}")
+                val state = dataChannel?.state()
+                Logger.log(tag, "onStateChange DataChannel state for '$peerId' changed to: $state")
+                if (state == DataChannel.State.OPEN) {
+                    // --- СООБЩАЕМ НАВЕРХ, ЧТО КАНАЛ ОТКРЫТ ---
+                    _dataChannelOpen.tryEmit(true)
+                }
             }
             override fun onBufferedAmountChange(previousAmount: Long) {}
         })

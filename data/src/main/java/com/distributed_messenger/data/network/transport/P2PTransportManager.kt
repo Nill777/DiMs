@@ -31,8 +31,8 @@ class P2PTransportManager(
         Logger.log(tag, "Manager initialized with myId: $it")
     }
 
-    // Ключ - inviteId, Значение - единственный PeerConnectionManager для этой сессии
-    private val handshakeConnections = ConcurrentHashMap<UUID, PeerConnectionManager>()
+//    // Ключ - inviteId, Значение - единственный PeerConnectionManager для этой сессии
+//    private val handshakeConnections = ConcurrentHashMap<UUID, PeerConnectionManager>()
 
     // Хранит активные соединения для каждого чата. Ключ - ChatID, Значение - карта PeerId -> PeerConnectionManager
     private val activeConnections = ConcurrentHashMap<UUID, ConcurrentHashMap<PeerId, PeerConnectionManager>>()
@@ -43,6 +43,30 @@ class P2PTransportManager(
     private val _incomingMessages = MutableSharedFlow<Pair<PeerId, DataMessage>>()
     override val incomingMessages: SharedFlow<Pair<PeerId, DataMessage>> =
         _incomingMessages.asSharedFlow()
+
+    private val _handshakeChannelReady = MutableSharedFlow<UUID>()
+    override val handshakeChannelReady: Flow<UUID> = _handshakeChannelReady.asSharedFlow()
+
+    private val handshakeConnections = ConcurrentHashMap<UUID, PeerConnectionManager>()
+
+    override fun sendHandshakeMessage(inviteId: UUID, message: DataMessage) {
+        Logger.log(tag, "sendHandshakeMessage")
+        val connection = handshakeConnections[inviteId]
+        if (connection == null) {
+            Logger.log(tag, "sendHandshakeMessage: No handshake connection found for '$inviteId'. Message not sent.", LogLevel.WARN)
+            return
+        }
+
+        Logger.log(tag, "sendHandshakeMessage: Sending '${message::class.simpleName}' over handshake channel for '$inviteId'")
+        val messageJson = gson.toJson(message)
+        connection.sendMessage(messageJson)
+    }
+
+    override fun finalizeHandshake(inviteId: UUID) {
+        Logger.log(tag, "finalizeHandshake: Finalizing and closing connection for '$inviteId'")
+        handshakeConnections.remove(inviteId)?.close()
+        processedSignals.remove(inviteId)
+    }
 
     private fun createAndSetupPcManager(
         chatId: UUID,
@@ -228,6 +252,16 @@ class P2PTransportManager(
             // PeerId здесь не так важен, это временное соединение.
             val pcManager = PeerConnectionManager(webRTCManager, "handshake_peer", isInitiator)
             handshakeConnections[inviteId] = pcManager
+
+            // --- СЛУШАЕМ СОБЫТИЕ ОТ PeerConnectionManager ---
+            pcManager.dataChannelOpen
+                .onEach { isOpen ->
+                    if (isOpen) {
+                        Logger.log(tag, "manageHandshake dataChannelOpen: Handshake DataChannel for '$inviteId' is OPEN. Notifying listeners.")
+                        _handshakeChannelReady.emit(inviteId)
+                    }
+                }
+                .launchIn(scope)
 
             // 2. НАСТРАИВАЕМ СЛУШАТЕЛЕЙ ДЛЯ ЭТОГО pcManager.
             // Перенаправляем исходящие сигналы (Offer, Answer, IceCandidates) в Firebase.

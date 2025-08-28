@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 interface IChatService {
+    val handshakeChannelReady: Flow<UUID>
     suspend fun createChat(name: String, creatorId: UUID, isGroupChat: Boolean = false, companionId: UUID? = null): UUID
     suspend fun createChatById(chatId: UUID, name: String, creatorId: UUID, isGroupChat: Boolean = false, companionId: UUID? = null): UUID
     suspend fun getChat(id: UUID): Chat?
@@ -19,4 +20,5 @@ interface IChatService {
     // Новые, более явные методы для рукопожатия
     suspend fun initiateContactRequest(inviteId: UUID)
     suspend fun acceptContactRequest(inviteId: UUID)
+    suspend fun finalizeHandshake(inviteId: UUID)
 }

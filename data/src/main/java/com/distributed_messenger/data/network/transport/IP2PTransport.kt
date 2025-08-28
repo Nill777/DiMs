@@ -18,6 +18,23 @@ interface IP2PTransport {
      * Пара содержит ID пира-отправителя и само сообщение.
      */
     val incomingMessages: SharedFlow<Pair<PeerId, DataMessage>>
+    /**
+     * Flow, который эмитит inviteId, когда P2P канал для рукопожатия готов к передаче данных.
+     */
+    val handshakeChannelReady: Flow<UUID>
+
+    /**
+     * Отправить сообщение по временному каналу рукопожатия.
+     * @param inviteId ID временной комнаты.
+     * @param message Сообщение для отправки (Handshake).
+     */
+    fun sendHandshakeMessage(inviteId: UUID, message: DataMessage)
+
+    /**
+     * Завершает рукопожатие, закрывая временное соединение.
+     * @param inviteId ID временной комнаты.
+     */
+    fun finalizeHandshake(inviteId: UUID)
 
     /**
      * Присоединиться к P2P-сети для конкретного чата.
