@@ -28,6 +28,36 @@ class AddContactViewModel(
      * и начинает слушать ответное рукопожатие.
      * @return Уникальный inviteId, который нужно показать в QR-коде.
      */
+//    fun generateInvite(): UUID {
+//        // 1. Генерируем уникальный, одноразовый ID для этой сессии рукопожатия.
+//        val inviteId = UUID.randomUUID()
+//        Logger.log("AddContactViewModel", "generateInvite")
+//        viewModelScope.launch {
+//            // 2. Обновляем UI, чтобы показать пользователю, что мы ждем.
+//            _state.value = AddContactState.WaitingForPeer("Waiting for someone to scan your code...")
+//
+//
+//
+//            // 4. ОДНОВРЕМЕННО начинаем слушать P2P-канал в ожидании рукопожатия от Боба.
+//            // Как только Боб подключится и отправит свои данные, этот блок сработает.
+//            chatService.listenForHandshake(inviteId)
+//                .onEach { handshakeFromPeer ->
+//                    _state.value = AddContactState.PeerFound(handshakeFromPeer.username)
+//                    // 5. Получив данные Боба, создаем чат.
+//                    createChatAndFinalize(inviteId, handshakeFromPeer.userId, handshakeFromPeer.username)
+//
+//                    // 6. ВАЖНО: Отправляем наше собственное рукопожатие в ответ, чтобы Боб тоже мог создать чат.
+//                    val myHandshake = UserHandshake(SessionManager.currentUserId, SessionManager.currentUserName)
+//                    chatService.performHandshake(inviteId, myHandshake)
+//                }
+//                .launchIn(viewModelScope)
+//            // 3. Явно сообщаем сервису, что мы - ИНИЦИАТОР.
+//            // Этот вызов заставит P2P-уровень немедленно сгенерировать и отправить Offer в Firebase.
+//            chatService.initiateContactRequest(inviteId)
+//        }
+//        // 7. Немедленно возвращаем ID, чтобы UI мог сгенерировать QR-код.
+//        return inviteId
+//    }
     fun generateInvite(): UUID {
         // 1. Генерируем уникальный, одноразовый ID для этой сессии рукопожатия.
         val inviteId = UUID.randomUUID()
@@ -45,12 +75,21 @@ class AddContactViewModel(
                     _state.value = AddContactState.PeerFound(handshakeFromPeer.username)
                     // 5. Получив данные Боба, создаем чат.
                     createChatAndFinalize(inviteId, handshakeFromPeer.userId, handshakeFromPeer.username)
+                }
+                .launchIn(viewModelScope)
 
-                    // 6. ВАЖНО: Отправляем наше собственное рукопожатие в ответ, чтобы Боб тоже мог создать чат.
+            // --- НОВАЯ ЛОГИКА ДЛЯ АЛИСЫ ---
+            // 2. Как только НАШ P2P-канал будет готов, СРАЗУ отправляем свое рукопожатие.
+            // НЕ ЖДЕМ БОБА!
+            chatService.handshakeChannelReady
+                .filter { it == inviteId }
+                .take(1)
+                .onEach {
                     val myHandshake = UserHandshake(SessionManager.currentUserId, SessionManager.currentUserName)
                     chatService.performHandshake(inviteId, myHandshake)
                 }
                 .launchIn(viewModelScope)
+
             // 3. Явно сообщаем сервису, что мы - ИНИЦИАТОР.
             // Этот вызов заставит P2P-уровень немедленно сгенерировать и отправить Offer в Firebase.
             chatService.initiateContactRequest(inviteId)

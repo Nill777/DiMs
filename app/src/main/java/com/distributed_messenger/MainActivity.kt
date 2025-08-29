@@ -31,6 +31,8 @@ import com.distributed_messenger.data.repositories.MessageRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.data.network.crypto.AesGcmMessageCrypto
 import com.distributed_messenger.data.network.crypto.INetworkCrypto
+import com.distributed_messenger.data.network.model.DataMessage
+import com.distributed_messenger.data.network.model.DataMessageTypeAdapter
 import com.distributed_messenger.data.network.model.SignalMessage
 import com.distributed_messenger.data.network.model.SignalMessageTypeAdapter
 import com.distributed_messenger.data.network.signaling.FirebaseSignalingClient
@@ -99,8 +101,10 @@ class MainActivity : ComponentActivity() {
 
     private val gson: Gson by lazy {
         GsonBuilder()
-            // Регистрируем наш кастомный адаптер для интерфейса SignalMessage
+            // Регистрируем адаптер для сигнальных сообщений
             .registerTypeAdapter(SignalMessage::class.java, SignalMessageTypeAdapter())
+            // Регистрируем адаптер для сообщений с данными
+            .registerTypeAdapter(DataMessage::class.java, DataMessageTypeAdapter())
             .create()
     }
 

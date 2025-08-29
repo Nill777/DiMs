@@ -32,6 +32,15 @@ class PeerConnectionManager(
     private val iceCandidatePool = mutableListOf<SignalMessage.IceCandidate>()
     private var isIcePoolSent = false // Флаг, чтобы не отправлять пул дважды
 
+    /**
+     * @Volatile — аннотация, указывающая компилятору/рантайму,
+     * что поле должно вести себя как volatile.
+     * Гарантирует, что чтения и записи этого поля видимы между потоками без дополнительных синхронизаторов
+     * (т. е. операции не кэшируются в регистрах/локальных кешах потоков).
+     */
+    @Volatile private var isRemoteDescriptionSet = false
+    @Volatile private var isIceGatheringComplete = false
+
     private val _incomingData = MutableSharedFlow<String>()
     val incomingData: SharedFlow<String> = _incomingData.asSharedFlow()
 
@@ -68,11 +77,13 @@ class PeerConnectionManager(
                 // --- ИЗМЕНЕНИЕ: ОТПРАВЛЯЕМ ПУЛ, КОГДА СБОР ЗАВЕРШЕН ---
                 if (newState == PeerConnection.IceGatheringState.COMPLETE) {
                     Logger.log(tag, "ICE gathering complete.")
-                    // Ответчик (Боб) может отправить кандидатов сразу, т.к. он уже обработал Offer.
-                    // Инициатор (Алиса) должен ждать Answer от Боба.
-                    if (!isInitiator) {
-                        sendIceCandidatePool()
-                    }
+                    isIceGatheringComplete = true
+                    trySendIceCandidatePool()
+//                    // Ответчик (Боб) может отправить кандидатов сразу, т.к. он уже обработал Offer.
+//                    // Инициатор (Алиса) должен ждать Answer от Боба.
+//                    if (!isInitiator) {
+//                        sendIceCandidatePool()
+//                    }
 //                    Logger.log(tag, "ICE gathering complete. Sending pool of ${iceCandidatePool.size} candidates.")
 //                    val signal = SignalMessage.IceCandidates(candidates = iceCandidatePool)
 //                    scope.launch { _outgoingSignal.emit(signal) }
@@ -196,7 +207,9 @@ class PeerConnectionManager(
                 Logger.log(tag, "onSetSuccess Remote description (Answer) set successfully for '$peerId'")
                 // Теперь, когда инициатор (Алиса) успешно обработал Answer,
                 // самое время отправить накопленный пул ICE-кандидатов.
-                sendIceCandidatePool()
+//                sendIceCandidatePool()
+                isRemoteDescriptionSet = true
+                trySendIceCandidatePool()
             }
             override fun onSetFailure(error: String?) {
                 Logger.log(tag, "onSetFailure Failed to set Remote Description (Answer) for '$peerId': $error", LogLevel.ERROR)
@@ -215,6 +228,22 @@ class PeerConnectionManager(
         candidates.candidates.forEach { candidate ->
             val iceCandidate = IceCandidate(candidate.sdpMid, candidate.sdpMLineIndex, candidate.sdp)
             peerConnection?.addIceCandidate(iceCandidate)
+        }
+    }
+
+    // --- НОВЫЙ МЕТОД-КООРДИНАТОР ---
+    private fun trySendIceCandidatePool() {
+        // Логика для Ответчика (Боба) - ему достаточно завершить сбор.
+        if (!isInitiator) {
+            if (isIceGatheringComplete) {
+                sendIceCandidatePool()
+            }
+            return
+        }
+
+        // Логика для Инициатора (Алисы) - ей нужно дождаться ОБЕИХ событий.
+        if (isRemoteDescriptionSet && isIceGatheringComplete) {
+            sendIceCandidatePool()
         }
     }
 

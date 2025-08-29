@@ -106,7 +106,7 @@ class ChatService(private val chatRepository: IChatRepository,
 
     override suspend fun performHandshake(inviteId: UUID, handshake: UserHandshake): Boolean  =
         loggingWrapper {
-            val handshakeDto = DataMessage.Handshake(handshake.userId, handshake.username)
+            val handshakeDto = DataMessage.Handshake(userId = handshake.userId, username = handshake.username)
 
             // Убираем задержку, она больше не нужна и вредна.
             // Отправка произойдет, как только ViewModel ее вызовет.
