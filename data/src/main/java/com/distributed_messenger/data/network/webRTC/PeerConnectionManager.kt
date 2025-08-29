@@ -98,6 +98,15 @@ class PeerConnectionManager(
 
             override fun onIceConnectionChange(newState: PeerConnection.IceConnectionState?) {
                 Logger.log(tag, "onIceConnectionChange ICE connection state for '$peerId' changed to: $newState")
+
+                // --- НОВАЯ ЛОГИКА ЗДЕСЬ ---
+                // Если соединение разорвалось или упало, и мы являемся инициатором,
+                // мы пытаемся его восстановить с помощью ICE Restart.
+                // Только инициатор должен это делать, чтобы избежать гонки перезапусков.
+                if (isInitiator && (newState == PeerConnection.IceConnectionState.FAILED || newState == PeerConnection.IceConnectionState.DISCONNECTED)) {
+                    Logger.log(tag, "Connection failed/disconnected. Initiating ICE restart.", LogLevel.WARN)
+                    restartIce()
+                }
             }
 
             override fun onSignalingChange(newState: PeerConnection.SignalingState?) {
@@ -288,6 +297,42 @@ class PeerConnectionManager(
             }
             override fun onBufferedAmountChange(previousAmount: Long) {}
         })
+    }
+
+    /**
+     * Запускает процедуру ICE Restart.
+     * WebRTC сгенерирует новый Offer с новыми ICE credentials.
+     * Этот Offer нужно отправить второму пиру, как обычный Offer,
+     * что приведет к новому обмену кандидатами и поиску рабочего маршрута.
+     */
+    private fun restartIce() {
+        scope.launch {
+            val constraints = MediaConstraints()
+            // Этот флаг указывает WebRTC, что нужно перезапустить ICE, а не начинать новую сессию.
+            constraints.mandatory.add(MediaConstraints.KeyValuePair("IceRestart", "true"))
+
+            peerConnection?.createOffer(object : SdpObserverAdapter() {
+                override fun onCreateSuccess(desc: SessionDescription?) {
+                    Logger.log(tag, "ICE Restart: createOffer success.")
+                    peerConnection?.setLocalDescription(object : SdpObserverAdapter() {
+                        override fun onSetSuccess() {
+                            desc?.let {
+                                Logger.log(tag, "ICE Restart: setLocalDescription success. Emitting new Offer.")
+                                val offer = SignalMessage.Offer(sdp = it.description)
+                                scope.launch { _outgoingSignal.emit(offer) }
+                            }
+                        }
+                        override fun onSetFailure(error: String?) {
+                            Logger.log(tag, "ICE Restart: setLocalDescription failed: $error", LogLevel.ERROR)
+                        }
+                    }, desc)
+                }
+
+                override fun onCreateFailure(error: String?) {
+                    Logger.log(tag, "ICE Restart: createOffer failed: $error", LogLevel.ERROR)
+                }
+            }, constraints)
+        }
     }
 
     fun close() {
