@@ -15,8 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.distributed_messenger.presenter.viewmodels.AddContactState
 import com.distributed_messenger.presenter.viewmodels.AddContactViewModel
 import com.distributed_messenger.ui.NavigationController
-import com.distributed_messenger.ui.util.QrCodeGenerator
-import java.util.UUID
+import com.distributed_messenger.ui.util.QRCodeGenerator
 
 @Composable
 fun ShareContactScreen(
@@ -36,20 +35,16 @@ fun ShareContactScreen(
     // Генерируем QR-код. `remember` с ключом `inviteId` гарантирует,
     // что QR-код будет перерисован только если изменится ID (хотя в нашем случае он не меняется).
     val qrCodeBitmap by remember(inviteId) {
-        mutableStateOf(QrCodeGenerator.generateQrCode(inviteId.toString(), qrCodeSizePx))
+        mutableStateOf(QRCodeGenerator.generateQrCode(inviteId.toString(), qrCodeSizePx))
     }
 
-//    // Автоматическая навигация при успешном соединении
-//    LaunchedEffect(state) {
-//        if (state is AddContactState.Success) {
-//            val chatId = (state as AddContactState.Success).chatId
-//            // Переходим в новый чат и удаляем из стека навигации экраны добавления контактов
-//            navigationController.navigateToChat(chatId) {
-//                // Очищаем бэкстек до ChatListScreen
-//                popUpTo("chat_list") { inclusive = false }
-//            }
-//        }
-//    }
+    // Автоматическая навигация при успешном соединении
+    LaunchedEffect(state) {
+        if (state is AddContactState.Success) {
+            val chatId = (state as AddContactState.Success).chatId
+            navigationController.navigateToChat(chatId)
+        }
+    }
 
     Scaffold(
 //        topBar = {

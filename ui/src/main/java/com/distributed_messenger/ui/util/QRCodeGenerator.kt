@@ -11,7 +11,7 @@ import com.distributed_messenger.logger.Logger
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 
-object QrCodeGenerator {
+object QRCodeGenerator {
 
     /**
      * Генерирует QR-код из строки и возвращает его как ImageBitmap для Compose.
