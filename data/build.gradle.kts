@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)  // Android-библиотека
     alias(libs.plugins.kotlin.android)    // Kotlin для Android (включает JVM-функциональность)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.allure.framework)
 }
 
 android {
@@ -41,6 +42,21 @@ android {
     kotlinOptions {
         jvmTarget = "11" // Указываем JVM-таргет здесь
     }
+
+    testOptions {
+        unitTests.all { test ->
+            // Указывает Gradle использовать тестовый движок JUnit 5 (Jupiter)
+//            test.useJUnitPlatform()
+            test.maxParallelForks = 4 // запускать тесты в 4 параллельных процессах на одной jvm
+            // Запускать каждый тест-класс в отдельном JVM процессе
+            // test.forkEvery = 1L // каждый тест-метод в отдельной jvm (очень медленно)
+            // test.forkEvery = 100L // Можно поставить большое число, чтобы все тесты класса шли в одной jvm
+        }
+    }
+    // Это говорит Android Gradle Plugin создать нужные source sets и конфигурации.
+    testFixtures {
+        enable = true
+    }
 }
 
 ksp {
@@ -69,8 +85,19 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.assertj.core)
+    testImplementation(testFixtures(project(":core")))
+
+    // Robolectric
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+
+    // Allure для JUnit 5
+    testImplementation(libs.allure.junit4)
 
     // Android тесты
     androidTestImplementation(libs.androidx.junit)

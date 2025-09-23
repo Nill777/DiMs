@@ -3,7 +3,11 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp) // Добавлен плагин KSP для Room
-    id("com.google.gms.google-services")
+//    id("com.google.gms.google-services")
+//    id("io.qameta.allure")
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.allure.framework)
+
 }
 
 android {

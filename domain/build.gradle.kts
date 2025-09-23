@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.library)  // Android-библиотека
     alias(libs.plugins.kotlin.android)    // Kotlin для Android (включает JVM-функциональность)
+    alias(libs.plugins.allure.framework)
 }
 
 android {
-    namespace = "com.distributed_messenger.data"
+    namespace = "com.distributed_messenger.domain"
     compileSdk = 35
 
     defaultConfig {
@@ -19,14 +20,20 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    // Для тестов с корутинами
+
     testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            all {
-                it.useJUnitPlatform()
-            }
+        unitTests.all { test ->
+            // Указывает Gradle использовать тестовый движок JUnit 5 (Jupiter)
+            test.useJUnitPlatform()
+            test.maxParallelForks = 4 // запускать тесты в 4 параллельных процессах на одной jvm
+            // Запускать каждый тест-класс в отдельном JVM процессе
+            // test.forkEvery = 1L // каждый тест-метод в отдельной jvm (очень медленно)
+            // test.forkEvery = 100L // Можно поставить большое число, чтобы все тесты класса шли в одной jvm
         }
+    }
+    // Это говорит Android Gradle Plugin создать нужные source sets и конфигурации.
+    testFixtures {
+        enable = true
     }
 }
 
@@ -43,5 +50,11 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.kotlin.test)
-    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.assertj.core)
+    testImplementation(testFixtures(project(":core")))
+
+    // Allure для JUnit 5
+    testImplementation(libs.allure.junit5)
 }

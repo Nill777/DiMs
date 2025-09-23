@@ -1,75 +1,156 @@
 package com.distributed_messenger.unit.services
 
-import com.distributed_messenger.core.File
+
 import com.distributed_messenger.data.irepositories.IFileRepository
+import com.distributed_messenger.domain.iservices.IFileService
 import com.distributed_messenger.domain.services.FileService
+import com.distributed_messenger.unit.TestObjectMother
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.time.Instant
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.UUID
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import kotlin.test.*
 
+@ExtendWith(MockKExtension::class)
 class FileServiceTest {
-    private lateinit var fileService: FileService
-    private val mockFileRepository = mockk<IFileRepository>()
-
+    @MockK // Создаем мок-объект для репозитория
+    private lateinit var mockFileRepository: IFileRepository
+    private lateinit var fileService: IFileService
+    // Fixture - выполняется перед каждым тестом (Требование ЛР №4)
     @BeforeEach
     fun setup() {
         fileService = FileService(mockFileRepository)
     }
 
     @Test
-    fun `uploadFile should return file id`() = runTest {
-        val fileId = UUID.randomUUID()
+    fun `uploadFile should call repository and return new file id on success`() = runTest {
+        // Arrange
+        val expectedFileId = UUID.randomUUID()
         val userId = UUID.randomUUID()
-        coEvery { mockFileRepository.addFile(any()) } returns fileId
+        val fileName = "test.txt"
+        val fileType = "text/plain"
+        val filePath = "/data/file.txt"
+        coEvery { mockFileRepository.addFile(any()) } returns expectedFileId
 
-        val result = fileService.uploadFile("test.txt", "text", "/path", userId)
+        // Act
+        val result = fileService.uploadFile(fileName, fileType, filePath, userId)
 
-        assertEquals(fileId, result)
-        coVerify { mockFileRepository.addFile(match {
-            it.name == "test.txt" && it.type == "text" && it.path == "/path" && it.uploadedBy == userId
-        }) }
+        // Assert
+        assertEquals(expectedFileId, result, "Метод должен возвращать ID, полученный от репозитория")
+
+        // Проверяем, что метод репозитория был вызван ровно 1 раз с корректными параметрами
+        coVerify(exactly = 1) {
+            mockFileRepository.addFile(match {
+                it.name == fileName &&
+                        it.type == fileType &&
+                        it.path == filePath &&
+                        it.uploadedBy == userId
+            })
+        }
     }
 
     @Test
-    fun `getFile should return file when exists`() = runTest {
-        val fileId = UUID.randomUUID()
-        val userId = UUID.randomUUID()
-        val testFile = File(fileId, "test.txt", "text", "/path", userId, Instant.now())
-        coEvery { mockFileRepository.getFile(fileId) } returns testFile
+    fun `uploadFile should propagate exception when repository throws`() = runTest {
+        // Arrange
+        val errorMessage = "Failed to insert file into database"
+        val repositoryException = Exception(errorMessage)
+        coEvery { mockFileRepository.addFile(any()) } throws repositoryException
 
+        // Act & Assert
+        val thrownException = assertFailsWith<Exception> {
+            fileService.uploadFile("test.txt", "text/plain", "/data/file.txt", UUID.randomUUID())
+        }
+        assertEquals(errorMessage, thrownException.message, "Сервис должен пробрасывать исключение от репозитория")
+    }
+
+    @Test
+    fun `getFile should return file when file exists`() = runTest {
+        // Arrange
+        val fileId = UUID.randomUUID()
+        // Используем TestObjectMother для создания консистентных тестовых данных (Требование ЛР №7)
+        val expectedFile = TestObjectMother.createFile(id = fileId, uploaderId = UUID.randomUUID())
+        coEvery { mockFileRepository.getFile(fileId) } returns expectedFile
+
+        // Act
         val result = fileService.getFile(fileId)
 
-        assertEquals(testFile, result)
+        // Assert
+        assertNotNull(result)
+        assertEquals(expectedFile, result, "Сервис должен возвращать файл, полученный от репозитория")
+        coVerify(exactly = 1) { mockFileRepository.getFile(fileId) }
+    }
+    @Test
+    fun `getFile should return null when file does not exist`() = runTest {
+        // Arrange
+        val fileId = UUID.randomUUID()
+        coEvery { mockFileRepository.getFile(fileId) } returns null
+
+        // Act
+        val result = fileService.getFile(fileId)
+
+        // Assert
+        assertNull(result, "Сервис должен возвращать null, если репозиторий вернул null")
     }
 
     @Test
-    fun `getUserFiles should return files for user`() = runTest {
+    fun `getUserFiles should return a list of files for a user`() = runTest {
+        // Arrange
         val userId = UUID.randomUUID()
-        val testFiles = listOf(
-            File(UUID.randomUUID(), "file1.txt", "text", "/path", userId, Instant.now()),
-            File(UUID.randomUUID(), "file2.txt", "image", "/path", userId, Instant.now())
+        val expectedFiles = listOf(
+            TestObjectMother.createFile(uploaderId = userId),
+            TestObjectMother.createFile(uploaderId = userId)
         )
-        coEvery { mockFileRepository.getFilesByUser(userId) } returns testFiles
+        coEvery { mockFileRepository.getFilesByUser(userId) } returns expectedFiles
 
+        // Act
         val result = fileService.getUserFiles(userId)
 
-        assertEquals(testFiles, result)
+        // Assert
+        assertEquals(2, result.size)
+        assertEquals(expectedFiles, result)
+    }
+    @Test
+    fun `getUserFiles should return an empty list when user has no files`() = runTest {
+        // Arrange
+        val userId = UUID.randomUUID()
+        coEvery { mockFileRepository.getFilesByUser(userId) } returns emptyList()
+
+        // Act
+        val result = fileService.getUserFiles(userId)
+
+        // Assert
+        assertNotNull(result)
+        assertTrue(result.isEmpty(), "Сервис должен возвращать пустой список, если у пользователя нет файлов")
     }
 
     @Test
-    fun `deleteFile should return true when successful`() = runTest {
+    fun `deleteFile should return true on successful deletion`() = runTest {
+        // Arrange
         val fileId = UUID.randomUUID()
         coEvery { mockFileRepository.deleteFile(fileId) } returns true
 
+        // Act
         val result = fileService.deleteFile(fileId)
 
-        assertTrue(result)
+        // Assert
+        assertTrue(result, "Сервис должен возвращать true при успешном удалении")
+        coVerify(exactly = 1) { mockFileRepository.deleteFile(fileId) }
+    }
+    @Test
+    fun `deleteFile should return false on failed deletion`() = runTest {
+        // Arrange
+        val fileId = UUID.randomUUID()
+        coEvery { mockFileRepository.deleteFile(fileId) } returns false
+
+        // Act
+        val result = fileService.deleteFile(fileId)
+
+        // Assert
+        assertFalse(result, "Сервис должен возвращать false, если удаление в репозитории не удалось")
     }
 }

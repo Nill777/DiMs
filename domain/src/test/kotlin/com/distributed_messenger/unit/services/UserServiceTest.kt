@@ -1,23 +1,30 @@
 package com.distributed_messenger.unit.services
 
-import com.distributed_messenger.core.User
 import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.data.irepositories.IUserRepository
+import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.services.UserService
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import com.distributed_messenger.unit.TestObjectMother
+import io.mockk.*
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.TestMethodOrder
 import java.util.UUID
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
+@ExtendWith(MockKExtension::class)
+@TestMethodOrder(MethodOrderer.Random::class) // запуск тестов в случайном порядке
 class UserServiceTest {
-    private lateinit var userService: UserService
-    private val mockUserRepository = mockk<IUserRepository>()
+
+    @MockK
+    private lateinit var mockUserRepository: IUserRepository
+    private lateinit var userService: IUserService
 
     @BeforeEach
     fun setup() {
@@ -25,90 +32,200 @@ class UserServiceTest {
     }
 
     @Test
-    fun `register should return new user id`() = runTest {
-        val userId = UUID.randomUUID()
-        coEvery { mockUserRepository.addUser(any()) } returns userId
+    fun `register should call repository and return new user id`() = runTest {
+        // Arrange
+        val expectedUserId = UUID.randomUUID()
+        val username = "testUser"
+        val userSlot = slot<com.distributed_messenger.core.User>()
+        coEvery { mockUserRepository.addUser(capture(userSlot)) } returns expectedUserId
 
-        val result = userService.register("testUser", UserRole.USER)
+        // Act
+        val result = userService.register(username, UserRole.USER)
 
-        assertEquals(userId, result)
-        coVerify { mockUserRepository.addUser(match {
-            it.username == "testUser" && it.role == UserRole.USER
-        }) }
+        // Assert
+        assertEquals(expectedUserId, result)
+        assertEquals(username, userSlot.captured.username)
+        assertEquals(UserRole.USER, userSlot.captured.role)
+        coVerify(exactly = 1) { mockUserRepository.addUser(any()) }
     }
 
     @Test
-    fun `register with role should use specified role`() = runTest {
-        val userId = UUID.randomUUID()
-        coEvery { mockUserRepository.addUser(any()) } returns userId
+    fun `register should propagate exception from repository`() = runTest {
+        // Arrange (Требование 2)
+        val errorMessage = "Database connection lost"
+        coEvery { mockUserRepository.addUser(any()) } throws Exception(errorMessage)
 
-        val result = userService.register("admin", UserRole.ADMINISTRATOR)
+        // Act & Assert
+        val exception = assertThrows<Exception> {
+            userService.register("anyUser", UserRole.USER)
+        }
+        assertEquals(errorMessage, exception.message)
+    }
 
-        assertEquals(userId, result)
-        coVerify { mockUserRepository.addUser(match {
-            it.username == "admin" && it.role == UserRole.ADMINISTRATOR
-        }) }
+
+    @Test
+    fun `login should return user id for existing username`() = runTest {
+        // Arrange
+        val user = TestObjectMother.createUser(username = "existingUser")
+        coEvery { mockUserRepository.findByUsername("existingUser") } returns user
+
+        // Act
+        val result = userService.login("existingUser")
+
+        // Assert
+        assertEquals(user.id, result)
     }
 
     @Test
-    fun `getUser should return user when exists`() = runTest {
-        val userId = UUID.randomUUID()
-        val testUser = User(userId, "testUser", UserRole.USER, null, UUID.randomUUID(), UUID.randomUUID())
-        coEvery { mockUserRepository.getUser(userId) } returns testUser
+    fun `login should return null for non-existent username`() = runTest {
+        // Arrange
+        coEvery { mockUserRepository.findByUsername("nonExistentUser") } returns null
 
+        // Act
+        val result = userService.login("nonExistentUser")
+
+        // Assert
+        assertNull(result)
+    }
+
+
+    @Test
+    fun `getUser should return user when user exists`() = runTest {
+        // Arrange
+        val user = TestObjectMother.createUser()
+        coEvery { mockUserRepository.getUser(user.id) } returns user
+
+        // Act
+        val result = userService.getUser(user.id)
+
+        // Assert
+        assertNotNull(result)
+        assertEquals(user, result)
+    }
+
+    @Test
+    fun `getUser should return null when user does not exist`() = runTest {
+        // Arrange
+        val userId = UUID.randomUUID()
+        coEvery { mockUserRepository.getUser(userId) } returns null
+
+        // Act
         val result = userService.getUser(userId)
 
-        assertEquals(testUser, result)
+        // Assert
+        assertNull(result)
     }
 
-    @Test
-    fun `getAllUsers should return all users`() = runTest {
-        val testUsers = listOf(
-            User(UUID.randomUUID(), "user1", UserRole.USER, null, UUID.randomUUID(), UUID.randomUUID()),
-            User(UUID.randomUUID(), "user2", UserRole.ADMINISTRATOR, null, UUID.randomUUID(), UUID.randomUUID())
-        )
-        coEvery { mockUserRepository.getAllUsers() } returns testUsers
 
+    @Test
+    fun `getAllUsers should return a list of users`() = runTest {
+        // Arrange
+        val expectedUsers = listOf(TestObjectMother.createUser(), TestObjectMother.createUser())
+        coEvery { mockUserRepository.getAllUsers() } returns expectedUsers
+
+        // Act
         val result = userService.getAllUsers()
 
-        assertEquals(testUsers, result)
+        // Assert
+        assertEquals(expectedUsers, result)
     }
 
     @Test
-    fun `updateUser should return true on success`() = runTest {
-        val userId = UUID.randomUUID()
-        val original = User(userId, "oldName", UserRole.USER, null, UUID.randomUUID(), UUID.randomUUID())
-        coEvery { mockUserRepository.getUser(userId) } returns original
+    fun `getAllUsers should return an empty list when no users exist`() = runTest {
+        // Arrange
+        coEvery { mockUserRepository.getAllUsers() } returns emptyList()
+
+        // Act
+        val result = userService.getAllUsers()
+
+        // Assert
+        assertTrue(result.isEmpty())
+    }
+
+
+    @Test
+    fun `updateUser should return true when user exists and is updated`() = runTest {
+        // Arrange
+        val existingUser = TestObjectMother.createUser()
+        val newUsername = "new-username"
+        coEvery { mockUserRepository.getUser(existingUser.id) } returns existingUser
         coEvery { mockUserRepository.updateUser(any()) } returns true
 
-        val result = userService.updateUser(userId, "newName")
+        // Act
+        val result = userService.updateUser(existingUser.id, newUsername)
 
+        // Assert
         assertTrue(result)
-        coVerify {
-            mockUserRepository.updateUser(match { user ->
-                user.id == userId && user.username == "newName"
-            })
-        }
+        coVerify { mockUserRepository.updateUser(match { it.id == existingUser.id && it.username == newUsername }) }
     }
 
     @Test
     fun `updateUser should return false when user not found`() = runTest {
+        // Arrange
         val userId = UUID.randomUUID()
         coEvery { mockUserRepository.getUser(userId) } returns null
 
-        val result = userService.updateUser(userId, "newName")
+        // Act
+        val result = userService.updateUser(userId, "new name")
 
+        // Assert
         assertFalse(result)
         coVerify(exactly = 0) { mockUserRepository.updateUser(any()) }
     }
 
+
     @Test
-    fun `deleteUser should return true when successful`() = runTest {
+    fun `updateUserRole should return true for existing user`() = runTest {
+        // Arrange
+        val existingUser = TestObjectMother.createUser(role = UserRole.USER)
+        coEvery { mockUserRepository.getUser(existingUser.id) } returns existingUser
+        coEvery { mockUserRepository.updateUser(any()) } returns true
+
+        // Act
+        val result = userService.updateUserRole(existingUser.id, UserRole.ADMINISTRATOR)
+
+        // Assert
+        assertTrue(result)
+        coVerify { mockUserRepository.updateUser(match { it.id == existingUser.id && it.role == UserRole.ADMINISTRATOR }) }
+    }
+
+    @Test
+    fun `updateUserRole should return false for non-existent user`() = runTest {
+        // Arrange
+        val userId = UUID.randomUUID()
+        coEvery { mockUserRepository.getUser(userId) } returns null
+
+        // Act
+        val result = userService.updateUserRole(userId, UserRole.ADMINISTRATOR)
+
+        // Assert
+        assertFalse(result)
+    }
+
+
+    @Test
+    fun `deleteUser should return true when repository succeeds`() = runTest {
+        // Arrange
         val userId = UUID.randomUUID()
         coEvery { mockUserRepository.deleteUser(userId) } returns true
 
+        // Act
         val result = userService.deleteUser(userId)
 
+        // Assert
         assertTrue(result)
+    }
+
+    @Test
+    fun `deleteUser should return false when repository fails`() = runTest {
+        // Arrange
+        val userId = UUID.randomUUID()
+        coEvery { mockUserRepository.deleteUser(userId) } returns false
+
+        // Act
+        val result = userService.deleteUser(userId)
+
+        // Assert
+        assertFalse(result)
     }
 }

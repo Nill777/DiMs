@@ -38,12 +38,12 @@ class MessageService(private val messageRepository: IMessageRepository,
 
             // Шаг 2: Говорим репозиторию сохранить сообщение в локальную базу данных.
             // Теперь addMessage просто сохраняет и ничего не отправляет.
-            messageRepository.addMessage(message)
+            val savedMessageId = messageRepository.addMessage(message)
 
             // Шаг 3: Создаем сетевую модель (DTO) на основе того же самого сообщения.
-            // Используем message.id, который мы сгенерировали на шаге 1.
+            // Используем savedMessageId == message.id, который мы сгенерировали на шаге 1.
             val chatMessage = DataMessage.ChatMessage(
-                messageId = message.id,
+                messageId = savedMessageId,
                 originalSenderId = senderId,
                 chatId = chatId,
                 content = content,
@@ -54,7 +54,7 @@ class MessageService(private val messageRepository: IMessageRepository,
             p2pTransport.sendMessageToChat(chatId, chatMessage)
 
             // Шаг 5: Возвращаем ID созданного сообщения, чтобы UI мог его использовать.
-            message.id
+            savedMessageId
         }
 
     override suspend fun getMessage(id: UUID): Message? =
