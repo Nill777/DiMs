@@ -5,17 +5,15 @@ import com.distributed_messenger.core.AppSettingType
 import com.distributed_messenger.data.irepositories.IAppSettingsRepository
 import com.distributed_messenger.domain.iservices.IAppSettingsService
 import com.distributed_messenger.domain.services.AppSettingsService
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Before
+import org.junit.Test
 import kotlin.test.*
 
-@ExtendWith(MockKExtension::class)
 class AppSettingsServiceTest {
 
     @MockK
@@ -23,8 +21,9 @@ class AppSettingsServiceTest {
     private lateinit var service: IAppSettingsService
 
     // Fixture - общая подготовка для всех тестов
-    @BeforeEach
+    @Before
     fun setup() {
+        MockKAnnotations.init(this)
         service = AppSettingsService(mockRepository)
     }
 

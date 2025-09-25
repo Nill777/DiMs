@@ -5,25 +5,24 @@ import com.distributed_messenger.data.irepositories.IFileRepository
 import com.distributed_messenger.domain.iservices.IFileService
 import com.distributed_messenger.domain.services.FileService
 import com.distributed_messenger.TestObjectMother
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Before
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.*
 
-@ExtendWith(MockKExtension::class)
 class FileServiceTest {
     @MockK // Создаем мок-объект для репозитория
     private lateinit var mockFileRepository: IFileRepository
     private lateinit var fileService: IFileService
     // Fixture - выполняется перед каждым тестом (Требование ЛР №4)
-    @BeforeEach
+    @Before
     fun setup() {
+        MockKAnnotations.init(this)
         fileService = FileService(mockFileRepository)
     }
 

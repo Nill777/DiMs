@@ -7,18 +7,15 @@ import com.distributed_messenger.domain.services.UserService
 import com.distributed_messenger.TestObjectMother
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Before
+import org.junit.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.TestMethodOrder
 import java.util.UUID
 import kotlin.test.*
 
-@ExtendWith(MockKExtension::class)
 @TestMethodOrder(MethodOrderer.Random::class) // запуск тестов в случайном порядке
 class UserServiceTest {
 
@@ -26,8 +23,9 @@ class UserServiceTest {
     private lateinit var mockUserRepository: IUserRepository
     private lateinit var userService: IUserService
 
-    @BeforeEach
+    @Before
     fun setup() {
+        MockKAnnotations.init(this) // Инициализация mock-объектов для JUnit 4
         userService = UserService(mockUserRepository)
     }
 

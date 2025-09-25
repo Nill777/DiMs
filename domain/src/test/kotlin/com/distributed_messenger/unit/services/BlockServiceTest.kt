@@ -1,30 +1,28 @@
 package com.distributed_messenger.unit.services
 
-
 import com.distributed_messenger.data.irepositories.IBlockRepository
 import com.distributed_messenger.domain.iservices.IBlockService
 import com.distributed_messenger.domain.services.BlockService
 import com.distributed_messenger.TestObjectMother
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Before
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.*
 
-@ExtendWith(MockKExtension::class)
 class BlockServiceTest {
 
     @MockK
     private lateinit var mockBlockRepository: IBlockRepository
     private lateinit var blockService: IBlockService
 
-    @BeforeEach
+    @Before
     fun setup() {
+        MockKAnnotations.init(this)
         blockService = BlockService(mockBlockRepository)
     }
 

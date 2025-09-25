@@ -24,7 +24,7 @@ android {
     testOptions {
         unitTests.all { test ->
             // Указывает Gradle использовать тестовый движок JUnit 5 (Jupiter)
-            test.useJUnitPlatform()
+//            test.useJUnitPlatform()
             test.maxParallelForks = 4 // запускать тесты в 4 параллельных процессах на одной jvm
             // Запускать каждый тест-класс в отдельном JVM процессе
             // test.forkEvery = 1L // каждый тест-метод в отдельной jvm (очень медленно)
@@ -55,6 +55,6 @@ dependencies {
     testImplementation(libs.assertj.core)
     testImplementation(testFixtures(project(":core")))
 
-    // Allure для JUnit 5
-    testImplementation(libs.allure.junit5)
+    // Allure для JUnit 4
+    testImplementation(libs.allure.junit4)
 }

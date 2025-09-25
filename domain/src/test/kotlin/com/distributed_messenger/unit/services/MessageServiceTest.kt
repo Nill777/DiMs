@@ -7,18 +7,16 @@ import com.distributed_messenger.data.network.transport.IP2PTransport
 import com.distributed_messenger.domain.iservices.IMessageService
 import com.distributed_messenger.domain.services.MessageService
 import com.distributed_messenger.TestObjectMother
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.Before
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.*
 
-@ExtendWith(MockKExtension::class)
 class MessageServiceTest {
 
     @MockK
@@ -31,8 +29,9 @@ class MessageServiceTest {
     private lateinit var messageService: IMessageService
 
     // Fixture - выполняется перед каждым тестом (Требование ЛР №4)
-    @BeforeEach
+    @Before
     fun setup() {
+        MockKAnnotations.init(this)
         messageService = MessageService(mockMessageRepository, mockHistoryRepository, mockP2pTransport)
     }
 
