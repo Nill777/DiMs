@@ -5,7 +5,7 @@ import com.distributed_messenger.data.repositories.ChatRepository
 import com.distributed_messenger.data.repositories.MessageHistoryRepository
 import com.distributed_messenger.data.repositories.MessageRepository
 import com.distributed_messenger.data.repositories.UserRepository
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

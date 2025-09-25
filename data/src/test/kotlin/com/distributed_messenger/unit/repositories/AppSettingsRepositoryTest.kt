@@ -1,6 +1,6 @@
 package com.distributed_messenger.unit.repositories
 
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import com.distributed_messenger.core.AppSettingType
 import com.distributed_messenger.data.repositories.AppSettingsRepository
 import kotlinx.coroutines.test.runTest

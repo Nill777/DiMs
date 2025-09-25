@@ -6,7 +6,7 @@ import com.distributed_messenger.data.irepositories.IMessageRepository
 import com.distributed_messenger.data.network.transport.IP2PTransport
 import com.distributed_messenger.domain.iservices.IMessageService
 import com.distributed_messenger.domain.services.MessageService
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

@@ -4,7 +4,7 @@ import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.services.UserService
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension

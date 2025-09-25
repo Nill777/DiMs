@@ -5,7 +5,7 @@ import com.distributed_messenger.data.irepositories.IChatRepository
 import com.distributed_messenger.data.network.transport.IP2PTransport
 import com.distributed_messenger.domain.iservices.IChatService
 import com.distributed_messenger.domain.services.ChatService
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

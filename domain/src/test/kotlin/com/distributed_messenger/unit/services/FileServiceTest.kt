@@ -4,7 +4,7 @@ package com.distributed_messenger.unit.services
 import com.distributed_messenger.data.irepositories.IFileRepository
 import com.distributed_messenger.domain.iservices.IFileService
 import com.distributed_messenger.domain.services.FileService
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

@@ -4,7 +4,7 @@ package com.distributed_messenger.unit.services
 import com.distributed_messenger.data.irepositories.IBlockRepository
 import com.distributed_messenger.domain.iservices.IBlockService
 import com.distributed_messenger.domain.services.BlockService
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

@@ -3,7 +3,7 @@ package com.distributed_messenger.unit.repositories
 
 import com.distributed_messenger.data.repositories.FileRepository
 import com.distributed_messenger.data.repositories.UserRepository
-import com.distributed_messenger.unit.TestObjectMother
+import com.distributed_messenger.TestObjectMother
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
