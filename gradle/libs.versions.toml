@@ -37,6 +37,7 @@ androidx-sqlite = "2.4.0"
 zxing = "3.5.1"
 camerax = "1.4.2"
 allure = "2.21.0"
+allure-kotlin = "2.4.0"
 allureFramework = "2.11.2"
 assertj = "3.22.0"
 robolectric = "4.11.1"
@@ -82,6 +83,8 @@ assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "as
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 allure-junit4 = { group = "io.qameta.allure", name = "allure-junit4", version.ref = "allure" }
 allure-junit5 = { group = "io.qameta.allure", name = "allure-junit5", version.ref = "allure" }
+allure-kotlin-android = { group = "io.qameta.allure", name = "allure-kotlin-android", version.ref = "allure-kotlin" }
+allure-kotlin-junit4 = { group = "io.qameta.allure", name = "allure-kotlin-junit4", version.ref = "allure-kotlin" }
 
 # Navigation
 androidx-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}

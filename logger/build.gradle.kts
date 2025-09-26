@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.distributed_messenger.data"
+    namespace = "com.distributed_messenger.logger"
     compileSdk = 35
 
     defaultConfig {

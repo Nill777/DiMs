@@ -6,6 +6,7 @@ import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.logger.LogLevel
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.domain.iservices.IUserService
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,15 +19,16 @@ class AuthViewModel(private val userService: IUserService) : ViewModel() {
     // Хранение текущего пользователя
 //    private lateinit var currentUserId: UUID
 
-    fun register(username: String, role: UserRole) {
+    // Возвращаем Job, чтобы вызывающий код мог дождаться завершения
+    fun register(username: String, role: UserRole): Job {
         Logger.log("AuthViewModel", "Attempting registration for: $username ($role)")
         if (username.isBlank()) {
             Logger.log("AuthViewModel", "Empty username in registration", LogLevel.WARN)
             _authState.value = AuthState.Error("Username cannot be empty")
-            return
+            return Job().apply { complete() }
         }
 
-        viewModelScope.launch {
+        return viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
                 val userId = userService.register(username, role)
@@ -40,15 +42,15 @@ class AuthViewModel(private val userService: IUserService) : ViewModel() {
         }
     }
 
-    fun login(username: String) {
+    fun login(username: String): Job {
         Logger.log("AuthViewModel", "Attempting login for: $username")
         if (username.isBlank()) {
             Logger.log("AuthViewModel", "Empty username in login", LogLevel.WARN)
             _authState.value = AuthState.Error("Username cannot be empty")
-            return
+            return Job().apply { complete() }
         }
 
-        viewModelScope.launch {
+        return viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
                 val userId = userService.login(username)

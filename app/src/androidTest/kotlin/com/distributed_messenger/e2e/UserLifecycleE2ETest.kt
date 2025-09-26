@@ -7,6 +7,7 @@ import com.distributed_messenger.presenter.viewmodels.AuthViewModel
 import com.distributed_messenger.presenter.viewmodels.ProfileViewModel
 import com.distributed_messenger.presenter.viewmodels.SessionManager
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.*
@@ -28,6 +29,11 @@ class UserLifecycleE2ETest : E2ETestBase() {
         profileViewModel = ProfileViewModel(userService)
     }
 
+    @After
+    fun cleanupSession() {
+        SessionManager.logout()
+    }
+
     @Test
     fun userFullLifecycleScenarioCRUD() = runTest {
         // 1: Регистрация нового пользователя
@@ -36,7 +42,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
         val role = UserRole.USER
 
         // Act
-        authViewModel.register(username, role)
+        authViewModel.register(username, role).join()
         val newUserId = SessionManager.currentUserId
 
         // Assert
@@ -49,7 +55,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
 
         // 2: Логин пользователя
         // Act
-        authViewModel.login(username)
+        authViewModel.login(username).join()
         val loggedInUserId = SessionManager.currentUserId
 
         // Assert
@@ -61,7 +67,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
         val newUsername = "e2e-user-updated"
 
         // Act
-        profileViewModel.updateUsername(newUsername)
+        profileViewModel.updateUsername(newUsername).join()
         val updateUserName = SessionManager.currentUserName
 
         // Assert

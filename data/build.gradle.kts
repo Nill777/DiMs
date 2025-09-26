@@ -96,7 +96,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
 
-    // Allure для JUnit 5
+    // Allure для JUnit 4
     testImplementation(libs.allure.junit4)
 
     // Android тесты

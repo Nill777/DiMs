@@ -7,8 +7,8 @@ set -e
 echo "--- Запуск тестов для всех модулей ---"
 # Флаг --continue гарантирует, что тесты запустятся во всех модулях, даже если в одном из них возникнет ошибка
 # Это полезно, чтобы увидеть в отчете упавшие тесты
-./gradlew test --continue || echo "Обнаружены упавшие тесты. Генерация отчета будет продолжена..."
-
+./gradlew test --continue || echo "Обнаружены упавшие unit/интеграционные тесты. Генерация отчета будет продолжена..."
+./gradlew app:connectedAndroidTest --continue || echo "Обнаружены упавшие инструментальные тесты. Генерация отчета будет продолжена..."
 # Имя папки, куда будут скопированы все результаты
 CONSOLIDATED_RESULTS_DIR="build/allure-results"
 
@@ -22,7 +22,8 @@ mkdir -p $CONSOLIDATED_RESULTS_DIR
 # find ... -print0 | while ... - это надежный способ обработки путей с пробелами (хотя в Gradle это редкость)
 # -not -path "./build/*" — это условие для find, которое отсекает все, что внутри ./build
 echo "Поиск результатов во всех модулях..."
-find . -path "*/build/allure-results" -not -path "./build/*" -print0 | while IFS= read -r -d '' dir; do
+find . \( -path "*/build/allure-results" -o -path "*/build/reports/allure-results" \) -not -path "./build/*" -print0 |
+while IFS= read -r -d '' dir; do
     echo "Найдены результаты в '$dir'. Копирование..."
     # Копируем содержимое директории (включая скрытые файлы, если есть) в общую папку
     cp -r "$dir"/. "$CONSOLIDATED_RESULTS_DIR"/

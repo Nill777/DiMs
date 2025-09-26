@@ -6,6 +6,7 @@ import com.distributed_messenger.core.User
 import com.distributed_messenger.logger.LogLevel
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.domain.iservices.IUserService
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -37,11 +38,11 @@ class ProfileViewModel(private val userService: IUserService) : ViewModel() {
         }
     }
 
-    fun updateUsername(newName: String) {
+    fun updateUsername(newName: String): Job {
         val userId = SessionManager.currentUserId
         Logger.log("ProfileViewModel", "Updating username for user: $userId")
 
-        viewModelScope.launch {
+        return viewModelScope.launch {
             _state.value = ProfileState.Loading
             try {
                 val success = userService.updateUser(userId, newName)

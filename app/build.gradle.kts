@@ -21,7 +21,8 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
@@ -122,6 +123,9 @@ dependencies {
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.kotlin.test)
+    // Allure
+    androidTestImplementation(libs.allure.kotlin.android)
+    androidTestImplementation(libs.allure.kotlin.junit4)
     androidTestImplementation(testFixtures(project(":core")))
 
     // Debug

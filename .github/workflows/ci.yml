@@ -1,0 +1,147 @@
+# Имя воркфлоу, которое будет отображаться в GitHub Actions
+name: Android CI/CD Pipeline
+
+# Триггеры для запуска: при пуше в основные ветки или создании Pull Request
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # ====================================================================
+  # ЭТАП 1: UNIT-ТЕСТЫ (ЛОНДОНСКИЙ СТИЛЬ)
+  # Быстрые тесты в JVM, не требуют Android-среды.
+  # ====================================================================
+  unit-tests:
+    name: 1. Unit Tests (JVM)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Unit Tests
+        run: ./gradlew :domain:test --tests "*UnitTest" # Укажите ваш модуль с юнит-тестами
+
+      - name: Store Allure results
+        if: always() # Выполняем всегда, чтобы сохранить отчет даже при падении
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-unit
+          path: '**/build/allure-results'
+          retention-days: 1
+
+  # ====================================================================
+  # ЭТАП 2: ИНТЕГРАЦИОННЫЕ ТЕСТЫ (ДЕТРОЙТСКИЙ СТИЛЬ)
+  # Тесты с Robolectric, требуют симуляции Android, но не полного эмулятора.
+  # ====================================================================
+  integration-tests:
+    name: 2. Integration Tests (Robolectric)
+    needs: unit-tests # Запускается только после успеха unit-tests (Требование 5)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Integration Tests
+        run: ./gradlew :data:test --tests "*IntegrationTest" # Укажите ваш модуль с интеграционными тестами
+
+      - name: Store Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-integration
+          path: '**/build/allure-results'
+          retention-days: 1
+
+  # ====================================================================
+  # ЭТАП 3: E2E-ТЕСТЫ (ИНСТРУМЕНТАЛЬНЫЕ)
+  # Запускаются на полноценном эмуляторе Android. Самый долгий этап.
+  # ====================================================================
+  e2e-tests:
+    name: 3. E2E Tests (Android Emulator)
+    needs: integration-tests # Запускается только после успеха integration-tests
+    runs-on: macos-latest # Требуется для аппаратного ускорения эмулятора
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run E2E Instrumented Tests on Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew app:connectedAndroidTest --tests "com.distributed_messenger.e2e.*"
+
+      - name: Store Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-e2e
+          # Для инструментальных тестов Allure-результаты могут быть в другой папке
+          path: '**/build/reports/allure-results' 
+          retention-days: 1
+
+  # ====================================================================
+  # ЭТАП 4: ГЕНЕРАЦИЯ И ПУБЛИКАЦИЯ ОТЧЕТА
+  # Собирает результаты со всех предыдущих этапов и публикует их.
+  # ====================================================================
+  publish-report:
+    name: 4. Publish Test Report
+    needs: [unit-tests, integration-tests, e2e-tests]
+    if: always() # Запускается всегда, даже если какой-то из этапов упал (Требование 6)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Необходимо для публикации отчета на GitHub Pages
+    steps:
+      - name: Download all Allure results
+        uses: actions/download-artifact@v4
+        with:
+          path: allure-results # Скачиваем все артефакты в одну папку
+      
+      - name: Consolidate results
+        # Артефакты скачиваются в подпапки (allure-results-unit и т.д.).
+        # Перемещаем все файлы результатов в одну общую директорию.
+        run: |
+          mkdir -p allure-results-final
+          find allure-results -type f -name "*.json" -exec mv {} allure-results-final/ \;
+          find allure-results -type f -name "*.txt" -exec mv {} allure-results-final/ \;
+          find allure-results -type f -name "*.attach" -exec mv {} allure-results-final/ \;
+
+      - name: Generate Allure Report with history
+        uses: allure-framework/allure-action@v1
+        with:
+          results_path: allure-results-final
+          report_dir: allure-history # Включаем историю для трендов (Требование 7)
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-history # Публикуем сгенерированный отчет
