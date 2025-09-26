@@ -118,6 +118,11 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.test.core.ktx)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.kotlin.test)
+    androidTestImplementation(testFixtures(project(":core")))
 
     // Debug
     debugImplementation(libs.androidx.ui.tooling)

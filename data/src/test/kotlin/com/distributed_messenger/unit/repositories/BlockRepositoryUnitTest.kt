@@ -1,6 +1,7 @@
 package com.distributed_messenger.unit.repositories
 
 
+import com.distributed_messenger.RepositoryTestBase
 import com.distributed_messenger.data.repositories.BlockRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.TestObjectMother
@@ -9,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.*
 
-class BlockRepositoryTest : RepositoryTestBase() {
+class BlockRepositoryUnitTest : RepositoryTestBase() {
 
     private lateinit var blockRepository: BlockRepository
     private val blocker = TestObjectMother.createUser()

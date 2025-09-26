@@ -1,6 +1,7 @@
 package com.distributed_messenger.unit.repositories
 
 
+import com.distributed_messenger.RepositoryTestBase
 import com.distributed_messenger.data.repositories.ChatRepository
 import com.distributed_messenger.data.repositories.MessageHistoryRepository
 import com.distributed_messenger.data.repositories.MessageRepository
@@ -12,7 +13,7 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.*
 
-class MessageHistoryRepositoryTest : RepositoryTestBase() {
+class MessageHistoryRepositoryUnitTest : RepositoryTestBase() {
 
     private lateinit var messageHistoryRepository: MessageHistoryRepository
     private val testMessage = TestObjectMother.createMessage(

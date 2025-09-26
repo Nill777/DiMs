@@ -1,6 +1,7 @@
 package com.distributed_messenger.unit.repositories
 
 
+import com.distributed_messenger.RepositoryTestBase
 import com.distributed_messenger.data.repositories.ChatRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.TestObjectMother
@@ -10,7 +11,7 @@ import org.junit.Test
 import java.util.*
 import kotlin.test.*
 
-class ChatRepositoryTest : RepositoryTestBase() {
+class ChatRepositoryUnitTest : RepositoryTestBase() {
 
     private lateinit var chatRepository: ChatRepository
     private val testUser1 = TestObjectMother.createUser()

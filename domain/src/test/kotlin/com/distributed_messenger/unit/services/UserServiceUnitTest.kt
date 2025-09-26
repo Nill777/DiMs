@@ -17,7 +17,7 @@ import java.util.UUID
 import kotlin.test.*
 
 @TestMethodOrder(MethodOrderer.Random::class) // запуск тестов в случайном порядке
-class UserServiceTest {
+class UserServiceUnitTest {
 
     @MockK
     private lateinit var mockUserRepository: IUserRepository

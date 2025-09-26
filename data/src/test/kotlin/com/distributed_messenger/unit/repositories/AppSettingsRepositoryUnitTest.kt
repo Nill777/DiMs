@@ -1,6 +1,6 @@
 package com.distributed_messenger.unit.repositories
 
-import com.distributed_messenger.TestObjectMother
+import com.distributed_messenger.RepositoryTestBase
 import com.distributed_messenger.core.AppSettingType
 import com.distributed_messenger.data.repositories.AppSettingsRepository
 import kotlinx.coroutines.test.runTest
@@ -8,7 +8,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.*
 
-class AppSettingsRepositoryTest : RepositoryTestBase() {
+class AppSettingsRepositoryUnitTest : RepositoryTestBase() {
     private lateinit var appSettingsRepository: AppSettingsRepository
 
     @Before

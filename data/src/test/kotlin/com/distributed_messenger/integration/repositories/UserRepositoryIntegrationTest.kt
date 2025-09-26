@@ -1,7 +1,8 @@
-package com.distributed_messenger.unit.repositories
+package com.distributed_messenger.integration.repositories
 
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.TestObjectMother
+import com.distributed_messenger.RepositoryTestBase
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +12,7 @@ import java.util.UUID
 import kotlin.test.*
 
 @TestMethodOrder(MethodOrderer.Random::class) // запуск тестов в случайном порядке
-class UserRepositoryTest : RepositoryTestBase() {
+class UserRepositoryIntegrationTest : RepositoryTestBase() {
 
     private lateinit var userRepository: UserRepository
 

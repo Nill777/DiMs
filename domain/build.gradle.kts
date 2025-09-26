@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)  // Android-библиотека
     alias(libs.plugins.kotlin.android)    // Kotlin для Android (включает JVM-функциональность)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.allure.framework)
 }
 
@@ -37,6 +38,11 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.exportSchema", "true")
+}
+
 dependencies {
     implementation(project(":logger"))
     implementation(project(":core"))
@@ -44,6 +50,11 @@ dependencies {
 
     // Coroutines для suspend-функций
     implementation(libs.kotlinx.coroutines.core)
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // Unit тесты
     testImplementation(libs.junit)
@@ -54,6 +65,10 @@ dependencies {
     testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.assertj.core)
     testImplementation(testFixtures(project(":core")))
+
+    // Robolectric
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
 
     // Allure для JUnit 4
     testImplementation(libs.allure.junit4)

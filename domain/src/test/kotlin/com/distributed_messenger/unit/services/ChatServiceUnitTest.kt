@@ -13,10 +13,13 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.TestMethodOrder
 import java.util.UUID
 import kotlin.test.*
 
-class ChatServiceTest {
+@TestMethodOrder(MethodOrderer.Random::class)
+class ChatServiceUnitTest {
 
     @MockK
     private lateinit var mockChatRepository: IChatRepository
