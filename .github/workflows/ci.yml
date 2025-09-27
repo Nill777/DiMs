@@ -120,7 +120,7 @@ jobs:
   generate-report:
     name: Generate Allure Report
     # Ждем завершения всех тестовых задач
-    needs: [unit-tests, integration-tests, e2e-tests]
+    needs: [unit-tests, integration-tests, android-tests]
     # 'if: always()' — задача запустится и отчет сгенерируется в любом случае
     if: always()
     runs-on: ubuntu-latest
