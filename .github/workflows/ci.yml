@@ -41,7 +41,8 @@ jobs:
 
       # Шаг 4: Запуск юнит-тестов
       - name: Run Unit Tests
-        run: ./gradlew test --tests "*UnitTest" --continue
+        # run: ./gradlew test --tests "*UnitTest" --continue
+        run: ./gradlew testDebugUnitTest --continue
 
       # Шаг 5: Сохранение результатов Allure
       # 'if: always()' этот шаг будет выполнен ВСЕГДА - получим отчет, даже если запуск тестов провалился
@@ -60,7 +61,7 @@ jobs:
     name: Integration Tests
     # 'needs: unit-tests' — зависимость, задача не начнется, пока 'unit-tests' не завершится УСПЕШНО
     needs: unit-tests
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -71,14 +72,33 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Run Integration Tests
-        run: ./gradlew test --tests "*IntegrationTest" --continue
+      # 1. Скачивает и кэширует компоненты Android SDK
+      # 2. Создает и запускает эмулятор с указанным API level
+      # 3. Ждет его полной загрузки
+      # 4. Выполняет команду из 'script'
+      # 5. Гасит эмулятор после завершения
+      - name: Run Integration Tests from Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          # Версия Android для эмулятора
+          api-level: 27
+          # Кастомная Gradle-задачу, которая выполняет тесты и выгружает отчеты
+          script: ./gradlew connectedDebugAndroidTest --continue
       - name: Store Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results-integration
           path: '**/build/allure-results'
+      # - name: Run Integration Tests
+      #   # run: ./gradlew test --tests "*IntegrationTest" --continue
+      #   run: ./gradlew connectedDebugAndroidTest --continue 
+      # - name: Store Allure results
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: allure-results-integration
+      #     path: '**/build/allure-results'
 
 
   android-tests:
