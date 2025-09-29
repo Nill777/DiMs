@@ -87,7 +87,11 @@ jobs:
           # Версия Android для эмулятора
           api-level: 30
           # Явно указываем архитектуру ARM64, чтобы она соответствовала Apple Silicon
-          arch: arm64-v8a
+          # arch: arm64-v8a
+          arch: x86_64
+          # Включаем KVM для аппаратного ускорения на Linux.
+          # Этот экшен автоматически установит все необходимое.
+          enable-kvm: true
           # Кастомная Gradle-задачу, которая выполняет тесты и выгружает отчеты
           script: ./gradlew connectedDebugAndroidTest --continue
       - name: Store Allure results
@@ -136,7 +140,11 @@ jobs:
           # Версия Android для эмулятора
           api-level: 30
           # Явно указываем архитектуру ARM64, чтобы она соответствовала Apple Silicon
-          arch: arm64-v8a
+          # arch: arm64-v8a
+          arch: x86_64
+          # Включаем KVM для аппаратного ускорения на Linux.
+          # Этот экшен автоматически установит все необходимое.
+          enable-kvm: true
           # Кастомная Gradle-задачу, которая выполняет тесты и выгружает отчеты
           script: ./gradlew app:runAndroidTestsWithoutUninstallForGetAllureData
       - name: Store Allure results
