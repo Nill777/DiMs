@@ -1,3 +1,5 @@
+import java.time.Duration
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -264,4 +266,229 @@ tasks.register("runAndroidTestsWithoutUninstallForGetAllureData") {
             println("Warning: No Allure results were found on the device.")
         }
     }
+}
+
+val avdName = "Pixel_2_API_27"
+
+tasks.register<Exec>("startEmulator") {
+    group = "Emulator"
+    description = "Starts the Android emulator"
+
+    // Получаем путь к утилите эмулятора из Android SDK
+    val emulator = android.sdkDirectory.resolve("emulator/emulator")
+    val adb = android.sdkDirectory.resolve("platform-tools/adb")
+
+    doFirst {
+        exec {
+            commandLine(adb.absolutePath, "kill-server")
+            isIgnoreExitValue = true
+        }
+    }
+
+    println("Starting emulator $avdName...")
+
+//    commandLine(
+//        emulator.absolutePath,
+//        "-avd", avdName,
+//        "-no-snapshot-load", // Гарантирует "холодный", чистый запуск
+//        "-no-window",        // Не показывать окно эмулятора
+//        "-no-audio",         // Отключить звук
+//        "-no-boot-anim"      // Отключить анимацию загрузки для ускорения
+//    )
+
+    // Запускаем shell, который, в свою очередь, запускает эмулятор в фоне
+    commandLine(
+        "sh", "-c",
+        // Вся команда передается как одна строка.
+        // `&` в конце — это команда шеллу запустить процесс в фоне.
+        // `>/dev/null 2>&1` перенаправляет весь вывод в "никуда", чтобы он не засорял лог Gradle.
+        "\"${emulator.absolutePath}\" -avd $avdName -no-snapshot-load -no-window -no-audio -no-boot-anim >/dev/null 2>&1 &"
+    )
+}
+
+tasks.register<Exec>("waitForEmulator") {
+    group = "Emulator"
+    description = "Waits until the emulator is fully booted and ready"
+
+    dependsOn(tasks.named("startEmulator"))
+
+    val adb = android.sdkDirectory.resolve("platform-tools/adb")
+
+    // Перезапускаем adb сервер с правами root перед ожиданием
+    doFirst {
+        exec {
+            commandLine(adb.absolutePath, "root")
+            isIgnoreExitValue = true
+            standardOutput = System.out // Показываем вывод для отладки
+        }
+        exec {
+            commandLine(adb.absolutePath, "wait-for-device")
+            timeout.set(Duration.ofMinutes(1))
+        }
+    }
+
+    // Используем 'sh -c' для выполнения цикла ожидания в шелле.
+    // Скрипт опрашивает системное свойство 'sys.boot_completed' раз в 2 секунды
+    // Как только свойство станет '1', цикл завершится.
+    commandLine(
+        "sh", "-c",
+        "while [[ \"$( \"${adb.absolutePath}\" shell getprop sys.boot_completed | tr -d '\\r' )\" != \"1\" ]] ; do echo 'Waiting for emulator...'; sleep 2; done"
+    )
+
+    // Устанавливаем таймаут, чтобы не ждать вечно, если эмулятор не сможет запуститься
+    timeout.set(Duration.ofMinutes(5))
+}
+
+tasks.register<Exec>("stopEmulator") {
+    group = "Emulator"
+    description = "Stops the running emulator"
+
+    // Всегда выполняем, даже если тесты упали
+//    mustRunAfter(tasks.named("runTestsAndPullReport"))
+
+    val adb = android.sdkDirectory.resolve("platform-tools/adb")
+
+    commandLine(adb.absolutePath, "emu", "kill")
+    isIgnoreExitValue = true
+}
+
+//tasks.register("runIntegrationTestsOnEmulator") {
+//    group = "Verification"
+//    description = "Runs ONLY integration tests (com.distributed_messenger.integration) and pulls their results"
+//
+//    dependsOn(tasks.named("waitForEmulator"))
+//    dependsOn("installDebug", "installDebugAndroidTest")
+//
+//    doLast {
+//        val adb = android.sdkDirectory.resolve("platform-tools/adb")
+//        val appId = android.defaultConfig.applicationId
+//        val instrumentationRunner = "${android.defaultConfig.applicationId}.test/${android.defaultConfig.testInstrumentationRunner}"
+//        val outputDir = project.layout.buildDirectory.get().asFile.resolve("allure-results-integration")
+//        val tempTarFile = project.layout.buildDirectory.get().asFile.resolve("tmp/allure-results.tar")
+//
+//        // Запуск ТОЛЬКО интеграционных тестов
+//        println("Running integration tests...")
+//        exec {
+//            commandLine(
+//                adb.absolutePath, "shell", "am", "instrument", "-w",
+////                "-e", "package", "com.distributed_messenger.integration.repositories", // ФИЛЬТР ПО ПАКЕТУ
+//                instrumentationRunner
+//            )
+//            isIgnoreExitValue = true
+//        }
+//
+//        println("Integration tests finished.")
+//
+//        // Выгрузка результатов
+//        println("Pulling Allure results directly to a local .tar file...")
+//        tempTarFile.parentFile.mkdirs() // если tmp ещё не существует
+//
+//        exec {
+//            // Запускаем шелл на КОМПЬЮТЕРЕ и передаем ему всю команду как одну строку
+//            commandLine(
+//                "sh", "-c",
+//                // Вся команда в кавычках, чтобы шелл обработал ее целиком
+//                "\"${adb.absolutePath}\" exec-out run-as $appId " +
+//                        "sh -c 'cd files/allure-results && tar cf - .' > \"${tempTarFile.absolutePath}\""
+//            )
+//            isIgnoreExitValue = true // tar может выдавать безобидные ошибки о правах(со слов нейронки)
+//        }
+//
+//        if (tempTarFile.exists() && tempTarFile.length() > 0) {
+//            println("Extracting results from ${tempTarFile.path}")
+//            outputDir.deleteRecursively()
+//            outputDir.mkdirs()
+//
+//            copy {
+//                from(tarTree(tempTarFile))
+//                into(outputDir)
+//            }
+//            tempTarFile.delete()
+//            println("Allure results successfully pulled and extracted to ${outputDir.path}")
+//        } else {
+//            println("Warning: No Allure results were found on the device.")
+//        }
+//    }
+//}
+
+tasks.register("runE2ETestsOnEmulator") {
+    group = "Verification"
+    description = "Runs ONLY E2E tests (com.distributed_messenger.e2e) and pulls their results"
+
+    dependsOn(tasks.named("waitForEmulator"))
+    dependsOn("installDebug", "installDebugAndroidTest")
+
+    doLast {
+        val adb = android.sdkDirectory.resolve("platform-tools/adb")
+        val appId = android.defaultConfig.applicationId
+        val instrumentationRunner = "${android.defaultConfig.applicationId}.test/${android.defaultConfig.testInstrumentationRunner}"
+        val outputDir = project.layout.buildDirectory.get().asFile.resolve("allure-results-e2e")
+        val tempTarFile = project.layout.buildDirectory.get().asFile.resolve("tmp/allure-results.tar")
+
+        // Запуск ТОЛЬКО E2E тестов
+        println("Running E2E tests...")
+        exec {
+            commandLine(
+                adb.absolutePath, "shell", "am", "instrument", "-w",
+//                "-e", "package", "com.distributed_messenger.e2e", // ФИЛЬТР ПО ПАКЕТУ
+                instrumentationRunner
+            )
+            isIgnoreExitValue = true
+        }
+        println("E2E tests finished.")
+
+        // Выгрузка результатов
+        println("Pulling Allure results directly to a local .tar file...")
+        tempTarFile.parentFile.mkdirs() // если tmp ещё не существует
+
+        exec {
+            // Запускаем шелл на КОМПЬЮТЕРЕ и передаем ему всю команду как одну строку
+            commandLine(
+                "sh", "-c",
+                // Вся команда в кавычках, чтобы шелл обработал ее целиком
+                "\"${adb.absolutePath}\" exec-out run-as $appId " +
+                        "sh -c 'cd files/allure-results && tar cf - .' > \"${tempTarFile.absolutePath}\""
+            )
+            isIgnoreExitValue = true // tar может выдавать безобидные ошибки о правах(со слов нейронки)
+        }
+
+        if (tempTarFile.exists() && tempTarFile.length() > 0) {
+            println("Extracting results from ${tempTarFile.path}")
+            outputDir.deleteRecursively()
+            outputDir.mkdirs()
+
+            copy {
+                from(tarTree(tempTarFile))
+                into(outputDir)
+            }
+            tempTarFile.delete()
+            println("Allure results successfully pulled and extracted to ${outputDir.path}")
+        } else {
+            println("Warning: No Allure results were found on the device.")
+        }
+    }
+}
+
+//tasks.register("runIntegrationTestsWithEmulator") {
+//    group = "Verification"
+//    description = "Starts emulator, runs Integration tests and stops emulator"
+//
+//    // Определяем строгий порядок выполнения
+//    dependsOn(tasks.named("waitForEmulator"))
+//    dependsOn(tasks.named("runIntegrationTestsOnEmulator").get().mustRunAfter(tasks.named("waitForEmulator")))
+//
+//    // В самом конце, независимо от результата, всегда гасим эмулятор
+//    finalizedBy(tasks.named("stopEmulator"))
+//}
+
+tasks.register("runE2ETestsWithEmulator") {
+    group = "Verification"
+    description = "Starts emulator, runs E2E tests and stops emulator"
+
+    // Определяем строгий порядок выполнения
+    dependsOn(tasks.named("waitForEmulator"))
+    dependsOn(tasks.named("runE2ETestsOnEmulator").get().mustRunAfter(tasks.named("waitForEmulator")))
+
+    // В самом конце, независимо от результата, всегда гасим эмулятор
+    finalizedBy(tasks.named("stopEmulator"))
 }
