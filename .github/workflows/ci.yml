@@ -12,54 +12,54 @@ on:
 
 # Секция 'jobs' определяет задачи
 jobs:
-  # unit-tests:
-  #   # Имя задачи, которое будет отображаться в UI
-  #   name: Unit Tests
-      # env:
-      # #Переменная окружения для этой задачи
-      # ANDROID_HOME: /home/andrey/Android/Sdk
-  #   # Тип виртуальной машины, на которой будет выполняться задача
-  #   # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     # Шаг 1: Скачивание кода репозитория на виртуальную машину
-  #     - name: Checkout code
-  #       # 'uses' означает использование готового экшена (action) от сообщества или GitHub
-  #       # 'actions/checkout@v4' — стандартный экшен для скачивания кода
-  #       uses: actions/checkout@v4
+  unit-tests:
+    # Имя задачи, которое будет отображаться в UI
+    name: Unit Tests
+    env:
+    # Переменная окружения для этой задачи
+    ANDROID_HOME: /home/andrey/Android/Sdk
+    # Тип виртуальной машины, на которой будет выполняться задача
+    # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
+    runs-on: ubuntu-latest
+    steps:
+      # Шаг 1: Скачивание кода репозитория на виртуальную машину
+      - name: Checkout code
+        # 'uses' означает использование готового экшена (action) от сообщества или GitHub
+        # 'actions/checkout@v4' — стандартный экшен для скачивания кода
+        uses: actions/checkout@v4
 
-  #     # Шаг 2: Установка Java Development Kit (JDK)
-  #     - name: Set up JDK 17
-  #       uses: actions/setup-java@v4
-  #       # 'with' передает параметры в экшен
-  #       with:
-  #         java-version: '17'
-  #         # 'temurin' — это популярный, свободный дистрибутив OpenJDK
-  #         distribution: 'temurin'
+      # Шаг 2: Установка Java Development Kit (JDK)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        # 'with' передает параметры в экшен
+        with:
+          java-version: '17'
+          # 'temurin' — это популярный, свободный дистрибутив OpenJDK
+          distribution: 'temurin'
 
-  #     # Шаг 3: Выдача прав на исполнение для Gradle Wrapper(по умолчанию не имеют права на запуск)
-  #     - name: Grant execute permission for gradlew
-  #       # 'run' выполняет команду в терминале раннера
-  #       run: chmod +x gradlew
+      # Шаг 3: Выдача прав на исполнение для Gradle Wrapper(по умолчанию не имеют права на запуск)
+      - name: Grant execute permission for gradlew
+        # 'run' выполняет команду в терминале раннера
+        run: chmod +x gradlew
 
-  #     # Шаг 4: Запуск юнит-тестов
-  #     - name: Restore google-services.json 
-  #       run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
-  #     - name: Run Unit Tests
-  #       # run: ./gradlew test --tests "*UnitTest" --continue
-  #       run: ./gradlew testDebugUnitTest --continue
+      # Шаг 4: Запуск юнит-тестов
+      - name: Restore google-services.json 
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
+      - name: Run Unit Tests
+        # run: ./gradlew test --tests "*UnitTest" --continue
+        run: ./gradlew testDebugUnitTest -PunitTests --continue
 
-  #     # Шаг 5: Сохранение результатов Allure
-  #     # 'if: always()' этот шаг будет выполнен ВСЕГДА - получим отчет, даже если запуск тестов провалился
-  #     - name: Store Allure results
-  #       if: always()
-  #       # 'actions/upload-artifact@v4' — экшен для сохранения артефактов для использования в других задачах
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         # 'name' — уникальное имя для нашего архива с результатами
-  #         name: allure-results-unit
-  #         # 'path' — путь к файлам, которые нужно сохранить, '**/build/allure-results' найдет папку  в любом модуле проекта
-  #         path: '**/build/allure-results'
+      # Шаг 5: Сохранение результатов Allure
+      # 'if: always()' этот шаг будет выполнен ВСЕГДА - получим отчет, даже если запуск тестов провалился
+      - name: Store Allure results
+        if: always()
+        # 'actions/upload-artifact@v4' — экшен для сохранения артефактов для использования в других задачах
+        uses: actions/upload-artifact@v4
+        with:
+          # 'name' — уникальное имя для нашего архива с результатами
+          name: allure-results-unit
+          # 'path' — путь к файлам, которые нужно сохранить, '**/build/allure-results' найдет папку  в любом модуле проекта
+          path: '**/build/allure-results'
 
 
   integration-tests:
@@ -80,32 +80,8 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      # 1. Скачивает и кэширует компоненты Android SDK
-      # 2. Создает и запускает эмулятор с указанным API level
-      # 3. Ждет его полной загрузки
-      # 4. Выполняет команду из 'script'
-      # 5. Гасит эмулятор после завершения
       - name: Restore google-services.json 
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
-      # - name: Run Integration Tests from Emulator
-      #   uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     # Версия Android для эмулятора
-      #     api-level: 29
-      #     arch: arm64-v8a
-      #     # -no-snapshot: Чистый запуск каждый раз
-      #     # -no-window: Без графического интерфейса
-      #     # -no-boot-anim: Отключить анимацию для ускорения загрузки
-      #     # -accel off: КЛЮЧЕВОЙ ФЛАГ! Отключает аппаратное ускорение, решая проблему с HVF.
-      #     emulator-options: "-no-snapshot -no-window -no-boot-anim -accel off"
-      #     # Кастомная Gradle-задачу, которая выполняет тесты и выгружает отчеты
-      #     script: ./gradlew connectedDebugAndroidTest --continue
-      # - name: Store Allure results
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: allure-results-integration
-      #     path: '**/build/allure-results'
       - name: Run Integration Tests
         # run: ./gradlew test --tests "*IntegrationTest" --continue
         # run: ./gradlew connectedDebugAndroidTest --continue 
@@ -123,9 +99,6 @@ jobs:
     needs: integration-tests
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
-    # 'macos-latest' — тк раннеры macOS предоставляют аппаратное ускорение (VT-x),
-    # необходимое для быстрой работы эмулятора Android. На Linux-раннерах это часто не работает.
-    # runs-on: macos-latest
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -137,34 +110,9 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      # 1. Скачивает и кэширует компоненты Android SDK
-      # 2. Создает и запускает эмулятор с указанным API level
-      # 3. Ждет его полной загрузки
-      # 4. Выполняет команду из 'script'
-      # 5. Гасит эмулятор после завершения
       - name: Restore google-services.json 
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
-      # - name: Run E2E Tests and Pull Report from Emulator
-      #   uses: reactivecircus/android-emulator-runner@v2
-      #   with:
-      #     # Версия Android для эмулятора
-      #     api-level: 29
-      #     arch: arm64-v8a
-      #     # -no-snapshot: Чистый запуск каждый раз
-      #     # -no-window: Без графического интерфейса
-      #     # -no-boot-anim: Отключить анимацию для ускорения загрузки
-      #     # -accel off: КЛЮЧЕВОЙ ФЛАГ! Отключает аппаратное ускорение, решая проблему с HVF.
-      #     emulator-options: "-no-snapshot -no-window -no-boot-anim -accel off"
-      #     # Кастомная Gradle-задачу, которая выполняет тесты и выгружает отчеты
-      #     script: ./gradlew app:runAndroidTestsWithoutUninstallForGetAllureData
-      # - name: Store Allure results
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: allure-results-e2e
-      #     path: '**/build/allure-results'
-      # Запускаем нашу главную Gradle-задачу, которая делает ВСЁ:
-      # поднимает эмулятор, ждет, прогоняет E2E-тесты, выгружает отчет и гасит эмулятор.
+      # Запускаем нашу главную Gradle-задачу, которая делает ВСЁ
       - name: Run E2E Tests and Pull Report from Emulator
         run: ./gradlew app:runE2ETestsWithEmulator
 
@@ -177,66 +125,66 @@ jobs:
           path: 'app/build/allure-results-e2e'
 
 
-  # generate-report:
-  #   name: Generate Allure Report
-  #   # Ждем завершения всех тестовых задач
-  #   needs: [unit-tests, integration-tests, android-tests]
-  #   # 'if: always()' — задача запустится и отчет сгенерируется в любом случае
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   # 'permissions' — запрашиваем у GitHub права на запись в репозиторий.
-  #   # Чтобы экшен 'actions-gh-pages' мог отправить отчет в ветку 'gh-pages'
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     # Шаг 1: Скачивает все артефакты этого воркфлоу
-  #     - name: Download all Allure results
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         # Они будут скачаны в подпапки: allure-results/allure-results-unit, .../allure-results-integration, и т.д.
-  #         path: allure-results
+  generate-report:
+    name: Generate Allure Report
+    # Ждем завершения всех тестовых задач
+    needs: [unit-tests, integration-tests, android-tests]
+    # 'if: always()' — задача запустится и отчет сгенерируется в любом случае
+    if: always()
+    runs-on: ubuntu-latest
+    # 'permissions' — запрашиваем у GitHub права на запись в репозиторий.
+    # Чтобы экшен 'actions-gh-pages' мог отправить отчет в ветку 'gh-pages'
+    permissions:
+      contents: write
+    steps:
+      # Шаг 1: Скачивает все артефакты этого воркфлоу
+      - name: Download all Allure results
+        uses: actions/download-artifact@v4
+        with:
+          # Они будут скачаны в подпапки: allure-results/allure-results-unit, .../allure-results-integration, и т.д.
+          path: allure-results
 
-  #     # Шаг 2: Объединяем все результаты в одну папку
-  #     # Экшен Allure ожидает, что все .json файлы будут лежать в одной директории
-  #     - name: Consolidate results
-  #       run: |
-  #         mkdir -p allure-results-final
-  #         find allure-results -type f -exec mv {} allure-results-final/ \;
+      # Шаг 2: Объединяем все результаты в одну папку
+      # Экшен Allure ожидает, что все .json файлы будут лежать в одной директории
+      - name: Consolidate results
+        run: |
+          mkdir -p allure-results-final
+          find allure-results -type f -exec mv {} allure-results-final/ \;
 
-  #     # Шаг 3: Скачиваем предыдущий отчет (историю) из ветки gh-pages
-  #     - name: Load test report history
-  #       uses: actions/checkout@v4
-  #       # 'if: always()' и 'continue-on-error: true' гарантируют, что воркфлоу не упадет,
-  #       # если ветка gh-pages еще не существует
-  #       if: always()
-  #       continue-on-error: true
-  #       with:
-  #         # Указываем, что нужно скачать содержимое ветки 'gh-pages'
-  #         ref: gh-pages
-  #         # Скачиваем ее в отдельную папку, чтобы не смешивать с основным кодом
-  #         path: gh-pages
+      # Шаг 3: Скачиваем предыдущий отчет (историю) из ветки gh-pages
+      - name: Load test report history
+        uses: actions/checkout@v4
+        # 'if: always()' и 'continue-on-error: true' гарантируют, что воркфлоу не упадет,
+        # если ветка gh-pages еще не существует
+        if: always()
+        continue-on-error: true
+        with:
+          # Указываем, что нужно скачать содержимое ветки 'gh-pages'
+          ref: gh-pages
+          # Скачиваем ее в отдельную папку, чтобы не смешивать с основным кодом
+          path: gh-pages
           
-  #     # Шаг 4: Генерация HTML-отчета Allure
-  #     - name: Generate Allure Report
-  #       uses: simple-elf/allure-report-action@v1.7
-  #       if: always()
-  #       with:
-  #         # Путь, где лежат .json файлы с результатами текущего запуска
-  #         allure_results: allure-results-final
-  #         # Путь, где лежит история из предыдущих запусков
-  #         allure_history: allure-history
-  #         # Указываем, где лежит папка с предыдущим отчетом
-  #         gh_pages: gh-pages
+      # Шаг 4: Генерация HTML-отчета Allure
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@v1.7
+        if: always()
+        with:
+          # Путь, где лежат .json файлы с результатами текущего запуска
+          allure_results: allure-results-final
+          # Путь, где лежит история из предыдущих запусков
+          allure_history: allure-history
+          # Указываем, где лежит папка с предыдущим отчетом
+          gh_pages: gh-pages
 
-  #     # Шаг 5: Публикация сгенерированного отчета в ветку gh-pages
-  #     - name: Publish test report
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       if: always()
-  #       with:
-  #         # ${{ secrets.GITHUB_TOKEN }} — это специальный, временный токен, который GitHub
-  #         # автоматически предоставляет для авторизации действий внутри репозитория
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         # Явно указываем, что публиковать нужно в ветку 'gh-pages'.
-  #         publish_branch: gh-pages
-  #         # Папка куда нужно опубликовать
-  #         publish_dir: allure-history
+      # Шаг 5: Публикация сгенерированного отчета в ветку gh-pages
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          # ${{ secrets.GITHUB_TOKEN }} — это специальный, временный токен, который GitHub
+          # автоматически предоставляет для авторизации действий внутри репозитория
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Явно указываем, что публиковать нужно в ветку 'gh-pages'.
+          publish_branch: gh-pages
+          # Папка куда нужно опубликовать
+          publish_dir: allure-history
