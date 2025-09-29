@@ -41,7 +41,7 @@ jobs:
 
       # Шаг 4: Запуск юнит-тестов
       - name: Restore google-services.json 
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" > app/google-services.json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
       - name: Run Unit Tests
         # run: ./gradlew test --tests "*UnitTest" --continue
         run: ./gradlew testDebugUnitTest --continue
@@ -80,7 +80,7 @@ jobs:
       # 4. Выполняет команду из 'script'
       # 5. Гасит эмулятор после завершения
       - name: Restore google-services.json 
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" > app/google-services.json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
       - name: Run Integration Tests from Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -127,7 +127,7 @@ jobs:
       # 4. Выполняет команду из 'script'
       # 5. Гасит эмулятор после завершения
       - name: Restore google-services.json 
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" > app/google-services.json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
       - name: Run E2E Tests and Pull Report from Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
