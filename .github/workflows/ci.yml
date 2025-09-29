@@ -15,6 +15,9 @@ jobs:
   # unit-tests:
   #   # Имя задачи, которое будет отображаться в UI
   #   name: Unit Tests
+      # env:
+      # #Переменная окружения для этой задачи
+      # ANDROID_HOME: /home/andrey/Android/Sdk
   #   # Тип виртуальной машины, на которой будет выполняться задача
   #   # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
   #   runs-on: ubuntu-latest
@@ -63,6 +66,8 @@ jobs:
     name: Integration Tests
     # 'needs: unit-tests' — зависимость, задача не начнется, пока 'unit-tests' не завершится УСПЕШНО
     # needs: unit-tests
+    env:
+      ANDROID_HOME: /home/andrey/Android/Sdk
     # runs-on: macos-latest
     runs-on: self-hosted
     steps:
@@ -115,6 +120,8 @@ jobs:
   android-tests:
     name: E2E Tests
     needs: integration-tests
+    env:
+      ANDROID_HOME: /home/andrey/Android/Sdk
     # 'macos-latest' — тк раннеры macOS предоставляют аппаратное ускорение (VT-x),
     # необходимое для быстрой работы эмулятора Android. На Linux-раннерах это часто не работает.
     # runs-on: macos-latest
