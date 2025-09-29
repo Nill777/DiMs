@@ -69,6 +69,22 @@ android {
             }
         }
     }
+    // Этот блок применяет конфигурацию ко всем подмодулям проекта
+    subprojects {
+        // Находим все задачи типа Test (например, testDebugUnitTest)
+        tasks.withType<Test>().configureEach {
+            if (project.hasProperty("unitTests")) {
+                filter {
+                    includeTestsMatching("*UnitTest")
+                }
+            }
+            if (project.hasProperty("integrationTests")) {
+                filter {
+                    includeTestsMatching("*IntegrationTest")
+                }
+            }
+        }
+    }
 }
 
 ksp {

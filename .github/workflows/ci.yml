@@ -108,7 +108,8 @@ jobs:
       #     path: '**/build/allure-results'
       - name: Run Integration Tests
         # run: ./gradlew test --tests "*IntegrationTest" --continue
-        run: ./gradlew connectedDebugAndroidTest --continue 
+        # run: ./gradlew connectedDebugAndroidTest --continue 
+        run: ./gradlew testDebugUnitTest -PintegrationTests --continue
       - name: Store Allure results
         if: always()
         uses: actions/upload-artifact@v4
