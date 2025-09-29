@@ -15,9 +15,9 @@ jobs:
   unit-tests:
     # Имя задачи, которое будет отображаться в UI
     name: Unit Tests
-    env:
     # Переменная окружения для этой задачи
-    ANDROID_HOME: /home/andrey/Android/Sdk
+    env:
+      ANDROID_HOME: /home/andrey/Android/Sdk
     # Тип виртуальной машины, на которой будет выполняться задача
     # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
     runs-on: ubuntu-latest
