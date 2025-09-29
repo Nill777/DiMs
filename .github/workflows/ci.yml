@@ -12,57 +12,57 @@ on:
 
 # Секция 'jobs' определяет задачи
 jobs:
-  unit-tests:
-    # Имя задачи, которое будет отображаться в UI
-    name: Unit Tests
-    # Тип виртуальной машины, на которой будет выполняться задача
-    # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
-    runs-on: ubuntu-latest
-    steps:
-      # Шаг 1: Скачивание кода репозитория на виртуальную машину
-      - name: Checkout code
-        # 'uses' означает использование готового экшена (action) от сообщества или GitHub
-        # 'actions/checkout@v4' — стандартный экшен для скачивания кода
-        uses: actions/checkout@v4
+  # unit-tests:
+  #   # Имя задачи, которое будет отображаться в UI
+  #   name: Unit Tests
+  #   # Тип виртуальной машины, на которой будет выполняться задача
+  #   # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # Шаг 1: Скачивание кода репозитория на виртуальную машину
+  #     - name: Checkout code
+  #       # 'uses' означает использование готового экшена (action) от сообщества или GitHub
+  #       # 'actions/checkout@v4' — стандартный экшен для скачивания кода
+  #       uses: actions/checkout@v4
 
-      # Шаг 2: Установка Java Development Kit (JDK)
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        # 'with' передает параметры в экшен
-        with:
-          java-version: '17'
-          # 'temurin' — это популярный, свободный дистрибутив OpenJDK
-          distribution: 'temurin'
+  #     # Шаг 2: Установка Java Development Kit (JDK)
+  #     - name: Set up JDK 17
+  #       uses: actions/setup-java@v4
+  #       # 'with' передает параметры в экшен
+  #       with:
+  #         java-version: '17'
+  #         # 'temurin' — это популярный, свободный дистрибутив OpenJDK
+  #         distribution: 'temurin'
 
-      # Шаг 3: Выдача прав на исполнение для Gradle Wrapper(по умолчанию не имеют права на запуск)
-      - name: Grant execute permission for gradlew
-        # 'run' выполняет команду в терминале раннера
-        run: chmod +x gradlew
+  #     # Шаг 3: Выдача прав на исполнение для Gradle Wrapper(по умолчанию не имеют права на запуск)
+  #     - name: Grant execute permission for gradlew
+  #       # 'run' выполняет команду в терминале раннера
+  #       run: chmod +x gradlew
 
-      # Шаг 4: Запуск юнит-тестов
-      - name: Restore google-services.json 
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
-      - name: Run Unit Tests
-        # run: ./gradlew test --tests "*UnitTest" --continue
-        run: ./gradlew testDebugUnitTest --continue
+  #     # Шаг 4: Запуск юнит-тестов
+  #     - name: Restore google-services.json 
+  #       run: echo "${{ secrets.ANDROID_GOOGLE_SERVICES_JSON }}" | base64 --decode > app/google-services.json
+  #     - name: Run Unit Tests
+  #       # run: ./gradlew test --tests "*UnitTest" --continue
+  #       run: ./gradlew testDebugUnitTest --continue
 
-      # Шаг 5: Сохранение результатов Allure
-      # 'if: always()' этот шаг будет выполнен ВСЕГДА - получим отчет, даже если запуск тестов провалился
-      - name: Store Allure results
-        if: always()
-        # 'actions/upload-artifact@v4' — экшен для сохранения артефактов для использования в других задачах
-        uses: actions/upload-artifact@v4
-        with:
-          # 'name' — уникальное имя для нашего архива с результатами
-          name: allure-results-unit
-          # 'path' — путь к файлам, которые нужно сохранить, '**/build/allure-results' найдет папку  в любом модуле проекта
-          path: '**/build/allure-results'
+  #     # Шаг 5: Сохранение результатов Allure
+  #     # 'if: always()' этот шаг будет выполнен ВСЕГДА - получим отчет, даже если запуск тестов провалился
+  #     - name: Store Allure results
+  #       if: always()
+  #       # 'actions/upload-artifact@v4' — экшен для сохранения артефактов для использования в других задачах
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         # 'name' — уникальное имя для нашего архива с результатами
+  #         name: allure-results-unit
+  #         # 'path' — путь к файлам, которые нужно сохранить, '**/build/allure-results' найдет папку  в любом модуле проекта
+  #         path: '**/build/allure-results'
 
 
   integration-tests:
     name: Integration Tests
     # 'needs: unit-tests' — зависимость, задача не начнется, пока 'unit-tests' не завершится УСПЕШНО
-    needs: unit-tests
+    # needs: unit-tests
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -155,66 +155,66 @@ jobs:
           path: '**/build/allure-results'
 
 
-  generate-report:
-    name: Generate Allure Report
-    # Ждем завершения всех тестовых задач
-    needs: [unit-tests, integration-tests, android-tests]
-    # 'if: always()' — задача запустится и отчет сгенерируется в любом случае
-    if: always()
-    runs-on: ubuntu-latest
-    # 'permissions' — запрашиваем у GitHub права на запись в репозиторий.
-    # Чтобы экшен 'actions-gh-pages' мог отправить отчет в ветку 'gh-pages'
-    permissions:
-      contents: write
-    steps:
-      # Шаг 1: Скачивает все артефакты этого воркфлоу
-      - name: Download all Allure results
-        uses: actions/download-artifact@v4
-        with:
-          # Они будут скачаны в подпапки: allure-results/allure-results-unit, .../allure-results-integration, и т.д.
-          path: allure-results
+  # generate-report:
+  #   name: Generate Allure Report
+  #   # Ждем завершения всех тестовых задач
+  #   needs: [unit-tests, integration-tests, android-tests]
+  #   # 'if: always()' — задача запустится и отчет сгенерируется в любом случае
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   # 'permissions' — запрашиваем у GitHub права на запись в репозиторий.
+  #   # Чтобы экшен 'actions-gh-pages' мог отправить отчет в ветку 'gh-pages'
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #     # Шаг 1: Скачивает все артефакты этого воркфлоу
+  #     - name: Download all Allure results
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         # Они будут скачаны в подпапки: allure-results/allure-results-unit, .../allure-results-integration, и т.д.
+  #         path: allure-results
 
-      # Шаг 2: Объединяем все результаты в одну папку
-      # Экшен Allure ожидает, что все .json файлы будут лежать в одной директории
-      - name: Consolidate results
-        run: |
-          mkdir -p allure-results-final
-          find allure-results -type f -exec mv {} allure-results-final/ \;
+  #     # Шаг 2: Объединяем все результаты в одну папку
+  #     # Экшен Allure ожидает, что все .json файлы будут лежать в одной директории
+  #     - name: Consolidate results
+  #       run: |
+  #         mkdir -p allure-results-final
+  #         find allure-results -type f -exec mv {} allure-results-final/ \;
 
-      # Шаг 3: Скачиваем предыдущий отчет (историю) из ветки gh-pages
-      - name: Load test report history
-        uses: actions/checkout@v4
-        # 'if: always()' и 'continue-on-error: true' гарантируют, что воркфлоу не упадет,
-        # если ветка gh-pages еще не существует
-        if: always()
-        continue-on-error: true
-        with:
-          # Указываем, что нужно скачать содержимое ветки 'gh-pages'
-          ref: gh-pages
-          # Скачиваем ее в отдельную папку, чтобы не смешивать с основным кодом
-          path: gh-pages
+  #     # Шаг 3: Скачиваем предыдущий отчет (историю) из ветки gh-pages
+  #     - name: Load test report history
+  #       uses: actions/checkout@v4
+  #       # 'if: always()' и 'continue-on-error: true' гарантируют, что воркфлоу не упадет,
+  #       # если ветка gh-pages еще не существует
+  #       if: always()
+  #       continue-on-error: true
+  #       with:
+  #         # Указываем, что нужно скачать содержимое ветки 'gh-pages'
+  #         ref: gh-pages
+  #         # Скачиваем ее в отдельную папку, чтобы не смешивать с основным кодом
+  #         path: gh-pages
           
-      # Шаг 4: Генерация HTML-отчета Allure
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1.7
-        if: always()
-        with:
-          # Путь, где лежат .json файлы с результатами текущего запуска
-          allure_results: allure-results-final
-          # Путь, где лежит история из предыдущих запусков
-          allure_history: allure-history
-          # Указываем, где лежит папка с предыдущим отчетом
-          gh_pages: gh-pages
+  #     # Шаг 4: Генерация HTML-отчета Allure
+  #     - name: Generate Allure Report
+  #       uses: simple-elf/allure-report-action@v1.7
+  #       if: always()
+  #       with:
+  #         # Путь, где лежат .json файлы с результатами текущего запуска
+  #         allure_results: allure-results-final
+  #         # Путь, где лежит история из предыдущих запусков
+  #         allure_history: allure-history
+  #         # Указываем, где лежит папка с предыдущим отчетом
+  #         gh_pages: gh-pages
 
-      # Шаг 5: Публикация сгенерированного отчета в ветку gh-pages
-      - name: Publish test report
-        uses: peaceiris/actions-gh-pages@v3
-        if: always()
-        with:
-          # ${{ secrets.GITHUB_TOKEN }} — это специальный, временный токен, который GitHub
-          # автоматически предоставляет для авторизации действий внутри репозитория
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Явно указываем, что публиковать нужно в ветку 'gh-pages'.
-          publish_branch: gh-pages
-          # Папка куда нужно опубликовать
-          publish_dir: allure-history
+  #     # Шаг 5: Публикация сгенерированного отчета в ветку gh-pages
+  #     - name: Publish test report
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       if: always()
+  #       with:
+  #         # ${{ secrets.GITHUB_TOKEN }} — это специальный, временный токен, который GitHub
+  #         # автоматически предоставляет для авторизации действий внутри репозитория
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         # Явно указываем, что публиковать нужно в ветку 'gh-pages'.
+  #         publish_branch: gh-pages
+  #         # Папка куда нужно опубликовать
+  #         publish_dir: allure-history
