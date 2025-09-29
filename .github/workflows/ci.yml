@@ -65,7 +65,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     # 'needs: unit-tests' — зависимость, задача не начнется, пока 'unit-tests' не завершится УСПЕШНО
-    # needs: unit-tests
+    needs: unit-tests
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
     # runs-on: macos-latest
