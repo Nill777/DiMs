@@ -54,6 +54,9 @@ class UserRepository(private val userDao: UserDao) : IUserRepository {
         return UserEntity(
             userId = id,
             username = username,
+            passwordHash = passwordHash,
+            failedLoginAttempts = failedLoginAttempts,
+            lockedUntil = lockedUntil,
             role = role,
             blockedUsersId = blockedUsersId,
             profileSettingsId = profileSettingsId,
@@ -65,6 +68,9 @@ class UserRepository(private val userDao: UserDao) : IUserRepository {
         return User(
             id = userId,
             username = username,
+            passwordHash = passwordHash,
+            failedLoginAttempts = failedLoginAttempts,
+            lockedUntil = lockedUntil,
             role = role,
             blockedUsersId = blockedUsersId,
             profileSettingsId = profileSettingsId,

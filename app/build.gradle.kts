@@ -1,4 +1,5 @@
 import java.time.Duration
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,6 +11,12 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.allure.framework)
 
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -31,6 +38,36 @@ android {
                     "room.schemaLocation" to "$projectDir/schemas",
                     "room.exportSchema" to "true"
                 )
+            }
+        }
+
+        externalNativeBuild {
+            cmake {
+                // передаем КЛЮЧ для расшифровки "перца" в C++ код во время сборки
+                // 1. Берем из переменных окружения (для CI/CD)
+                // 2. Или из local.properties (для локальной разработки)
+                val aesKey = System.getenv("AES_KEY") ?: localProperties.getProperty("AES_KEY") // 32 байта
+                val aesIv = System.getenv("AES_IV") ?: localProperties.getProperty("AES_IV")    // 16 байт
+                // Fail Fast
+                if (aesKey.isNullOrBlank() || aesIv.isNullOrBlank()) {
+                    throw GradleException("""
+                        
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        !!! CRITICAL: AES_KEY or AES_IV not found.
+                        !!!
+                        !!! To fix this for local builds, add the following to your
+                        !!! root project's 'local.properties' file (and ensure it's in .gitignore):
+                        !!!
+                        !!! AES_KEY=your_32_byte_aes_key
+                        !!! AES_IV=your_16_byte_iv
+                        !!!
+                        !!! For CI/CD builds, ensure these are set as environment variables.
+                        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    """.trimIndent())
+                }
+                arguments.add("-DAES_KEY=$aesKey")
+                arguments.add("-DAES_IV=$aesIv")
+                println("Arguments $arguments")
             }
         }
     }
@@ -58,6 +95,7 @@ android {
 
     packaging {
         resources.pickFirsts.add("META-INF/DEPENDENCIES")
+        resources.pickFirsts.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
     }
 
     // Для тестов с корутинами
@@ -83,6 +121,13 @@ android {
                     includeTestsMatching("*IntegrationTest")
                 }
             }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1" // версия CMake из SDK Manager
         }
     }
 }
@@ -507,4 +552,10 @@ tasks.register("runE2ETestsWithEmulator") {
 
     // В самом конце, независимо от результата, всегда гасим эмулятор
     finalizedBy(tasks.named("stopEmulator"))
+}
+
+tasks.register("runEncryptPepperScript") {
+    exec {
+        commandLine = listOf("kotlin", "encrypt_pepper.kts")
+    }
 }

@@ -72,4 +72,7 @@ dependencies {
 
     // Allure для JUnit 4
     testImplementation(libs.allure.junit4)
+
+    // Hash
+    implementation(libs.bcprov.jdk18on)
 }

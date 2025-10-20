@@ -6,32 +6,32 @@ import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.logger.LogLevel
 import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.domain.iservices.IUserService
+import com.distributed_messenger.domain.models.LoginResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.UUID
 
 class AuthViewModel(private val userService: IUserService) : ViewModel() {
     // Состояния UI
     private val _authState = MutableStateFlow<AuthState>(AuthState.Idle)
     val authState: StateFlow<AuthState> = _authState
-    // Хранение текущего пользователя
-//    private lateinit var currentUserId: UUID
 
     // Возвращаем Job, чтобы вызывающий код мог дождаться завершения
-    fun register(username: String, role: UserRole): Job {
+    fun register(username: String, password: String, role: UserRole): Job {
         Logger.log("AuthViewModel", "Attempting registration for: $username ($role)")
-        if (username.isBlank()) {
-            Logger.log("AuthViewModel", "Empty username in registration", LogLevel.WARN)
-            _authState.value = AuthState.Error("Username cannot be empty")
+        if (username.isBlank() || password.isBlank()) {
+            Logger.log("AuthViewModel", "Empty username or password in registration", LogLevel.WARN)
+            _authState.value = AuthState.Error("Username and password cannot be empty")
             return Job().apply { complete() }
         }
 
         return viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
-                val userId = userService.register(username, role)
+                val userId = userService.register(username, role, password)
                 SessionManager.login(userId, username, role)
                 _authState.value = AuthState.RegistrationSuccess(userId)
                 Logger.log("AuthViewModel", "Registration successful. User ID: $userId")
@@ -42,25 +42,35 @@ class AuthViewModel(private val userService: IUserService) : ViewModel() {
         }
     }
 
-    fun login(username: String): Job {
+    fun login(username: String, password: String): Job {
         Logger.log("AuthViewModel", "Attempting login for: $username")
-        if (username.isBlank()) {
-            Logger.log("AuthViewModel", "Empty username in login", LogLevel.WARN)
-            _authState.value = AuthState.Error("Username cannot be empty")
+        if (username.isBlank() || password.isBlank()) {
+            Logger.log("AuthViewModel", "Empty username or password in login", LogLevel.WARN)
+            _authState.value = AuthState.Error("Username and password cannot be empty")
             return Job().apply { complete() }
         }
 
         return viewModelScope.launch {
             _authState.value = AuthState.Loading
             try {
-                val userId = userService.login(username)
-                userId?.let {
-                    SessionManager.login(it, username, userService.getUser(it)?.role ?: UserRole.UNAUTHORIZED_USER)
-                    _authState.value = AuthState.LoginSuccess(it)
-                    Logger.log("AuthViewModel", "Login successful. User ID: $it")
-                } ?: run {
-                    Logger.log("AuthViewModel", "User not found: $username", LogLevel.WARN)
-                    _authState.value = AuthState.Error("User not found")
+                val result = userService.login(username, password)
+                when (result) {
+                    is LoginResult.Success -> {
+                        val userId = result.userId
+                        SessionManager.login(userId, username, userService.getUser(userId)?.role ?: UserRole.UNAUTHORIZED_USER)
+                        _authState.value = AuthState.LoginSuccess(userId)
+                        Logger.log("AuthViewModel", "Login successful. User ID: ${userId}")
+                    }
+                    is LoginResult.UserNotFound -> {
+                        _authState.value = AuthState.Error("User not found")
+                    }
+                    is LoginResult.WrongPassword -> {
+                        _authState.value = AuthState.Error("Invalid password. Attempts remaining: ${result.remainingAttempts}")
+                    }
+                    is LoginResult.AccountLocked -> {
+                        // Передаем в UI время окончания блокировки
+                        _authState.value = AuthState.Locked(result.lockedUntil)
+                    }
                 }
             } catch (e: Exception) {
                 Logger.log("AuthViewModel", "Login error: ${e.message}", LogLevel.ERROR, e)
@@ -99,6 +109,9 @@ class AuthViewModel(private val userService: IUserService) : ViewModel() {
         object Loading : AuthState()
         data class RegistrationSuccess(val userId: UUID) : AuthState()  // класс для хранения данных
         data class LoginSuccess(val userId: UUID) : AuthState()
+        // Общая ошибка для простых сообщений
         data class Error(val message: String) : AuthState()
+        // Специальное состояние для заблокированного аккаунта
+        data class Locked(val lockedUntil: Instant) : AuthState()
     }
 }

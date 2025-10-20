@@ -41,6 +41,7 @@ allure-kotlin = "2.4.0"
 allureFramework = "2.11.2"
 assertj = "3.22.0"
 robolectric = "4.11.1"
+bcprov = "1.78.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -114,6 +115,9 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 # Crypto
 sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "sqlcipher" }
 androidx-sqlite = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "androidx-sqlite" }
+
+# Hash
+bcprov-jdk18on = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bcprov"}
 
 # QRCode
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }

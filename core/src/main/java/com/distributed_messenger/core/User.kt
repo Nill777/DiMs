@@ -1,5 +1,6 @@
 package com.distributed_messenger.core
 
+import java.time.Instant
 import java.util.UUID
 
 enum class UserRole {
@@ -12,8 +13,11 @@ enum class UserRole {
 data class User(
     val id: UUID,
     val username: String,
+    val passwordHash: String,
+    val failedLoginAttempts: Int = 0,
+    val lockedUntil: Instant? = null,
     val role: UserRole,
-    val blockedUsersId: UUID?,
+    val blockedUsersId: UUID? = null,
     val profileSettingsId: UUID,
     val appSettingsId: UUID
 )

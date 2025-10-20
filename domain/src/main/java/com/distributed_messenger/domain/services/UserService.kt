@@ -7,44 +7,104 @@ import com.distributed_messenger.logger.Logger
 import com.distributed_messenger.logger.LoggingWrapper
 import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.data.irepositories.IUserRepository
+import com.distributed_messenger.domain.models.LoginResult
+import com.distributed_messenger.domain.util.PasswordHasher
+import com.distributed_messenger.logger.LogLevel
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-class UserService(private val userRepository: IUserRepository) : IUserService {
+class UserService(private val userRepository: IUserRepository,
+                  private val pepper: String
+) : IUserService {
+    companion object {
+        const val MAX_LOGIN_ATTEMPTS = 3
+        const val LOCKOUT_DURATION_MINUTES = 30L
+    }
     // Создаём LoggingWrapper для текущего сервиса
     private val loggingWrapper = LoggingWrapper(
         origin = this,
         logger = Logger,
         tag = "UserService"
     )
+    private val tag = "UserService"
 
-    override suspend fun register(username: String, role: UserRole): UUID =
-        loggingWrapper {
-            val user = User(
-                id = UUID.randomUUID(),
-                username = username,
-                role = role,
-                blockedUsersId = null,
-                profileSettingsId = UUID.randomUUID(),
-                appSettingsId = UUID.randomUUID()
+    override suspend fun register(username: String, role: UserRole, password: String): UUID {
+        Logger.log(tag, "Attempting to register user '$username'.")
+        if (userRepository.findByUsername(username) != null) {
+            Logger.log(tag, "Registration failed: username '$username' is already taken.", LogLevel.WARN)
+            throw IllegalArgumentException("Username '$username' is already taken.")
+        }
+        val user = User(
+            id = UUID.randomUUID(),
+            username = username,
+            passwordHash = PasswordHasher.hashPassword(password, pepper),
+            role = role,
+            profileSettingsId = UUID.randomUUID(),
+            appSettingsId = UUID.randomUUID()
+        )
+        return userRepository.addUser(user)
+    }
+
+    override suspend fun login(username: String, password: String): LoginResult {
+        Logger.log(tag, "Login attempt for user '$username'")
+        val user = userRepository.findByUsername(username)
+            ?: return LoginResult.UserNotFound
+        val now = Instant.now()
+        val lockedUntil = user.lockedUntil
+
+        // Проверка временной блокировки
+        if (lockedUntil != null && lockedUntil.isAfter(now)) {
+            Logger.log(tag, "Login failed: user '$username' is locked until $lockedUntil", LogLevel.WARN)
+            return LoginResult.AccountLocked(lockedUntil)
+        }
+
+        // Блокировка истекла, пользователь пытается войти, сбрасываем счетчик
+        val userToProcess = if (lockedUntil != null && lockedUntil.isBefore(now)) {
+            Logger.log(tag, "User '$username' lockout period has expired. Resetting attempts.")
+            user.copy(failedLoginAttempts = 0, lockedUntil = null)
+        } else {
+            user
+        }
+
+        if (PasswordHasher.verifyPassword(password, userToProcess.passwordHash, pepper)) {
+            Logger.log(tag, "Login successful for user '$username'")
+            val newPasswordHash = PasswordHasher.hashPassword(password, pepper)
+            // Обновляем хэш и сбрасываем счетчик/блокировку
+            val updatedUser = userToProcess.copy(
+                passwordHash = newPasswordHash,
+                failedLoginAttempts = 0,
+                lockedUntil = null
             )
-            userRepository.addUser(user)
-        }
-//    override suspend fun register(username: String, role: UserRole): UUID {
-//        val user = User(
-//            id = UUID.randomUUID(),
-//            username = username,
-//            role = role,
-//            blockedUsersId = null,
-//            profileSettingsId = UUID.randomUUID(),
-//            appSettingsId = UUID.randomUUID()
-//        )
-//        return userRepository.addUser(user)
-//    }
+            userRepository.updateUser(updatedUser)
+            return LoginResult.Success(updatedUser.id)
+        } else {
+            Logger.log(tag, "Login failed: incorrect password for user '$username'", LogLevel.WARN)
+            val newAttemptCount = userToProcess.failedLoginAttempts + 1
+            var lockTime: Instant? = null
+            // разветвил чтобы не выдавал "осталось 0 попыток"
+            if (newAttemptCount < MAX_LOGIN_ATTEMPTS) {
+                // остались попытки
+                val updatedUser = userToProcess.copy(failedLoginAttempts = newAttemptCount)
+                userRepository.updateUser(updatedUser)
 
-    override suspend fun login(username: String): UUID? =
-        loggingWrapper {
-            userRepository.findByUsername(username)?.id
+                val remainingAttempts = MAX_LOGIN_ATTEMPTS - newAttemptCount
+                return LoginResult.WrongPassword(remainingAttempts)
+            } else {
+                // Если последняя или последующая попытка
+                val lockTime = Instant.now().plus(LOCKOUT_DURATION_MINUTES, ChronoUnit.MINUTES)
+                val updatedUser = userToProcess.copy(
+                    failedLoginAttempts = newAttemptCount,
+                    lockedUntil = lockTime
+                )
+                userRepository.updateUser(updatedUser)
+
+                Logger.log(tag, "User '$username' has been locked for $LOCKOUT_DURATION_MINUTES minutes", LogLevel.WARN)
+                return LoginResult.AccountLocked(lockTime)
+            }
         }
+    }
+
     override suspend fun findByUserName(username: String): User? =
         loggingWrapper {
             userRepository.findByUsername(username)
