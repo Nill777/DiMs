@@ -10,7 +10,6 @@ plugins {
 //    id("io.qameta.allure")
     alias(libs.plugins.google.services)
     alias(libs.plugins.allure.framework)
-
 }
 
 val localProperties = Properties()
@@ -80,10 +79,10 @@ android {
                 "proguard-rules.pro"
             )
         }
-        debug {
-            val testPassword = System.getenv("TEST_USER_PASSWORD") ?: localProperties.getProperty("AES_KEY") ?: "qwertyuiop"
-            buildConfigField("String", "TEST_USER_PASSWORD", "\"$testPassword\"")
-        }
+//        debug {
+//            val testPassword = System.getenv("TEST_USER_PASSWORD") ?: localProperties.getProperty("AES_KEY") ?: "qwertyuiop"
+//            buildConfigField("String", "TEST_USER_PASSWORD", "\"$testPassword\"")
+//        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

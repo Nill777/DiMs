@@ -24,7 +24,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
     fun setupSystem() {
         // Собираем всю систему из реальных компонентов
         userRepository = UserRepository(database.userDao())
-        userService = UserService(userRepository, "peper")
+        userService = UserService(userRepository)
         // ViewModel'и, которые являются точкой входа для теста
         authViewModel = AuthViewModel(userService)
         profileViewModel = ProfileViewModel(userService)
@@ -41,9 +41,10 @@ class UserLifecycleE2ETest : E2ETestBase() {
         // Arrange
         val username = "e2e-user"
         val role = UserRole.USER
+        val testPassword = "qwertyuiop"
 
         // Act
-        authViewModel.register(username, BuildConfig.TEST_USER_PASSWORD, role).join()
+        authViewModel.register(username, testPassword, role).join()
         val newUserId = SessionManager.currentUserId
 
         // Assert
@@ -56,7 +57,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
 
         // 2: Логин пользователя
         // Act
-        authViewModel.login(username, BuildConfig.TEST_USER_PASSWORD).join()
+        authViewModel.login(username, testPassword).join()
         val loggedInUserId = SessionManager.currentUserId
 
         // Assert

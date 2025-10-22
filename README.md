@@ -4,6 +4,10 @@
 
 [![architecture](./architecture.webp)](https://medium.com/@ravishankar.ahirwar/mastering-mvvm-clean-architecture-in-android-a-guide-to-domain-layer-and-use-cases-2c8266d3e794)
 
+## Allure отчеты
+
+[https://nill777.github.io/DiMs/](https://nill777.github.io/DiMs/)
+
 ## Тестирование
 
 ### Best Practice стратегия для проекта

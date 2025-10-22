@@ -5,6 +5,8 @@ import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.services.UserService
 import com.distributed_messenger.TestObjectMother
+import com.distributed_messenger.domain.models.LoginResult
+import com.distributed_messenger.domain.util.PasswordHasher
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
@@ -34,56 +36,77 @@ class UserServiceUnitTest {
         // Arrange
         val expectedUserId = UUID.randomUUID()
         val username = "testUser"
+        val testPassword = "qwertyuiop"
         val userSlot = slot<com.distributed_messenger.core.User>()
+        coEvery { mockUserRepository.findByUsername(username) } returns null
         coEvery { mockUserRepository.addUser(capture(userSlot)) } returns expectedUserId
 
         // Act
-        val result = userService.register(username, UserRole.USER)
+        val result = userService.register(username, UserRole.USER, testPassword)
 
         // Assert
         assertEquals(expectedUserId, result)
         assertEquals(username, userSlot.captured.username)
         assertEquals(UserRole.USER, userSlot.captured.role)
+        coVerify(exactly = 1) { mockUserRepository.findByUsername(username) }
         coVerify(exactly = 1) { mockUserRepository.addUser(any()) }
     }
 
     @Test
     fun `register should propagate exception from repository`() = runTest {
-        // Arrange (Требование 2)
+        // Arrange
+        val username = "anyUser"
+        val testPassword = "qwertyuiop"
         val errorMessage = "Database connection lost"
+        coEvery { mockUserRepository.findByUsername(username) } returns null
         coEvery { mockUserRepository.addUser(any()) } throws Exception(errorMessage)
 
         // Act & Assert
         val exception = assertThrows<Exception> {
-            userService.register("anyUser", UserRole.USER)
+            userService.register(username, UserRole.USER, testPassword)
         }
         assertEquals(errorMessage, exception.message)
+        coVerify { mockUserRepository.findByUsername(username) }
+        coVerify { mockUserRepository.addUser(any()) }
     }
 
 
     @Test
-    fun `login should return user id for existing username`() = runTest {
+    fun `login should return Success for existing username`() = runTest {
         // Arrange
-        val user = TestObjectMother.createUser(username = "existingUser")
-        coEvery { mockUserRepository.findByUsername("existingUser") } returns user
+        val username = "existingUser"
+        val testPassword = "qwertyuiop"
+        val pepper = "test_pepper"
+        val passwordHash = PasswordHasher.hashPassword(testPassword, pepper)
+        val fakeUser = TestObjectMother.createUser(
+            username = username,
+            passwordHash = passwordHash
+        )
+        coEvery { mockUserRepository.findByUsername(username) } returns fakeUser
+        // Для updateUser, так как при успешном логине происходит обновление хэша
+        coEvery { mockUserRepository.updateUser(any()) } returns true
 
         // Act
-        val result = userService.login("existingUser")
+        val testUserService = UserService(mockUserRepository, pepper)
+        val result = testUserService.login(username, testPassword)
 
         // Assert
-        assertEquals(user.id, result)
+        assertTrue(result is LoginResult.Success)
+        coVerify { mockUserRepository.findByUsername(username) }
     }
 
     @Test
-    fun `login should return null for non-existent username`() = runTest {
+    fun `login should return UserNotFound for non-existent username`() = runTest {
         // Arrange
+        val username = "nonExistentUser"
+        val testPassword = "qwertyuiop"
         coEvery { mockUserRepository.findByUsername("nonExistentUser") } returns null
 
         // Act
-        val result = userService.login("nonExistentUser")
+        val result = userService.login("nonExistentUser", testPassword)
 
         // Assert
-        assertNull(result)
+        assertTrue(result is LoginResult.UserNotFound)
     }
 
 

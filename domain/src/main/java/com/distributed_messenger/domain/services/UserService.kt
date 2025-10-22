@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 class UserService(private val userRepository: IUserRepository,
-                  private val pepper: String
+                  private val pepper: String = "peper"
 ) : IUserService {
     companion object {
         const val MAX_LOGIN_ATTEMPTS = 3

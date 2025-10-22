@@ -5,6 +5,7 @@ import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.domain.iservices.IUserService
+import com.distributed_messenger.domain.models.LoginResult
 import com.distributed_messenger.domain.services.UserService
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -30,9 +31,10 @@ class UserServiceIntegrationTest : ServiceTestBase() {
         // Arrange
         val username = "test-user"
         val role = UserRole.USER
+        val testPassword = "qwertyuiop"
 
         // Act
-        val newUserId = userService.register(username, role)
+        val newUserId = userService.register(username, role, testPassword)
 
         // Assert
         val retrievedUser = userRepository.getUser(newUserId)
@@ -42,28 +44,29 @@ class UserServiceIntegrationTest : ServiceTestBase() {
     }
 
     @Test
-    fun `login should return user id for existing username`() = runTest {
+    fun `login should return Success for existing username`() = runTest {
         // Arrange
-        val user = TestObjectMother.createUser()
-        userRepository.addUser(user)
+        val username = "test-user"
+        val role = UserRole.USER
+        val testPassword = "qwertyuiop"
+        val user = userService.register(username, role, testPassword)
 
         // Act
-        val loggedInUserId = userService.login(user.username)
+        val loginResult = userService.login(username, testPassword)
 
         // Assert
-        assertNotNull(loggedInUserId)
-        assertEquals(user.id, loggedInUserId)
+        assertTrue(loginResult is LoginResult.Success)
     }
 
     @Test
-    fun `login should return null for non-existent user`() = runTest {
+    fun `login should return UserNotFound for non-existent user`() = runTest {
         // Arrange - база данных пуста
-
+        val testPassword = "qwertyuiop"
         // Act
-        val loggedInUserId = userService.login("non-existent-user")
+        val loginResult = userService.login("non-existent-user", testPassword)
 
         // Assert
-        assertNull(loggedInUserId)
+        assertTrue(loginResult is LoginResult.UserNotFound)
     }
 
 
