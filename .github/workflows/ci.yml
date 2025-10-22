@@ -18,6 +18,8 @@ jobs:
     # Переменная окружения для этой задачи
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
+      AES_KEY: ${{ secrets.AES_KEY }}
+      AES_IV: ${{ secrets.AES_IV }} 
     # Тип виртуальной машины, на которой будет выполняться задача
     # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
     runs-on: ubuntu-latest
@@ -68,6 +70,8 @@ jobs:
     needs: unit-tests
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
+      AES_KEY: ${{ secrets.AES_KEY }}
+      AES_IV: ${{ secrets.AES_IV }} 
     # runs-on: macos-latest
     runs-on: self-hosted
     steps:
@@ -99,6 +103,8 @@ jobs:
     needs: integration-tests
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
+      AES_KEY: ${{ secrets.AES_KEY }}
+      AES_IV: ${{ secrets.AES_IV }} 
     runs-on: self-hosted
     steps:
       - name: Checkout code
