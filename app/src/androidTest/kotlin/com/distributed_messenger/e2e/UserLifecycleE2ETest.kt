@@ -6,6 +6,7 @@ import com.distributed_messenger.domain.services.UserService
 import com.distributed_messenger.presenter.viewmodels.AuthViewModel
 import com.distributed_messenger.presenter.viewmodels.ProfileViewModel
 import com.distributed_messenger.presenter.viewmodels.SessionManager
+import com.distributed_messenger.BuildConfig
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -18,12 +19,12 @@ class UserLifecycleE2ETest : E2ETestBase() {
     private lateinit var userService: UserService
     private lateinit var userRepository: UserRepository
 
+    // Fixture
     @Before
     fun setupSystem() {
-        // Fixture
         // Собираем всю систему из реальных компонентов
         userRepository = UserRepository(database.userDao())
-        userService = UserService(userRepository)
+        userService = UserService(userRepository, "peper")
         // ViewModel'и, которые являются точкой входа для теста
         authViewModel = AuthViewModel(userService)
         profileViewModel = ProfileViewModel(userService)
@@ -42,7 +43,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
         val role = UserRole.USER
 
         // Act
-        authViewModel.register(username, role).join()
+        authViewModel.register(username, BuildConfig.TEST_USER_PASSWORD, role).join()
         val newUserId = SessionManager.currentUserId
 
         // Assert
@@ -55,7 +56,7 @@ class UserLifecycleE2ETest : E2ETestBase() {
 
         // 2: Логин пользователя
         // Act
-        authViewModel.login(username).join()
+        authViewModel.login(username, BuildConfig.TEST_USER_PASSWORD).join()
         val loggedInUserId = SessionManager.currentUserId
 
         // Assert

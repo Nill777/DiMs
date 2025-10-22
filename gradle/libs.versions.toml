@@ -42,6 +42,9 @@ allureFramework = "2.11.2"
 assertj = "3.22.0"
 robolectric = "4.11.1"
 bcprov = "1.78.1"
+cucumber = "4.8.4"
+spek = "2.0.19"
+kotest = "5.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -86,6 +89,14 @@ allure-junit4 = { group = "io.qameta.allure", name = "allure-junit4", version.re
 allure-junit5 = { group = "io.qameta.allure", name = "allure-junit5", version.ref = "allure" }
 allure-kotlin-android = { group = "io.qameta.allure", name = "allure-kotlin-android", version.ref = "allure-kotlin" }
 allure-kotlin-junit4 = { group = "io.qameta.allure", name = "allure-kotlin-junit4", version.ref = "allure-kotlin" }
+# BDD
+cucumber-android = { group = "io.cucumber", name = "cucumber-android", version.ref = "cucumber"}
+cucumber-junit = { group = "io.cucumber", name = "cucumber-junit", version.ref = "cucumber"}
+cucumber-junit4 = { group = "io.cucumber", name = "cucumber-junit4", version.ref = "cucumber" }
+spek-dsl-jvm = { group = "org.spekframework.spek2", name = "spek-dsl-jvm", version.ref = "spek" }
+spek-runner-junit4 = { group = "org.spekframework.spek2", name = "spek-runner-junit4", version.ref = "spek" }
+kotest-runner-junit4 = { group = "io.kotest", name = "kotest-runner-junit4", version.ref = "kotest" }
+kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 
 # Navigation
 androidx-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}

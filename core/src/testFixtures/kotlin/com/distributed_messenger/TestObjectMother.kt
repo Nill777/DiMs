@@ -10,12 +10,12 @@ import java.util.UUID
  */
 object TestObjectMother {
 
-    fun createUser(id: UUID = UUID.randomUUID(), username: String = "test-user-${id.toString().take(4)}", role: UserRole = UserRole.USER): User {
+    fun createUser(id: UUID = UUID.randomUUID(), username: String = "test-user-${id.toString().take(4)}", role: UserRole = UserRole.USER, passwordHash: String = "qwertyuiop"): User {
         return User(
             id = id,
             username = username,
+            passwordHash = passwordHash,
             role = role,
-            blockedUsersId = null,
             profileSettingsId = UUID.randomUUID(),
             appSettingsId = UUID.randomUUID()
         )

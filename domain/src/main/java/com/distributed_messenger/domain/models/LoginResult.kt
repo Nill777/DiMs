@@ -1,6 +1,5 @@
 package com.distributed_messenger.domain.models
 
-import com.distributed_messenger.core.User
 import java.time.Instant
 import java.util.UUID
 

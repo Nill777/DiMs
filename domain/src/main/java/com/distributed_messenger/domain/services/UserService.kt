@@ -105,6 +105,28 @@ class UserService(private val userRepository: IUserRepository,
         }
     }
 
+    override suspend fun changePassword(userId: UUID, oldPassword: String, newPassword: String): Boolean {
+        val user = userRepository.getUser(userId) ?: return false
+        // Проверяем, что старый пароль верный
+        if (!PasswordHasher.verifyPassword(oldPassword, user.passwordHash, pepper)) {
+            return false
+        }
+        // Хэшируем и сохраняем новый пароль
+        val newPasswordHash = PasswordHasher.hashPassword(newPassword, pepper)
+        val updatedUser = user.copy(passwordHash = newPasswordHash)
+        return userRepository.updateUser(updatedUser)
+    }
+
+    override suspend fun unlockUser(userId: UUID): Boolean =
+        loggingWrapper {
+            val user = userRepository.getUser(userId) ?: return@loggingWrapper false
+            val unlockedUser = user.copy(
+                failedLoginAttempts = 0,
+                lockedUntil = null
+            )
+            userRepository.updateUser(unlockedUser)
+        }
+
     override suspend fun findByUserName(username: String): User? =
         loggingWrapper {
             userRepository.findByUsername(username)

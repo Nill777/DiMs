@@ -67,7 +67,7 @@ android {
                 }
                 arguments.add("-DAES_KEY=$aesKey")
                 arguments.add("-DAES_IV=$aesIv")
-                println("Arguments $arguments")
+//                println("Arguments $arguments")
             }
         }
     }
@@ -79,6 +79,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            val testPassword = System.getenv("TEST_USER_PASSWORD") ?: localProperties.getProperty("AES_KEY") ?: "qwertyuiop"
+            buildConfigField("String", "TEST_USER_PASSWORD", "\"$testPassword\"")
         }
     }
     compileOptions {
@@ -96,6 +100,12 @@ android {
     packaging {
         resources.pickFirsts.add("META-INF/DEPENDENCIES")
         resources.pickFirsts.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+        resources.excludes.add("win32-x86/attach_hotspot_windows.dll")
+        resources.excludes.add("win32-x86-64/attach_hotspot_windows.dll")
+        resources.excludes.add("linux-x86/attach_hotspot_linux.so")
+        resources.excludes.add("linux-x86-64/attach_hotspot_linux.so")
+        resources.excludes.add("META-INF/licenses/ASM")
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 
     // Для тестов с корутинами
@@ -191,6 +201,10 @@ dependencies {
     androidTestImplementation(libs.allure.kotlin.junit4)
     androidTestImplementation(testFixtures(project(":core")))
 
+    // Kotest для BDD тестов
+    androidTestImplementation(libs.kotest.runner.junit4)
+    androidTestImplementation(libs.kotest.assertions.core)
+
     // Debug
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
@@ -201,7 +215,7 @@ dependencies {
     // JSON
     implementation(libs.gson)
 }
-/**
+/** Исходник НЕ ТРОЖ! Он КРОВЬЮ НАПИСАН!!!
 tasks.register("runAndroidTestsWithoutUninstallForGetAllureData") {
     group = "Verification"
     description = "Installs and runs Android tests but does not uninstall the app afterwards."
@@ -554,8 +568,32 @@ tasks.register("runE2ETestsWithEmulator") {
     finalizedBy(tasks.named("stopEmulator"))
 }
 
-tasks.register("runEncryptPepperScript") {
-    exec {
-        commandLine = listOf("kotlin", "encrypt_pepper.kts")
+// отладка Android тестов
+tasks.register<Exec>("debugAndroidTests") {
+    group = "Verification"
+    description = "Runs all instrumented tests and prints detailed logcat output."
+
+    // Запускаем на уже подключенном/запущенном эмуляторе
+    dependsOn("installDebug", "installDebugAndroidTest")
+
+    val adb = android.sdkDirectory.resolve("platform-tools/adb")
+    val appId = android.defaultConfig.applicationId
+    val instrumentationRunner = "${android.defaultConfig.applicationId}.test/${android.defaultConfig.testInstrumentationRunner}"
+
+    // Сначала очищаем logcat, чтобы видеть только ошибки от нашего запуска
+    commandLine(adb.absolutePath, "logcat", "-c")
+    doLast {
+        println("\n--- RUNNING INSTRUMENTATION ---")
+        // Запускаем тесты
+        exec {
+            commandLine(adb.absolutePath, "shell", "am", "instrument", "-w", instrumentationRunner)
+            isIgnoreExitValue = true // Продолжаем, даже если тесты упали
+        }
+
+        println("\n--- CAPTURING LOGCAT ---")
+        // Сразу после падения теста, выводим полный logcat в консоль
+        exec {
+            commandLine(adb.absolutePath, "logcat", "-d", "*:E") // "-d" - dump, "*:E" - все ошибки
+        }
     }
 }

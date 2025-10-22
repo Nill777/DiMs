@@ -74,6 +74,7 @@ import com.distributed_messenger.ui.screens.ProfileScreen
 import com.distributed_messenger.ui.screens.SettingsScreen
 import com.distributed_messenger.ui.screens.ShareContactScreen
 import com.distributed_messenger.ui.theme.DistributedMessengerTheme
+import com.distributed_messenger.util.CppBridge
 import com.distributed_messenger.util.Signature
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -82,12 +83,12 @@ import java.io.File
 import java.util.UUID
 
 class MainActivity : ComponentActivity() {
-    private external fun getPepperFromNdk(appSignatureHash: String): String
-    companion object {
-        init {
-            System.loadLibrary("native-lib")
-        }
-    }
+//    private external fun getPepperFromNdk(appSignatureHash: String): String
+//    companion object {
+//        init {
+//            System.loadLibrary("native-lib")
+//        }
+//    }
     private lateinit var navController: NavHostController
 
 
@@ -144,16 +145,17 @@ class MainActivity : ComponentActivity() {
     // 3. Сервисы
     private val userService by lazy {
         // Получаем массив всех хэшей подписей
-        val currentSignatureHashes = Signature.getAppSignatureHashes(applicationContext)
-        if (currentSignatureHashes.isNullOrEmpty()) {
-            throw SecurityException("Could not retrieve app signatures. The APK might be corrupted")
-        }
-        val sortedConcatenatedHash = currentSignatureHashes.sorted().joinToString("")
-        val pepper = getPepperFromNdk(sortedConcatenatedHash)
-
-        if (pepper.isEmpty()) {
-            throw SecurityException("Security checks failed. Tampered, insecure, or unsigned environment detected")
-        }
+//        val currentSignatureHashes = Signature.getAppSignatureHashes(applicationContext)
+//        if (currentSignatureHashes.isNullOrEmpty()) {
+//            throw SecurityException("Could not retrieve app signatures. The APK might be corrupted")
+//        }
+//        val sortedConcatenatedHash = currentSignatureHashes.sorted().joinToString("")
+//        val pepper = getPepperFromNdk(sortedConcatenatedHash)
+//
+//        if (pepper.isEmpty()) {
+//            throw SecurityException("Security checks failed. Tampered, insecure, or unsigned environment detected")
+//        }
+        val pepper = CppBridge.getPepper(applicationContext)
         UserService(repositories.userRepository, pepper)
     }
     private val chatService by lazy {

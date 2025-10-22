@@ -105,7 +105,7 @@ std::string getDecryptedPepper() {
 }
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_distributed_1messenger_MainActivity_getPepperFromNdk(
+Java_com_distributed_1messenger_util_CppBridge_getPepperFromNdk(
         JNIEnv* env,
         jobject /* this */,
         jstring appSignatureHash) {
