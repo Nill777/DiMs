@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.1"
 kotlin = "2.1.10"
+google-services = "4.4.3"
 ksp = "2.1.10-1.0.31"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -45,6 +46,7 @@ bcprov = "1.78.1"
 cucumber = "4.8.4"
 spek = "2.0.19"
 kotest = "5.8.0"
+detekt = "1.23.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -145,4 +147,5 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 allure-framework = { id = "io.qameta.allure", version.ref = "allureFramework" }
-google-services = { id = "com.google.gms.google-services" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

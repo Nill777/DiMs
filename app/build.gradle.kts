@@ -5,11 +5,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp) // Добавлен плагин KSP для Room
-//    id("com.google.gms.google-services")
-//    id("io.qameta.allure")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.google.services)
     alias(libs.plugins.allure.framework)
+    alias(libs.plugins.detekt)
 }
 
 val localProperties = Properties()
@@ -144,6 +143,11 @@ android {
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.exportSchema", "true")
+}
+
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
+    buildUponDefaultConfig = true // Используем наш конфиг поверх стандартного
 }
 
 dependencies {

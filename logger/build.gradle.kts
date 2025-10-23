@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)  // Android-библиотека
     alias(libs.plugins.kotlin.android)    // Kotlin для Android (включает JVM-функциональность)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -19,6 +20,11 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+}
+
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
+    buildUponDefaultConfig = true // Используем наш конфиг поверх стандартного
 }
 
 dependencies {

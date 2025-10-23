@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)  // Android-библиотека, а не JVM!
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -35,6 +36,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
+    buildUponDefaultConfig = true // Используем наш конфиг поверх стандартного
 }
 
 dependencies {

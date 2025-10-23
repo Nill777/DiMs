@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)    // Kotlin для Android (включает JVM-функциональность)
     alias(libs.plugins.ksp)
     alias(libs.plugins.allure.framework)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -62,6 +63,11 @@ android {
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.exportSchema", "true")
+}
+
+detekt {
+    config.setFrom(files("$rootDir/detekt.yml"))
+    buildUponDefaultConfig = true // Используем наш конфиг поверх стандартного
 }
 
 dependencies {
