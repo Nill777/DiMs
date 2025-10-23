@@ -14,6 +14,8 @@ data class User(
     val id: UUID,
     val username: String,
     val passwordHash: String,
+    val twoFactorCode: String? = null,
+    val twoFactorCodeExpiresAt: Instant? = null,
     val failedLoginAttempts: Int = 0,
     val lockedUntil: Instant? = null,
     val role: UserRole,

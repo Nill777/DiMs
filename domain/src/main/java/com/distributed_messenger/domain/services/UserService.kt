@@ -10,6 +10,7 @@ import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.domain.models.LoginResult
 import com.distributed_messenger.domain.util.PasswordHasher
 import com.distributed_messenger.logger.LogLevel
+import java.security.SecureRandom
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -28,6 +29,10 @@ class UserService(private val userRepository: IUserRepository,
         tag = "UserService"
     )
     private val tag = "UserService"
+
+    private fun generateOtp(): String {
+        return SecureRandom().nextInt(999999).toString().padStart(6, '0')
+    }
 
     override suspend fun register(username: String, role: UserRole, password: String): UUID {
         Logger.log(tag, "Attempting to register user '$username'.")
@@ -68,16 +73,17 @@ class UserService(private val userRepository: IUserRepository,
         }
 
         if (PasswordHasher.verifyPassword(password, userToProcess.passwordHash, pepper)) {
-            Logger.log(tag, "Login successful for user '$username'")
-            val newPasswordHash = PasswordHasher.hashPassword(password, pepper)
-            // Обновляем хэш и сбрасываем счетчик/блокировку
+            val twoFactorCode = generateOtp()
+            val expiration = Instant.now().plus(5, ChronoUnit.MINUTES)
             val updatedUser = userToProcess.copy(
-                passwordHash = newPasswordHash,
                 failedLoginAttempts = 0,
-                lockedUntil = null
+                lockedUntil = null,
+                twoFactorCode = twoFactorCode,
+                twoFactorCodeExpiresAt = expiration
             )
             userRepository.updateUser(updatedUser)
-            return LoginResult.Success(updatedUser.id)
+            Logger.log(tag, "2FA Code for user '$username' is: $twoFactorCode", LogLevel.INFO)
+            return LoginResult.RequiresTwoFactor
         } else {
             Logger.log(tag, "Login failed: incorrect password for user '$username'", LogLevel.WARN)
             val newAttemptCount = userToProcess.failedLoginAttempts + 1
@@ -102,6 +108,23 @@ class UserService(private val userRepository: IUserRepository,
                 Logger.log(tag, "User '$username' has been locked for $LOCKOUT_DURATION_MINUTES minutes", LogLevel.WARN)
                 return LoginResult.AccountLocked(lockTime)
             }
+        }
+    }
+
+    override suspend fun verifyTwoFactor(username: String, code: String): LoginResult {
+        val user = userRepository.findByUsername(username) ?: return LoginResult.UserNotFound
+        val now = Instant.now()
+
+        if (user.twoFactorCode == code && user.twoFactorCodeExpiresAt?.isAfter(now) == true) {
+            // чистим код
+            val loggedInUser = user.copy(twoFactorCode = null, twoFactorCodeExpiresAt = null)
+            userRepository.updateUser(loggedInUser)
+
+            // Динамический хэш
+
+            return LoginResult.Success(loggedInUser.id)
+        } else {
+            return LoginResult.InvalidTwoFactorCode
         }
     }
 

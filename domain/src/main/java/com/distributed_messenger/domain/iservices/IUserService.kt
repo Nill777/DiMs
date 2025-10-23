@@ -8,6 +8,7 @@ import java.util.UUID
 interface IUserService {
     suspend fun register(username: String, role: UserRole, password: String): UUID
     suspend fun login(username: String, password: String): LoginResult
+    suspend fun verifyTwoFactor(username: String, code: String): LoginResult
     suspend fun changePassword(userId: UUID, oldPassword: String, newPassword: String): Boolean
     suspend fun unlockUser(userId: UUID): Boolean
     suspend fun findByUserName(username: String): User?

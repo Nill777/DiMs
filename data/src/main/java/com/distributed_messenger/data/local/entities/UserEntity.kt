@@ -18,6 +18,8 @@ data class UserEntity(
     @ColumnInfo(name = "password_hash") val passwordHash: String,
     @ColumnInfo(name = "failed_login_attempts", defaultValue = "0") val failedLoginAttempts: Int = 0,
     @ColumnInfo(name = "locked_until") val lockedUntil: Instant? = null,
+    @ColumnInfo(name = "two_factor_code") val twoFactorCode: String? = null,
+    @ColumnInfo(name = "two_factor_expires_at") val twoFactorCodeExpiresAt: Instant? = null,
     @ColumnInfo(name = "role") val role: UserRole,
     @ColumnInfo(name = "blocked_users_id") val blockedUsersId: UUID? = null,
     @ColumnInfo(name = "profile_settings_id") val profileSettingsId: UUID,

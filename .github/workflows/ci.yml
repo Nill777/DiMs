@@ -5,7 +5,7 @@ name: Testing CI/CD Pipeline
 on:
   # Запускать при отправке коммитов в любую из этих веток
   push:
-    branches: [ main, master, develop ]
+    branches: [ main, master, develop, lab_04 ]
   # Запускать при создании или обновлении Pull Request, который нацелен на эти ветки
   pull_request:
     branches: [ main, master ]

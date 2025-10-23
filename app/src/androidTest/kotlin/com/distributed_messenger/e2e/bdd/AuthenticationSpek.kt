@@ -49,11 +49,44 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             runBlocking { userService.register("testuser", UserRole.USER, testPassword) }
         }
 
-        When("пользователь пытается войти с правильным паролем из секрета") {
-            val loginResult = runBlocking { userService.login("testuser", testPassword) }
+        When("пользователь вводит правильный логин и пароль") {
+            var firstStepResult: LoginResult? = null
+            beforeTest {
+                runBlocking { firstStepResult = userService.login("testuser", testPassword) }
+            }
 
-            Then("вход должен быть успешным") {
-                loginResult.shouldBeInstanceOf<LoginResult.Success>()
+            Then("система должна запросить второй фактор") {
+                firstStepResult.shouldBeInstanceOf<LoginResult.RequiresTwoFactor>()
+            }
+
+            // верный код
+            When("пользователь вводит правильный 2FA код") {
+                var finalLoginResult: LoginResult? = null
+                beforeTest {
+                    runBlocking {
+                        val user = userRepository.findByUsername("testuser")!!
+                        val code = user.twoFactorCode!!
+                        finalLoginResult = userService.verifyTwoFactor("testuser", code)
+                    }
+                }
+
+                Then("вход должен быть успешным") {
+                    finalLoginResult.shouldBeInstanceOf<LoginResult.Success>()
+                }
+            }
+
+            // неверный код
+            When("пользователь вводит НЕПРАВИЛЬНЫЙ 2FA код") {
+                var finalLoginResult: LoginResult? = null
+                beforeTest {
+                    runBlocking {
+                        finalLoginResult = userService.verifyTwoFactor("testuser", "000000")
+                    }
+                }
+
+                Then("вход должен провалиться") {
+                    finalLoginResult.shouldBeInstanceOf<LoginResult.InvalidTwoFactorCode>()
+                }
             }
         }
     }
@@ -78,9 +111,9 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
                 changeResult.shouldBeTrue()
             }
 
-            And("он может успешно войти с новым паролем") {
+            And("он может успешно пройти первый этап входа с новым паролем") {
                 val loginWithNew = runBlocking { userService.login("changepass", newPassword) }
-                loginWithNew.shouldBeInstanceOf<LoginResult.Success>()
+                loginWithNew.shouldBeInstanceOf<LoginResult.RequiresTwoFactor>()
             }
 
             And("он НЕ может войти со старым паролем") {
@@ -96,7 +129,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             runBlocking { userService.register("locker", UserRole.USER, testPassword) }
         }
 
-        When("пользователь пытается войти с неверным паролем 3 раза") {
+        When("пользователь пытается войти с неверным паролем ${UserService.MAX_LOGIN_ATTEMPTS} раза") {
             var finalLoginResult: LoginResult? = null
             beforeTest {
                 runBlocking {
@@ -133,11 +166,9 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
 
         When("аккаунт пользователя разблокирован администратором") {
             var unlockResult: Boolean = false
-            var loginResult: LoginResult? = null
             beforeTest {
                 runBlocking {
                     unlockResult = userService.unlockUser(userId)
-                    loginResult = userService.login("lockeduser", testPassword)
                 }
             }
 
@@ -145,8 +176,9 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
                 unlockResult.shouldBeTrue()
             }
 
-            And("пользователь может снова успешно войти") {
-                loginResult.shouldBeInstanceOf<LoginResult.Success>()
+            And("пользователь может снова успешно пройти первый этап входа") {
+                val loginResult = runBlocking { userService.login("lockeduser", testPassword) }
+                loginResult.shouldBeInstanceOf<LoginResult.RequiresTwoFactor>()
             }
         }
     }

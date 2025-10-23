@@ -72,7 +72,7 @@ class UserServiceUnitTest {
 
 
     @Test
-    fun `login should return Success for existing username`() = runTest {
+    fun `login should return RequiresTwoFactor for existing username`() = runTest {
         // Arrange
         val username = "existingUser"
         val testPassword = "qwertyuiop"
@@ -91,7 +91,7 @@ class UserServiceUnitTest {
         val result = testUserService.login(username, testPassword)
 
         // Assert
-        assertTrue(result is LoginResult.Success)
+        assertTrue(result is LoginResult.RequiresTwoFactor)
         coVerify { mockUserRepository.findByUsername(username) }
     }
 

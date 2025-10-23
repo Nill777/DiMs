@@ -44,7 +44,7 @@ class UserServiceIntegrationTest : ServiceTestBase() {
     }
 
     @Test
-    fun `login should return Success for existing username`() = runTest {
+    fun `login should return RequiresTwoFactor for existing username`() = runTest {
         // Arrange
         val username = "test-user"
         val role = UserRole.USER
@@ -55,7 +55,7 @@ class UserServiceIntegrationTest : ServiceTestBase() {
         val loginResult = userService.login(username, testPassword)
 
         // Assert
-        assertTrue(loginResult is LoginResult.Success)
+        assertTrue(loginResult is LoginResult.RequiresTwoFactor)
     }
 
     @Test

@@ -71,6 +71,12 @@ class AuthViewModel(private val userService: IUserService) : ViewModel() {
                         // Передаем в UI время окончания блокировки
                         _authState.value = AuthState.Locked(result.lockedUntil)
                     }
+                    is LoginResult.RequiresTwoFactor -> {
+                        _authState.value = AuthState.Error("Waiting 2fa")
+                    }
+                    is LoginResult.InvalidTwoFactorCode -> {
+                        _authState.value = AuthState.Error("Invalid 2fa")
+                    }
                 }
             } catch (e: Exception) {
                 Logger.log("AuthViewModel", "Login error: ${e.message}", LogLevel.ERROR, e)

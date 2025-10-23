@@ -8,4 +8,6 @@ sealed class LoginResult {
     object UserNotFound : LoginResult()
     data class WrongPassword(val remainingAttempts: Int) : LoginResult()
     data class AccountLocked(val lockedUntil: Instant) : LoginResult()
+    object RequiresTwoFactor : LoginResult()
+    object InvalidTwoFactorCode : LoginResult()
 }
