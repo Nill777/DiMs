@@ -75,4 +75,12 @@ dependencies {
 
     // Hash
     implementation(libs.bcprov.jdk18on)
+
+    implementation("com.sun.mail:android-mail:1.6.7")
+    // Это порт Java Activation Framework, который также необходим.
+    implementation("com.sun.mail:android-activation:1.6.7")
+
+    androidTestImplementation("com.sun.mail:android-mail:1.6.7")
+    // Это порт Java Activation Framework, который также необходим.
+    androidTestImplementation("com.sun.mail:android-activation:1.6.7")
 }

@@ -6,6 +6,7 @@ import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.services.UserService
 import com.distributed_messenger.TestObjectMother
 import com.distributed_messenger.domain.models.LoginResult
+import com.distributed_messenger.domain.services.EmailService
 import com.distributed_messenger.domain.util.PasswordHasher
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -23,12 +24,15 @@ class UserServiceUnitTest {
 
     @MockK
     private lateinit var mockUserRepository: IUserRepository
+    @MockK
+    private lateinit var mockEmailService: EmailService
     private lateinit var userService: IUserService
 
     @Before
     fun setup() {
         MockKAnnotations.init(this) // Инициализация mock-объектов для JUnit 4
-        userService = UserService(mockUserRepository)
+        coJustRun { mockEmailService.sendTwoFactorCode(any(), any()) }
+        userService = UserService(mockUserRepository, mockEmailService)
     }
 
     @Test
@@ -87,7 +91,7 @@ class UserServiceUnitTest {
         coEvery { mockUserRepository.updateUser(any()) } returns true
 
         // Act
-        val testUserService = UserService(mockUserRepository, pepper)
+        val testUserService = UserService(mockUserRepository, mockEmailService, pepper)
         val result = testUserService.login(username, testPassword)
 
         // Assert

@@ -7,6 +7,7 @@ import com.distributed_messenger.presenter.viewmodels.AuthViewModel
 import com.distributed_messenger.presenter.viewmodels.ProfileViewModel
 import com.distributed_messenger.presenter.viewmodels.SessionManager
 import com.distributed_messenger.BuildConfig
+import com.distributed_messenger.domain.services.EmailService
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -18,13 +19,21 @@ class UserLifecycleE2ETest : E2ETestBase() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var userService: UserService
     private lateinit var userRepository: UserRepository
+    private lateinit var emailService: EmailService
 
     // Fixture
     @Before
     fun setupSystem() {
         // Собираем всю систему из реальных компонентов
         userRepository = UserRepository(database.userDao())
-        userService = UserService(userRepository)
+        emailService = EmailService(
+            smtpHost = "smtp.yandex.ru",
+            smtpPort = "465",
+            imapHost = "imap.yandex.ru",
+            username = BuildConfig.GMAIL_USERNAME,
+            appPassword = BuildConfig.GMAIL_APP_PASSWORD
+        )
+        userService = UserService(userRepository, emailService)
         // ViewModel'и, которые являются точкой входа для теста
         authViewModel = AuthViewModel(userService)
         profileViewModel = ProfileViewModel(userService)

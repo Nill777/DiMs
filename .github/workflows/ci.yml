@@ -19,7 +19,9 @@ jobs:
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
       AES_KEY: ${{ secrets.AES_KEY }}
-      AES_IV: ${{ secrets.AES_IV }} 
+      AES_IV: ${{ secrets.AES_IV }}
+      GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }} 
     # Тип виртуальной машины, на которой будет выполняться задача
     # 'ubuntu-latest' — стандартный и дешевый раннер для задач, не требующих GUI
     runs-on: ubuntu-latest
@@ -71,7 +73,9 @@ jobs:
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
       AES_KEY: ${{ secrets.AES_KEY }}
-      AES_IV: ${{ secrets.AES_IV }} 
+      AES_IV: ${{ secrets.AES_IV }}
+      GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }} 
     # runs-on: macos-latest
     runs-on: self-hosted
     steps:
@@ -104,7 +108,9 @@ jobs:
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
       AES_KEY: ${{ secrets.AES_KEY }}
-      AES_IV: ${{ secrets.AES_IV }} 
+      AES_IV: ${{ secrets.AES_IV }}
+      GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
+      GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }} 
     runs-on: self-hosted
     steps:
       - name: Checkout code

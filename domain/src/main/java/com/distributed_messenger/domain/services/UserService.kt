@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 class UserService(private val userRepository: IUserRepository,
+                  private val emailService: EmailService,
                   private val pepper: String = "peper"
 ) : IUserService {
     companion object {
@@ -83,6 +84,7 @@ class UserService(private val userRepository: IUserRepository,
             )
             userRepository.updateUser(updatedUser)
             Logger.log(tag, "2FA Code for user '$username' is: $twoFactorCode", LogLevel.INFO)
+            emailService.sendTwoFactorCode(username, twoFactorCode)
             return LoginResult.RequiresTwoFactor
         } else {
             Logger.log(tag, "Login failed: incorrect password for user '$username'", LogLevel.WARN)

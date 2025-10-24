@@ -2,12 +2,14 @@ package com.distributed_messenger.e2e.bdd
 
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
+import com.distributed_messenger.BuildConfig
 import com.distributed_messenger.core.UserRole
 import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.data.local.AppDatabase
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.models.LoginResult
+import com.distributed_messenger.domain.services.EmailService
 import com.distributed_messenger.domain.services.UserService
 import com.distributed_messenger.util.CppBridge
 import io.kotest.core.spec.style.BehaviorSpec
@@ -20,13 +22,16 @@ import org.junit.runner.RunWith
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
+import kotlin.test.DefaultAsserter.assertNotNull
 
 @RunWith(KotestTestRunner::class)
 class AuthenticationBehaviorSpec : BehaviorSpec({
     val testPassword = "qwertyuiop"
+    val testUsername by lazy { BuildConfig.GMAIL_USERNAME }
     lateinit var database: AppDatabase
     lateinit var userRepository: IUserRepository
     lateinit var userService: IUserService
+    lateinit var emailService: EmailService
 
     beforeTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -36,7 +41,15 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
         val pepper = CppBridge.getPepper(appContext)
         if (pepper.isEmpty()) throw SecurityException("Kotest Setup failed: Could not get pepper.")
 
-        userService = UserService(userRepository, pepper)
+        emailService = EmailService(
+            smtpHost = "smtp.yandex.ru",
+            smtpPort = "465",
+            imapHost = "imap.yandex.ru",
+            username = BuildConfig.GMAIL_USERNAME,
+            appPassword = BuildConfig.GMAIL_APP_PASSWORD
+        )
+
+        userService = UserService(userRepository, emailService, pepper)
     }
 
     afterTest {
@@ -46,13 +59,13 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
     // Успешный вход
     Given("зарегистрированный пользователь 'testuser'") {
         beforeTest {
-            runBlocking { userService.register("testuser", UserRole.USER, testPassword) }
+            runBlocking { userService.register(testUsername, UserRole.USER, testPassword) }
         }
 
         When("пользователь вводит правильный логин и пароль") {
             var firstStepResult: LoginResult? = null
             beforeTest {
-                runBlocking { firstStepResult = userService.login("testuser", testPassword) }
+                runBlocking { firstStepResult = userService.login(testUsername, testPassword) }
             }
 
             Then("система должна запросить второй фактор") {
@@ -64,9 +77,9 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
                 var finalLoginResult: LoginResult? = null
                 beforeTest {
                     runBlocking {
-                        val user = userRepository.findByUsername("testuser")!!
-                        val code = user.twoFactorCode!!
-                        finalLoginResult = userService.verifyTwoFactor("testuser", code)
+                        val codeFromEmail = emailService.findLatestTwoFactorCode()
+                        assertNotNull(codeFromEmail, "Did not find 2FA code in email timeout")
+                        finalLoginResult = userService.verifyTwoFactor(testUsername, codeFromEmail!!)
                     }
                 }
 
@@ -80,7 +93,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
                 var finalLoginResult: LoginResult? = null
                 beforeTest {
                     runBlocking {
-                        finalLoginResult = userService.verifyTwoFactor("testuser", "000000")
+                        finalLoginResult = userService.verifyTwoFactor(testUsername, "000000")
                     }
                 }
 
@@ -98,7 +111,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
         val newPassword = "NewPassword"
 
         beforeTest {
-            runBlocking { userId = userService.register("changepass", UserRole.USER, oldPassword) }
+            runBlocking { userId = userService.register(testUsername, UserRole.USER, oldPassword) }
         }
 
         When("он меняет свой пароль со старого на новый") {
@@ -112,12 +125,12 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             }
 
             And("он может успешно пройти первый этап входа с новым паролем") {
-                val loginWithNew = runBlocking { userService.login("changepass", newPassword) }
+                val loginWithNew = runBlocking { userService.login(testUsername, newPassword) }
                 loginWithNew.shouldBeInstanceOf<LoginResult.RequiresTwoFactor>()
             }
 
             And("он НЕ может войти со старым паролем") {
-                val loginWithOld = runBlocking { userService.login("changepass", oldPassword) }
+                val loginWithOld = runBlocking { userService.login(testUsername, oldPassword) }
                 loginWithOld.shouldBeInstanceOf<LoginResult.WrongPassword>()
             }
         }
@@ -126,7 +139,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
     // Блокировка аккаунта
     Given("зарегистрированный пользователь 'locker'") {
         beforeTest {
-            runBlocking { userService.register("locker", UserRole.USER, testPassword) }
+            runBlocking { userService.register(testUsername, UserRole.USER, testPassword) }
         }
 
         When("пользователь пытается войти с неверным паролем ${UserService.MAX_LOGIN_ATTEMPTS} раза") {
@@ -134,7 +147,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             beforeTest {
                 runBlocking {
                     repeat(UserService.MAX_LOGIN_ATTEMPTS) {
-                        finalLoginResult = userService.login("locker", "WrongPassword")
+                        finalLoginResult = userService.login(testUsername, "WrongPassword")
                     }
                 }
             }
@@ -144,7 +157,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             }
 
             And("аккаунт пользователя 'locker' в базе данных должен быть заблокирован") {
-                val user = runBlocking { userRepository.findByUsername("locker") }
+                val user = runBlocking { userRepository.findByUsername(testUsername) }
                 user.shouldNotBeNull()
                 user.lockedUntil.shouldNotBeNull()
             }
@@ -156,7 +169,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
         var userId: UUID = UUID.randomUUID()
         beforeTest {
             runBlocking {
-                userId = userService.register("lockeduser", UserRole.USER, testPassword)
+                userId = userService.register(testUsername, UserRole.USER, testPassword)
                 val user = userService.getUser(userId)!!
                 val lockTime = Instant.now().plus(UserService.LOCKOUT_DURATION_MINUTES, ChronoUnit.MINUTES)
                 val lockedUser = user.copy(lockedUntil = lockTime, failedLoginAttempts = UserService.MAX_LOGIN_ATTEMPTS)
@@ -177,7 +190,7 @@ class AuthenticationBehaviorSpec : BehaviorSpec({
             }
 
             And("пользователь может снова успешно пройти первый этап входа") {
-                val loginResult = runBlocking { userService.login("lockeduser", testPassword) }
+                val loginResult = runBlocking { userService.login(testUsername, testPassword) }
                 loginResult.shouldBeInstanceOf<LoginResult.RequiresTwoFactor>()
             }
         }

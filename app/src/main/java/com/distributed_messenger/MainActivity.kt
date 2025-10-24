@@ -44,6 +44,7 @@ import com.distributed_messenger.data.network.webRTC.WebRTCManager
 import com.distributed_messenger.domain.services.AppSettingsService
 import com.distributed_messenger.domain.services.BlockService
 import com.distributed_messenger.domain.services.ChatService
+import com.distributed_messenger.domain.services.EmailService
 import com.distributed_messenger.domain.services.FileService
 import com.distributed_messenger.domain.services.MessageService
 import com.distributed_messenger.domain.services.UserService
@@ -155,8 +156,15 @@ class MainActivity : ComponentActivity() {
 //        if (pepper.isEmpty()) {
 //            throw SecurityException("Security checks failed. Tampered, insecure, or unsigned environment detected")
 //        }
+        val emailService = EmailService(
+            smtpHost = "smtp.yandex.ru",
+            smtpPort = "465",
+            imapHost = "imap.yandex.ru",
+            username = BuildConfig.GMAIL_USERNAME,
+            appPassword = BuildConfig.GMAIL_APP_PASSWORD
+        )
         val pepper = CppBridge.getPepper(applicationContext)
-        UserService(repositories.userRepository, pepper)
+        UserService(repositories.userRepository, emailService, pepper)
     }
     private val chatService by lazy {
         ChatService(

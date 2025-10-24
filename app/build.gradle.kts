@@ -69,6 +69,16 @@ android {
 //                println("Arguments $arguments")
             }
         }
+
+        val gmailUser = System.getenv("GMAIL_USERNAME") ?: localProperties.getProperty("GMAIL_USERNAME")
+        val gmailPass = System.getenv("GMAIL_APP_PASSWORD") ?: localProperties.getProperty("GMAIL_APP_PASSWORD")
+        buildConfigField("String", "GMAIL_USERNAME", "\"$gmailUser\"")
+        buildConfigField("String", "GMAIL_APP_PASSWORD", "\"$gmailPass\"")
+        if (gmailUser.isNullOrBlank() || gmailPass.isNullOrBlank()) {
+            throw GradleException("""
+            CERF GTHTVTYYST CHTLS CUCUMBER <KZNM
+                    """.trimIndent())
+        }
     }
 
     buildTypes {
@@ -105,6 +115,8 @@ android {
         resources.excludes.add("linux-x86-64/attach_hotspot_linux.so")
         resources.excludes.add("META-INF/licenses/ASM")
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        resources.excludes.add("META-INF/NOTICE.md")
+        resources.excludes.add("META-INF/LICENSE.md")
     }
 
     // Для тестов с корутинами

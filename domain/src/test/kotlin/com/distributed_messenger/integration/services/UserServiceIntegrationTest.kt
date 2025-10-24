@@ -6,7 +6,10 @@ import com.distributed_messenger.data.irepositories.IUserRepository
 import com.distributed_messenger.data.repositories.UserRepository
 import com.distributed_messenger.domain.iservices.IUserService
 import com.distributed_messenger.domain.models.LoginResult
+import com.distributed_messenger.domain.services.EmailService
 import com.distributed_messenger.domain.services.UserService
+import io.mockk.coJustRun
+import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -23,7 +26,9 @@ class UserServiceIntegrationTest : ServiceTestBase() {
     @Before
     fun setupService() {
         userRepository = UserRepository(database.userDao())
-        userService = UserService(userRepository)
+        val mockEmailService = mockk<EmailService>()
+        coJustRun { mockEmailService.sendTwoFactorCode(any(), any()) }
+        userService = UserService(userRepository, mockEmailService)
     }
 
     @Test
