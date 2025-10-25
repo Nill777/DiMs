@@ -14,6 +14,10 @@ on:
 jobs:
   static-analysis:
     name: Static Analysis
+    env:
+      ANDROID_HOME: /home/andrey/Android/Sdk
+      AES_KEY: ${{ secrets.AES_KEY }}
+      AES_IV: ${{ secrets.AES_IV }} 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
