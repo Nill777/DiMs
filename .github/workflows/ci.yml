@@ -34,6 +34,7 @@ jobs:
   unit-tests:
     # Имя задачи, которое будет отображаться в UI
     name: Unit Tests
+    needs: static-analysis
     # Переменная окружения для этой задачи
     env:
       ANDROID_HOME: /home/andrey/Android/Sdk
