@@ -2,11 +2,10 @@ plugins {
     alias(libs.plugins.android.library)  // Android-библиотека для Compose
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)   // Обязательно для Compose
-    alias(libs.plugins.detekt)
 }
 
 android {
-    namespace = "com.distributed_messenger.ui"
+    namespace = "com.distributedMessenger.ui"
     compileSdk = 35
 
     defaultConfig {
@@ -37,11 +36,6 @@ android {
     buildFeatures {
         compose = true  // Включаем поддержку Compose
     }
-}
-
-detekt {
-    config.setFrom(files("$rootDir/detekt.yml"))
-    buildUponDefaultConfig = true // Используем наш конфиг поверх стандартного
 }
 
 dependencies {

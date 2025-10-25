@@ -1,0 +1,46 @@
+build:
+  maxIssues: 0 # максимальное кол-во проблем, при котором сборка еще проходит
+
+complexity:
+  TooManyFunctions:
+    thresholdInInterfaces: 15
+    thresholdInClasses: 15
+  # цикломатическая сложность не больше 10
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 10
+
+  # сложность по Холстеду, косвенно ее отражают
+  # длина функции и когнитивная сложность
+  LongMethod:
+    active: true
+    threshold: 60
+  CognitiveComplexMethod:
+    active: true
+    threshold: 15
+
+# стандартный code style для Kotlin
+style:
+  active: true
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+  WildcardImport:
+    active: true
+  UnusedImports:
+    active: true
+  MagicNumber:
+    active: false
+  UnnecessaryAbstractClass:
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  TrailingWhitespace:
+    active: true
+
+naming:
+  active: true
+  FunctionNaming:
+    active: true
+    ignoreAnnotated: ['Composable']
+    # functionPattern: '^[a-zA-Z][a-zA-Z0-9]*'

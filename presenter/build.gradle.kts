@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.distributed_messenger.presenter"
+    namespace = "com.distributedMessenger.presenter"
     compileSdk = 35
 
     defaultConfig {

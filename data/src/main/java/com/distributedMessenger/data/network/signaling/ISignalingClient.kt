@@ -1,0 +1,29 @@
+package com.distributedMessenger.data.network.signaling
+
+import com.distributedMessenger.data.network.PeerId
+import com.distributedMessenger.data.network.model.SignalMessage
+import kotlinx.coroutines.flow.Flow
+import java.util.UUID
+
+/**
+ * Интерфейс для сигнального сервера.
+ * Отвечает за обмен метаданными (Offer, Answer, ICE) для установки WebRTC-соединения.
+ */
+interface ISignalingClient {
+
+    /**
+     * Присоединиться к "комнате" на сигнальном сервере и начать слушать сигналы от других.
+     * @param chatId Уникальный идентификатор комнаты (в нашем случае ID чата).
+     * @param myId Наш уникальный ID в этой комнате.
+     * @return Flow, который эмитит пару (ID пира-отправителя, Сигнальное сообщение).
+     */
+    fun joinRoom(chatId: UUID, myId: PeerId): Flow<Map<PeerId, String?>>
+
+    /**
+     * Отправить сигнальное сообщение конкретному пиру в комнате.
+     * @param chatId ID комнаты.
+     * @param myId Наш ID (для идентификации отправителя).
+     * @param signalMessage Сигнальное сообщение для отправки.
+     */
+    fun sendSignal(chatId: UUID, myId: PeerId, signalMessage: SignalMessage)
+}

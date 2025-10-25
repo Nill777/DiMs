@@ -1,0 +1,74 @@
+package com.distributedMessenger.data.repositories
+
+import com.distributedMessenger.core.Block
+import com.distributedMessenger.logger.Logger
+import com.distributedMessenger.logger.LoggingWrapper
+import com.distributedMessenger.data.irepositories.IBlockRepository
+import com.distributedMessenger.data.local.dao.BlockDao
+import com.distributedMessenger.data.local.entities.BlockEntity
+import java.util.UUID
+
+class BlockRepository(private val blockDao: BlockDao) : IBlockRepository {
+    private val loggerWrapper = LoggingWrapper(
+        origin = this,
+        logger = Logger,
+        tag = "BlockRepository"
+    )
+
+    override suspend fun getBlock(id: UUID): Block? =
+        loggerWrapper {
+            blockDao.getBlockById(id)?.toDomain()
+        }
+
+    override suspend fun getAllBlocks(): List<Block> =
+        loggerWrapper {
+            blockDao.getAllBlocks().map { it.toDomain() }
+        }
+
+    override suspend fun getBlocksByUser(userId: UUID): List<Block> =
+        loggerWrapper {
+            blockDao.getBlocksByUserId(userId).map { it.toDomain() }
+        }
+
+    override suspend fun addBlock(block: Block): UUID =
+        loggerWrapper {
+            val rowId = blockDao.insertBlock(block.toEntity())
+            check(rowId != -1L) { "Failed to insert block" }
+            block.id
+        }
+
+    override suspend fun updateBlock(block: Block): Boolean =
+        loggerWrapper {
+            blockDao.updateBlock(block.toEntity()) > 0
+        }
+
+    override suspend fun deleteBlock(id: UUID): Boolean =
+        loggerWrapper {
+            blockDao.deleteBlock(id) > 0
+        }
+
+    override suspend fun deleteBlocksByUserId(blockerId: UUID, blockedUserId: UUID): Boolean =
+        loggerWrapper {
+            blockDao.deleteBlocksByUserId(blockerId, blockedUserId) > 0
+        }
+
+    private fun Block.toEntity(): BlockEntity {
+        return BlockEntity(
+            blockId = id,
+            blockerId = blockerId,
+            blockedUserId = blockedUserId,
+            reason = reason,
+            blockTimestamp = timestamp
+        )
+    }
+
+    private fun BlockEntity.toDomain(): Block {
+        return Block(
+            id = blockId,
+            blockerId = blockerId,
+            blockedUserId = blockedUserId,
+            reason = reason,
+            timestamp = blockTimestamp
+        )
+    }
+}

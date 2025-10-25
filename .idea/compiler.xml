@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="Distributed_messenger.app" target="21" />
+      <module name="Distributed_messenger.data" target="21" />
+      <module name="Distributed_messenger.domain" target="21" />
+      <module name="Distributed_messenger.logger" target="21" />
+      <module name="Distributed_messenger.presenter" target="21" />
+      <module name="Distributed_messenger.ui" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

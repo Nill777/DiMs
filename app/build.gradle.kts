@@ -18,11 +18,11 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.distributed_messenger"
+    namespace = "com.distributedMessenger"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.distributed_messenger"
+        applicationId = "com.distributedMessenger"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -432,7 +432,7 @@ tasks.register<Exec>("stopEmulator") {
 
 //tasks.register("runIntegrationTestsOnEmulator") {
 //    group = "Verification"
-//    description = "Runs ONLY integration tests (com.distributed_messenger.integration) and pulls their results"
+//    description = "Runs ONLY integration tests (com.distributedMessenger.integration) and pulls their results"
 //
 //    dependsOn(tasks.named("waitForEmulator"))
 //    dependsOn("installDebug", "installDebugAndroidTest")
@@ -449,7 +449,7 @@ tasks.register<Exec>("stopEmulator") {
 //        exec {
 //            commandLine(
 //                adb.absolutePath, "shell", "am", "instrument", "-w",
-////                "-e", "package", "com.distributed_messenger.integration.repositories", // ФИЛЬТР ПО ПАКЕТУ
+////                "-e", "package", "com.distributedMessenger.integration.repositories", // ФИЛЬТР ПО ПАКЕТУ
 //                instrumentationRunner
 //            )
 //            isIgnoreExitValue = true
@@ -491,7 +491,7 @@ tasks.register<Exec>("stopEmulator") {
 
 tasks.register("runE2ETestsOnEmulator") {
     group = "Verification"
-    description = "Runs ONLY E2E tests (com.distributed_messenger.e2e) and pulls their results"
+    description = "Runs ONLY E2E tests (com.distributedMessenger.e2e) and pulls their results"
 
     dependsOn(tasks.named("waitForEmulator"))
     dependsOn("installDebug", "installDebugAndroidTest")
@@ -508,7 +508,7 @@ tasks.register("runE2ETestsOnEmulator") {
         exec {
             commandLine(
                 adb.absolutePath, "shell", "am", "instrument", "-w",
-//                "-e", "package", "com.distributed_messenger.e2e", // ФИЛЬТР ПО ПАКЕТУ
+//                "-e", "package", "com.distributedMessenger.e2e", // ФИЛЬТР ПО ПАКЕТУ
                 instrumentationRunner
             )
             isIgnoreExitValue = true

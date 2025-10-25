@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.distributed_messenger.domain"
+    namespace = "com.distributedMessenger.domain"
     compileSdk = 35
 
     defaultConfig {

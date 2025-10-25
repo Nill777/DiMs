@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Distributed_messenger"
+rootProject.name = "distributedMessenger"
 include(":app")
 include(":core")
 include(":data")
