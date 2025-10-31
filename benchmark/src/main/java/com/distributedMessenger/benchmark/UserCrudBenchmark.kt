@@ -21,7 +21,6 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
 
-// Для микробенчмарков не нужен AndroidJUnit4, достаточно обычного JUnit
 class UserCrudBenchmark {
     @get:Rule
     val benchmarkRule = BenchmarkRule()
@@ -45,6 +44,8 @@ class UserCrudBenchmark {
             LogLevel.DEBUG
         }
         Logger.LOGGING_LEVEL = logLevel
+        val logDir = context.cacheDir.absolutePath
+        Logger.initialize(logDir)
         if (isTracingEnabled) {
             OtelSdkManager.initialize()
         }

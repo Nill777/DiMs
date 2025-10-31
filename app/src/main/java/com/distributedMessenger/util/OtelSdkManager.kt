@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 object OtelSdkManager {
     private var sdk: OpenTelemetrySdk? = null
-    private const val TAG = "OtelSdkManager_DEBUG" // <-- НАШ УНИКАЛЬНЫЙ ТЕГ ДЛЯ ФИЛЬТРАЦИИ
+    private const val TAG = "OtelSdkManager_DEBUG"
 
     fun initialize() {
         if (sdk != null) {
@@ -47,8 +47,6 @@ object OtelSdkManager {
         this.sdk = OpenTelemetrySdk.builder()
             .setTracerProvider(tracerProvider)
             .buildAndRegisterGlobal()
-
-        Log.i(TAG, "--- Otel SDK Initialization Finished ---")
     }
 
     fun getTracer(instrumentationName: String = "com.distributed_messenger"): Tracer {
@@ -56,24 +54,13 @@ object OtelSdkManager {
     }
 
     fun shutdown() {
-        Log.i(TAG, "--- Otel SDK Shutdown Initiated ---")
-
         val sdkProvider = sdk?.sdkTracerProvider ?: run {
-            Log.w(TAG, "SDK is null, cannot perform shutdown.")
             return
         }
 
         try {
-            // ПРИНУДИТЕЛЬНАЯ ОТПРАВКА ДАННЫХ
-            Log.d(TAG, "Attempting to force flush spans...")
-            val flushResult = sdkProvider.forceFlush().join(10, TimeUnit.SECONDS) // Увеличим таймаут
-            Log.i(TAG, ">>>>> Force flush completed. Result (true=success, false=timeout): $flushResult <<<<<")
-
-            // ШТАТНОЕ ЗАВЕРШЕНИЕ
-            Log.d(TAG, "Attempting to shutdown SDK provider...")
-            val shutdownResult = sdkProvider.shutdown().join(10, TimeUnit.SECONDS) // Увеличим таймаут
-            Log.i(TAG, ">>>>> SDK provider shutdown completed. Result: $shutdownResult <<<<<")
-
+            sdkProvider.forceFlush().join(10, TimeUnit.SECONDS)
+            sdkProvider.shutdown().join(10, TimeUnit.SECONDS)
         } catch (e: InterruptedException) {
             Log.w(TAG, "Shutdown process was interrupted", e)
             Thread.currentThread().interrupt()
