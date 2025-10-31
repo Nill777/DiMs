@@ -1,0 +1,149 @@
+11-01 00:13:00.797  8262  8278 I TestRunner: started: benchmark_UpdateUsername(com.distributedMessenger.benchmark.UserCrudBenchmark)
+11-01 00:13:00.798  8262  8262 I MonitoringInstr: Finishing activity: androidx.benchmark.IsolationActivity@b6c5e1
+11-01 00:13:00.801  8262  8278 I GrantPermissionCallable: Permission: android.permission.READ_EXTERNAL_STORAGE is already granted!
+11-01 00:13:00.802  8262  8278 I GrantPermissionCallable: Permission: android.permission.WRITE_EXTERNAL_STORAGE is already granted!
+11-01 00:13:00.802  8262  8278 D Benchmark: -- Running com.distributedMessenger.benchmark.UserCrudBenchmark#benchmark_UpdateUsername --
+11-01 00:13:00.802  8262  8278 D PerfettoCapture: Supported ABIs: x86
+11-01 00:13:00.802  8262  8278 D PerfettoCapture: Recording perfetto trace
+11-01 00:13:00.804  8262  8278 I PerfettoCapture: Cleanup perfetto before starting.
+11-01 00:13:00.846  8538  8538 I perfetto:            probes.cc:65 Hard resetting ftrace state.
+11-01 00:13:01.177  8262  8278 I PerfettoCapture: Starting perfetto tracing with cmd: /data/local/tmp/tracebox --background-wait -c /data/local/tmp/config.pb -o /data/local/tmp/trace_output.pb
+11-01 00:13:01.187  8595  8595 W perfetto:          service.cc:240 Started traced, listening on @traced-p-8593 @traced-c-8593
+11-01 00:13:01.438  8598  8598 I perfetto:           probes.cc:104 Starting traced_probes service
+11-01 00:13:01.440  8598  8598 I perfetto:  probes_producer.cc:340 Connected to the service
+11-01 00:13:01.449  8594  8594 I perfetto:    perfetto_cmd.cc:1019 Connected to the Perfetto traced service, starting tracing
+11-01 00:13:01.450  8595  8595 I perfetto: ing_service_impl.cc:980 Configured tracing session 1, #sources:9, duration:0 ms, #buffers:2, total buffer size:36864 KB, total sessions:1, uid:2000 session name: ""
+11-01 00:13:01.429  8598  8598 W tracebox: type=1400 audit(0.0:45): avc: denied { search } for name="instances" dev="tracefs" ino=2113 scontext=u:r:shell:s0 tcontext=u:object_r:debugfs_tracing_instances:s0 tclass=dir permissive=0
+11-01 00:13:01.486  8598  8598 E perfetto:    compact_sched.cc:175 Unexpected sched_switch or sched_waking format.
+11-01 00:13:01.487  8598  8598 E perfetto: zy_library_loader.cc:53 android_internal functions can be used only with in-tree builds of perfetto.
+11-01 00:13:01.487  8598  8598 I perfetto:  probes_producer.cc:142 Ftrace setup (target_buf=1)
+11-01 00:13:01.487  8598  8598 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:13:01.648  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:13:01.648  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:13:01.648  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:13:01.648  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:13:02.393  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=8604 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:02.379  8604  8604 W atrace  : type=1400 audit(0.0:46): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:13:02.402  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=8604 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:13:02.403  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=8604 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:02.404  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.404  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.404  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.405  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.405  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.405  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.405  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.406  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.407  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.408  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.408  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.408  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.408  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.408  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:13:02.408  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.409  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.409  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=8604 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:02.560  8598  8598 I perfetto:    ftrace_procfs.cc:432 enabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:13:02.578  8598  8598 E perfetto: _list_data_source.cc:79 Failed to open packages.list
+11-01 00:13:02.592  8262  8278 I PerfettoCapture: Perfetto output - 8594
+11-01 00:13:02.592  8262  8278 I PerfettoCapture: EXITCODE=0
+11-01 00:13:02.602  8262  8278 I PerfettoCapture: Perfetto tracing started successfully with pid 8594.
+11-01 00:13:04.071  8262  8278 D Benchmark: Set 8278 (Bench thread) to priority -20. Was -8, now -20
+11-01 00:13:04.071  8262  8278 D Benchmark: Set 8267 (Jit) to priority -15. Was 9, now -15
+11-01 00:13:04.100  8262  8278 I zygote  : Explicit concurrent copying GC freed 83781(41MB) AllocSpace objects, 0(0B) LOS objects, 45% free, 7MB/13MB, paused 817us total 28.620ms
+11-01 00:13:05.117  8262  8267 I zygote  : Do full code cache collection, code=243KB, data=143KB
+11-01 00:13:05.119  8262  8267 I zygote  : After code cache collection, code=200KB, data=110KB
+11-01 00:13:06.378  8262  8267 I zygote  : Do partial code cache collection, code=239KB, data=139KB
+11-01 00:13:06.380  8262  8267 I zygote  : After code cache collection, code=239KB, data=139KB
+11-01 00:13:06.380  8262  8267 I zygote  : Increasing code cache capacity to 1024KB
+11-01 00:13:07.517  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:13:07.517  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:13:11.565  1448  1448 I boot-pipe: done populating /dev/random
+11-01 00:13:15.978  8262  8278 D Benchmark: timeNs[ 0:10]: 3493533 3017428 2916338 3345345 4087769 3296445 3358265 2965833 2892380 3236191
+11-01 00:13:15.978  8262  8278 D Benchmark: timeNs[10:20]: 3081000 2931233 3354878 3298801 2729210 2964816 2610113 2731541 2463165 2642411
+11-01 00:13:15.978  8262  8278 D Benchmark: timeNs[20:30]: 2453141 2943461 3209768 2954721 2620914 2807778 2424623 3204415 3476546 3775059
+11-01 00:13:15.978  8262  8278 D Benchmark: timeNs[30:40]: 2519968 2644061 2765336 2445513 2559863 2686496 2531460 2713643 2533625 2209676
+11-01 00:13:15.978  8262  8278 D Benchmark: timeNs[40:50]: 2293977 2880813 2609476 2178585 2221125 2436918 2572525 3859949 2961158 2490231
+11-01 00:13:16.064  8262  8278 W zygote  : Suspending all threads took: 14.000ms
+11-01 00:13:16.382  8262  8278 W zygote  : Suspending all threads took: 19.463ms
+11-01 00:13:16.382  8262  8278 D Benchmark: allocationCount[ 0:10]: 1264 1270 1268 1266 1266
+11-01 00:13:16.382  8262  8278 D Benchmark: Set 8278 (Bench thread) to priority -8. Was -20, now -8
+11-01 00:13:16.382  8262  8278 D Benchmark: Set 8267 (Jit) to priority 9. Was -15, now 9
+11-01 00:13:16.383  8262  8278 D Benchmark: Warmup: t=8.000, iter=2522, fastAvg=2986310, slowAvg=3036504
+11-01 00:13:16.384  8262  8278 I PerfettoCapture: Stopping perfetto.
+11-01 00:13:16.394  8594  8594 I perfetto:    perfetto_cmd.cc:1212 SIGINT/SIGTERM received: disabling tracing.
+11-01 00:13:16.397  8598  8598 I perfetto:  probes_producer.cc:449 Producer stop (id=1)
+11-01 00:13:16.397  8598  8598 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:13:16.405  8262  8278 D Benchmark: kill -TERM command output - Output(stdout=, stderr=)
+11-01 00:13:16.520  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:16.630  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:16.668  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:13:16.668  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:13:16.668  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:13:16.668  8598  8598 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:13:16.668  8598  8598 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:13:16.737  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:16.729  8635  8635 W atrace  : type=1400 audit(0.0:47): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:13:16.747  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:13:16.748  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.750  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.751  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.752  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.753  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.754  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:13:16.754  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.756  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.756  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=8635 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:13:16.756  8635  8635 I atrace  : Dumping trace
+11-01 00:13:16.861  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:16.973  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:16.993  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:16.979  8635  8635 W atrace  : type=1400 audit(0.0:48): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:13:16.996  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:13:16.996  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=8635 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:13:17.032  8598  8598 I perfetto:  probes_producer.cc:449 Producer stop (id=2)
+11-01 00:13:17.032  8598  8598 I perfetto:  probes_producer.cc:449 Producer stop (id=3)
+11-01 00:13:17.033  8598  8598 I perfetto:  probes_producer.cc:449 Producer stop (id=4)
+11-01 00:13:17.033  8598  8598 I perfetto:  probes_producer.cc:449 Producer stop (id=5)
+11-01 00:13:17.043  8594  8594 I perfetto:    perfetto_cmd.cc:1163 Trace written into the output file
+11-01 00:13:17.098  8262  8278 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=8594)] to die
+11-01 00:13:17.117  8262  8278 I PerfettoCapture: Writing to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_UpdateUsername_2025-10-31-21-13-16.perfetto-trace.
+11-01 00:13:17.159  8262  8278 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_UpdateUsername_2025-10-31-21-13-16.perfetto-trace to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/UserCrudBenchmark_benchmark_UpdateUsername_2025-10-31-21-13-16.perfetto-trace
+11-01 00:13:17.166  8262  8278 I Benchmark: DEBUGGABLE_EMULATOR_UserCrudBenchmark.benchmark_UpdateUsername[Metric (timeNs) results: median 2786557.1153846155, min 2178585.0, max 4087769.6153846155, standardDeviation: 434265.13520019606, Metric (allocationCount) results: median 1266.6923076923076, min 1264.6153846153845, max 1270.7307692307693, standardDeviation: 2.3946130371384413]count=26
+11-01 00:13:17.168  8262  8278 D Benchmark: writing results to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:13:17.172  8262  8278 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:13:17.173  8262  8278 I TestRunner: finished: benchmark_UpdateUsername(com.distributedMessenger.benchmark.UserCrudBenchmark)

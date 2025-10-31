@@ -1,0 +1,900 @@
+11-01 00:04:33.586  6314  6330 I TestRunner: started: benchmark_RegisterUser(com.distributedMessenger.benchmark.UserCrudBenchmark)
+11-01 00:04:33.602  2153  2462 I A11yListener: (REDACTED) #onAccessibilityStateChanged enabled: %s
+11-01 00:04:33.603  2301  2416 I A       : NGA disabled due to not being eligible.
+11-01 00:04:33.603  2153  2499 I A11yListener: #onChange
+11-01 00:04:33.604  2153  2499 E TraceManager: Duplicate trace
+11-01 00:04:33.604  2153  2499 E TraceManager: com.google.apps.tiktok.tracing.w: Starting new trace A11yEventListener_onChange when already associated with a trace: . For more help, see http://go/tiktok-tracing#fixing-duplicate-trace-issues
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.apps.tiktok.tracing.em.f(PG:6)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.apps.tiktok.tracing.em.g(PG:2)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.apps.tiktok.tracing.dv.d(PG:1)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.android.libraries.search.assistant.a.g.a(PG:7)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.android.libraries.search.assistant.a.b.b(PG:2)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at j.c.b.a.a.h(PG:4)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at kotlinx.coroutines.bk.run(PG:14)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.apps.tiktok.coroutines.g.run(PG:1)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.android.libraries.i.y.run(PG:1)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.android.libraries.i.g.run(PG:2)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	at com.google.android.libraries.i.ah.run(PG:5)
+11-01 00:04:33.604  2153  2499 E TraceManager: 	Suppressed: com.google.apps.tiktok.tracing.fx:
+11-01 00:04:33.604  2153  2499 E TraceManager: 		at tk_trace.(Unknown Source:0)
+11-01 00:04:33.604  2153  2499 E TraceManager: 		at tk_trace.Missing root trace(Unknown Source:0)
+11-01 00:04:33.604  2153  2499 E TraceManager: Caused by: com.google.apps.tiktok.tracing.aa
+11-01 00:04:33.604  2153  2499 I Ma-fcf-A11yChangeNotifier: #FCF: onChange
+11-01 00:04:33.605  2153  2499 I Ma-fcf  : FCF A11y Checker - readyForTngMa
+11-01 00:04:33.608  2153  2499 I Ma-fcf  : (REDACTED) #FCF: Headset Connected Status: %s
+11-01 00:04:33.609  2153  2499 I Ma-fcf  : (REDACTED) #FCF: Assistant primary locale : %s
+11-01 00:04:33.609  2153  2499 I Ma-fcf  : (REDACTED) #FCF: Assistant Primary locale check status : %s
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : Unable to check for productivity accounts. Assuming there are none.
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : com.google.android.libraries.geller.portable.GellerException: Code: INVALID_ARGUMENT, Message: Account name is null.
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.android.libraries.search.j.l.a(PG:6)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.apps.tiktok.tracing.et.a(PG:3)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.common.util.concurrent.bc.a(PG:1)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.common.util.concurrent.cw.run(PG:4)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.android.libraries.i.y.run(PG:1)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.android.libraries.i.g.run(PG:2)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:04:33.610  2153  2499 W Ma-fcf  : 	at com.google.android.libraries.i.ah.run(PG:5)
+11-01 00:04:33.623  2153  2498 I Ma-fcf-tngMaStatus: (REDACTED) #FCF evaluate: %s
+11-01 00:04:33.623  2153  2498 I Ma-fcf-tngMaStatus: (REDACTED) TngMaStatusChecker#evaluateInternal completed in %s millis
+11-01 00:04:33.623  2153  2498 I Ma-Entry-Triggering: (REDACTED) TNG:MA status updated: %s
+11-01 00:04:33.623  2153  2498 I Ma-Entry-Triggering: TNG:MA became ineligible, client should disconnect
+11-01 00:04:33.624  2153  2498 I Ma-Entry-Triggering: #disconnectAndStop - preventing double stop
+11-01 00:04:33.624  2153  2498 I Ma-fcf-tngMaStatus: #invalidationSource: adding saa update checker
+11-01 00:04:33.624  2153  2498 I Ma-fcf-tngMaStatus: #invalidationSource: adding headset checker
+11-01 00:04:33.644  6314  6330 D Benchmark: Usable output directory: /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache
+11-01 00:04:33.726  6314  6330 D Benchmark: additionalTestOutputDir=/storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data
+11-01 00:04:33.726  6314  6330 D Benchmark: Output Directory: /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data
+11-01 00:04:33.769  6314  6330 D Benchmark: launching Benchmark IsolationActivity
+11-01 00:04:33.782  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:33.782  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:33.786  6314  6314 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: PRE_ON_CREATE
+11-01 00:04:33.809  1440  1478 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:04:33.811  1450  1466 D         : HostConnection::get() New Host Connection established 0xb382e180, tid 1466
+11-01 00:04:33.880  6314  6314 D Benchmark: Clocks not locked: online cores with min freq == min avail freq
+11-01 00:04:33.880  6314  6314 D Benchmark: cpu0 CoreDir(path=/sys/devices/system/cpu/cpu0, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:04:33.880  6314  6314 D Benchmark: cpu1 CoreDir(path=/sys/devices/system/cpu/cpu1, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:04:33.880  6314  6314 D Benchmark: cpu2 CoreDir(path=/sys/devices/system/cpu/cpu2, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:04:33.880  6314  6314 D Benchmark: cpu3 CoreDir(path=/sys/devices/system/cpu/cpu3, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:04:33.882  6314  6314 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: CREATED
+11-01 00:04:33.883  6314  6314 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: STARTED
+11-01 00:04:33.884  6314  6314 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: RESUMED
+11-01 00:04:33.890  1450  1466 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-01 00:04:33.890  6314  6406 D OpenGLRenderer: HWUI GL Pipeline
+11-01 00:04:33.917  1440  1478 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:04:33.917  6314  6406 D         : HostConnection::get() New Host Connection established 0x8212a100, tid 6406
+11-01 00:04:33.920  6314  6406 I zygote  : android::hardware::configstore::V1_0::ISurfaceFlingerConfigs::hasWideColorDisplay retrieved: 0
+11-01 00:04:33.920  6314  6406 I OpenGLRenderer: Initialized EGL, version 1.4
+11-01 00:04:33.920  6314  6406 D OpenGLRenderer: Swap behavior 1
+11-01 00:04:33.931  6314  6406 D EGL_emulation: eglCreateContext: 0xa6ce4040: maj 3 min 0 rcv 3
+11-01 00:04:33.934  6314  6406 D EGL_emulation: eglMakeCurrent: 0xa6ce4040: ver 3 0 (tinfo 0xa6c18c00)
+11-01 00:04:33.934  1440  1478 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:04:33.937  1450  1939 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-01 00:04:33.940  1440  1478 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:04:33.952  1729  1729 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2086
+11-01 00:04:33.954  1729  1729 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 0, locked = false
+11-01 00:04:33.956  1729  1729 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.distributedMessenger.benchmark, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+11-01 00:04:33.958  1729  1729 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 1, locked = false
+11-01 00:04:33.964  2301  2484 D EGL_emulation: eglMakeCurrent: 0xa6ce32c0: ver 3 0 (tinfo 0xa6c0fed0)
+11-01 00:04:33.967  6314  6406 D EGL_emulation: eglMakeCurrent: 0xa6ce4040: ver 3 0 (tinfo 0xa6c18c00)
+11-01 00:04:33.965  2216  2329 D EGL_emulation: eglMakeCurrent: 0x829f25e0: ver 3 0 (tinfo 0x829f36f0)
+11-01 00:04:33.972  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:04:34.684  1636  1657 I ActivityManager: Displayed com.distributedMessenger.benchmark/androidx.benchmark.IsolationActivity: +903ms
+11-01 00:04:34.705  6314  6330 I UiAutomationShellCmd: Requesting permission: pm grant com.distributedMessenger.benchmark android.permission.READ_EXTERNAL_STORAGE
+11-01 00:04:34.712  1736  1736 D StatusBar: disable<e i a s b h r c s q >
+11-01 00:04:34.715  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:04:34.717  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:04:34.720  1450  1450 W SurfaceFlinger: couldn't log to binary event log: overflow.
+11-01 00:04:34.843  6408  6408 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-01 00:04:34.846  6408  6408 W app_process: Could not reserve sentinel fault page
+11-01 00:04:34.897  6408  6408 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-01 00:04:34.899  6408  6408 I app_process: The ClassLoaderContext is a special shared library.
+11-01 00:04:34.912  6408  6408 D AndroidRuntime: Calling main entry com.android.commands.pm.Pm
+11-01 00:04:34.915  1636  1636 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@ada2457)
+11-01 00:04:34.915  1636  1649 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@ada2457)
+11-01 00:04:35.070  6408  6408 I app_process: System.exit called, status: 0
+11-01 00:04:35.070  6408  6408 I AndroidRuntime: VM exiting with result code 0.
+11-01 00:04:35.075  6314  6330 I UiAutomationShellCmd: Requesting permission: pm grant com.distributedMessenger.benchmark android.permission.WRITE_EXTERNAL_STORAGE
+11-01 00:04:35.199  6421  6421 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-01 00:04:35.202  6421  6421 W app_process: Could not reserve sentinel fault page
+11-01 00:04:35.238  6421  6421 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-01 00:04:35.239  6421  6421 I app_process: The ClassLoaderContext is a special shared library.
+11-01 00:04:35.253  6421  6421 D AndroidRuntime: Calling main entry com.android.commands.pm.Pm
+11-01 00:04:35.257  1636  1636 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@e3f542d)
+11-01 00:04:35.257  1636  1649 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@e3f542d)
+11-01 00:04:35.380  6421  6421 I app_process: System.exit called, status: 0
+11-01 00:04:35.380  6421  6421 I AndroidRuntime: VM exiting with result code 0.
+11-01 00:04:35.391  6314  6330 D Benchmark: -- Running com.distributedMessenger.benchmark.UserCrudBenchmark#benchmark_RegisterUser --
+11-01 00:04:35.409  6314  6330 D PerfettoCapture: Supported ABIs: x86
+11-01 00:04:35.410  6314  6330 D PerfettoCapture: Recording perfetto trace
+11-01 00:04:35.515  6314  6330 I PerfettoCapture: Cleanup perfetto before starting.
+11-01 00:04:35.542  6314  6330 D PerfettoCapture: Supported ABIs: x86
+11-01 00:04:35.605  6456  6456 I perfetto:            probes.cc:65 Hard resetting ftrace state.
+11-01 00:04:35.928  6314  6330 I PerfettoCapture: Starting perfetto tracing with cmd: /data/local/tmp/tracebox --background-wait -c /data/local/tmp/config.pb -o /data/local/tmp/trace_output.pb
+11-01 00:04:35.940  6502  6502 W perfetto:          service.cc:240 Started traced, listening on @traced-p-6500 @traced-c-6500
+11-01 00:04:36.168  6505  6505 I perfetto:           probes.cc:104 Starting traced_probes service
+11-01 00:04:36.171  6505  6505 I perfetto:  probes_producer.cc:340 Connected to the service
+11-01 00:04:36.159  6505  6505 W tracebox: type=1400 audit(0.0:21): avc: denied { search } for name="instances" dev="tracefs" ino=2113 scontext=u:r:shell:s0 tcontext=u:object_r:debugfs_tracing_instances:s0 tclass=dir permissive=0
+11-01 00:04:36.200  6501  6501 I perfetto:    perfetto_cmd.cc:1019 Connected to the Perfetto traced service, starting tracing
+11-01 00:04:36.201  6502  6502 I perfetto: ing_service_impl.cc:980 Configured tracing session 1, #sources:9, duration:0 ms, #buffers:2, total buffer size:36864 KB, total sessions:1, uid:2000 session name: ""
+11-01 00:04:36.249  6505  6505 E perfetto:    compact_sched.cc:175 Unexpected sched_switch or sched_waking format.
+11-01 00:04:36.250  6505  6505 E perfetto: zy_library_loader.cc:53 android_internal functions can be used only with in-tree builds of perfetto.
+11-01 00:04:36.250  6505  6505 I perfetto:  probes_producer.cc:142 Ftrace setup (target_buf=1)
+11-01 00:04:36.250  6505  6505 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:04:36.392  1636  1652 W zygote  : kill(-4793, 9) failed: No such process
+11-01 00:04:36.428  1636  1652 W zygote  : kill(-4793, 9) failed: No such process
+11-01 00:04:36.458  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:04:36.458  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:04:36.458  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:04:36.458  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:04:36.468  1636  1652 W zygote  : kill(-4793, 9) failed: No such process
+11-01 00:04:36.468  1636  1652 I zygote  : Successfully killed process cgroup uid 1000 pid 4793 in 75ms
+11-01 00:04:37.274  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=6511 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:04:37.269  6511  6511 W atrace  : type=1400 audit(0.0:22): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:04:37.294  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=6511 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:04:37.295  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=6511 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:04:37.297  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.297  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.297  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.298  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.298  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.298  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.298  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.300  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.300  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.300  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.301  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.301  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.301  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.302  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.302  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.303  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.304  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.304  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.304  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.304  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.305  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.305  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.305  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.305  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.306  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.307  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:04:37.307  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.309  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.309  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=6511 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:04:37.471  6505  6505 I perfetto:    ftrace_procfs.cc:432 enabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:04:37.512  6505  6505 E perfetto: _list_data_source.cc:79 Failed to open packages.list
+11-01 00:04:37.526  6314  6330 I PerfettoCapture: Perfetto output - 6501
+11-01 00:04:37.526  6314  6330 I PerfettoCapture: EXITCODE=0
+11-01 00:04:37.537  6314  6330 I PerfettoCapture: Perfetto tracing started successfully with pid 6501.
+11-01 00:04:37.618  6314  6330 W Benchmark:
+11-01 00:04:37.618  6314  6330 W Benchmark: WARNING: Debuggable Benchmark
+11-01 00:04:37.618  6314  6330 W Benchmark:     Benchmark is running with debuggable=true, which drastically reduces
+11-01 00:04:37.618  6314  6330 W Benchmark:     runtime performance in order to support debugging features. Run
+11-01 00:04:37.618  6314  6330 W Benchmark:     benchmarks with debuggable=false. Debuggable affects execution speed
+11-01 00:04:37.618  6314  6330 W Benchmark:     in ways that mean benchmark improvements might not carry over to a
+11-01 00:04:37.618  6314  6330 W Benchmark:     real user's experience (or even regress release performance).
+11-01 00:04:37.618  6314  6330 W Benchmark:
+11-01 00:04:37.618  6314  6330 W Benchmark: WARNING: Running on Emulator
+11-01 00:04:37.618  6314  6330 W Benchmark:     Benchmark is running on an emulator, which is not representative of
+11-01 00:04:37.618  6314  6330 W Benchmark:     real user devices. Use a physical device to benchmark. Emulator
+11-01 00:04:37.618  6314  6330 W Benchmark:     benchmark improvements might not carry over to a real user's
+11-01 00:04:37.618  6314  6330 W Benchmark:     experience (or even regress real device performance).
+11-01 00:04:37.618  6314  6330 W Benchmark:
+11-01 00:04:37.631  6314  6330 D Benchmark: Set 6330 (Bench thread) to priority -20. Was -8, now -20
+11-01 00:04:37.631  6314  6330 D Benchmark: Set 6319 (Jit) to priority -15. Was 9, now -15
+11-01 00:04:37.685  6314  6330 I zygote  : Explicit concurrent copying GC freed 66628(4MB) AllocSpace objects, 22(440KB) LOS objects, 46% free, 6MB/12MB, paused 2.042ms total 53.946ms
+11-01 00:04:37.714  6314  6330 I UserService: 2025-11-01 00:04:37 [INFO] UserService - Attempting to register user 'benchmark-user-06f035c6-582b-4879-b28f-a272fb882b7b'.;
+11-01 00:04:37.716  6314  6330 I UserRepository: 2025-11-01 00:04:37 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:37.742  6314  6330 D UserRepository: 2025-11-01 00:04:37 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:38.789  3659  3659 I Finsky  : [2] SCH: job service start with id 9281.
+11-01 00:04:38.805  3659  5593 I Finsky  : [290] SCH: Satisfied jobs for 9281 are: 12-1
+11-01 00:04:38.805  3659  6522 I Finsky  : [308] SCH: Job 12-1 starting
+11-01 00:04:38.806  3659  3659 I Finsky  : [2] WM::SCH: Logging work start for 12-1
+11-01 00:04:38.806  3659  3659 I Finsky  : [2] [ContentSync] job started
+11-01 00:04:38.848  3659  6525 I Finsky  : [311] App states replicator found 22 unowned apps
+11-01 00:04:38.850  3659  3768 I Finsky  : [223] Completed 0 account content syncs with 0 successful.
+11-01 00:04:38.851  3659  3659 I Finsky  : [2] [ContentSync] Installation state replication succeeded.
+11-01 00:04:38.851  3659  3659 I Finsky  : [2] SCH: jobFinished: 12-1. TimeElapsed: 45ms.
+11-01 00:04:38.851  3659  3659 I Finsky  : [2] WM::SCH: Logging work end for 12-1
+11-01 00:04:38.872  3659  3715 I Finsky  : [215] SCH: Scheduling phonesky job Id: 1-1337, CT: 1761944104437, Constraints: [{ L: 31400795, D: 74600795, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+11-01 00:04:38.872  3659  3715 I Finsky  : [215] SCH: Scheduling phonesky job Id: 10-26, CT: 1761944103023, Constraints: [{ L: 600000, D: 86400000, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+11-01 00:04:38.882  3659  3755 I Finsky  : [220] SCH: Scheduling 1 system job(s)
+11-01 00:04:38.882  3659  3755 I Finsky  : [220] SCH: Scheduling system job Id: 9284, L: 24141, D: 74026350, C: false, I: false, N: 1
+11-01 00:04:38.889  3659  6522 I Finsky  : [308] SCH: job service finished with id 9281.
+11-01 00:04:39.359  6314  6330 I UserRepository: 2025-11-01 00:04:39 [INFO] UserRepository - Calling addUser;
+11-01 00:04:39.373  6314  6330 D UserRepository: 2025-11-01 00:04:39 [DEBUG] UserRepository - addUser succeeded: 21449a97-aedf-49d8-bbe9-1e3e2ba32712;
+11-01 00:04:39.376  6314  6330 I UserService: 2025-11-01 00:04:39 [INFO] UserService - Attempting to register user 'benchmark-user-37b86116-0289-4fd9-a079-f3de7f609d32'.;
+11-01 00:04:39.378  6314  6330 I UserRepository: 2025-11-01 00:04:39 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:39.384  6314  6330 D UserRepository: 2025-11-01 00:04:39 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:41.392  6314  6330 I UserRepository: 2025-11-01 00:04:41 [INFO] UserRepository - Calling addUser;
+11-01 00:04:41.408  6314  6330 D UserRepository: 2025-11-01 00:04:41 [DEBUG] UserRepository - addUser succeeded: f8b96926-ccba-48c8-a52c-c7f57df4e0c4;
+11-01 00:04:41.410  6314  6330 I UserService: 2025-11-01 00:04:41 [INFO] UserService - Attempting to register user 'benchmark-user-0c102c1e-c754-4db7-abf9-36e67b7ab4c9'.;
+11-01 00:04:41.411  6314  6330 I UserRepository: 2025-11-01 00:04:41 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:41.415  6314  6330 D UserRepository: 2025-11-01 00:04:41 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:42.958  6314  6330 I UserRepository: 2025-11-01 00:04:42 [INFO] UserRepository - Calling addUser;
+11-01 00:04:42.968  6314  6330 D UserRepository: 2025-11-01 00:04:42 [DEBUG] UserRepository - addUser succeeded: 893e62ca-0f1a-42dc-abe5-bced6c0c7a59;
+11-01 00:04:42.969  6314  6330 I UserService: 2025-11-01 00:04:42 [INFO] UserService - Attempting to register user 'benchmark-user-3d1a69c1-31a1-4525-9d31-a2058d6fbf9c'.;
+11-01 00:04:42.969  6314  6330 I UserRepository: 2025-11-01 00:04:42 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:42.972  6314  6330 D UserRepository: 2025-11-01 00:04:42 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:44.406  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:44.407  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:44.426  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:44.426  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:44.442  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:44.442  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:44.457  6314  6330 I UserRepository: 2025-11-01 00:04:44 [INFO] UserRepository - Calling addUser;
+11-01 00:04:44.462  6314  6330 D UserRepository: 2025-11-01 00:04:44 [DEBUG] UserRepository - addUser succeeded: d35be1c9-75c6-4839-b671-1842ae5f7943;
+11-01 00:04:44.463  6314  6330 I UserService: 2025-11-01 00:04:44 [INFO] UserService - Attempting to register user 'benchmark-user-56844a1b-67af-4a95-85c8-ed244f14578c'.;
+11-01 00:04:44.464  6314  6330 I UserRepository: 2025-11-01 00:04:44 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:44.465  6314  6330 D UserRepository: 2025-11-01 00:04:44 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:45.588  6314  6321 I zygote  : Debugger is no longer active
+11-01 00:04:45.894  6314  6330 I UserRepository: 2025-11-01 00:04:45 [INFO] UserRepository - Calling addUser;
+11-01 00:04:45.898  6314  6330 D UserRepository: 2025-11-01 00:04:45 [DEBUG] UserRepository - addUser succeeded: 455ce2e9-d713-4f04-8c7f-b48e78af7bf2;
+11-01 00:04:45.898  6314  6330 I UserService: 2025-11-01 00:04:45 [INFO] UserService - Attempting to register user 'benchmark-user-e605f22b-8e87-4a45-90fe-18d783662c82'.;
+11-01 00:04:45.899  6314  6330 I UserRepository: 2025-11-01 00:04:45 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:45.900  6314  6330 D UserRepository: 2025-11-01 00:04:45 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:47.403  6314  6330 I UserRepository: 2025-11-01 00:04:47 [INFO] UserRepository - Calling addUser;
+11-01 00:04:47.410  6314  6330 D UserRepository: 2025-11-01 00:04:47 [DEBUG] UserRepository - addUser succeeded: 3509ea8d-b4f3-4ed0-9d12-94d29bec1476;
+11-01 00:04:47.411  6314  6330 I UserService: 2025-11-01 00:04:47 [INFO] UserService - Attempting to register user 'benchmark-user-2f10add1-10cd-4efa-afef-971ad33f1924'.;
+11-01 00:04:47.412  6314  6330 I UserRepository: 2025-11-01 00:04:47 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:47.414  6314  6330 D UserRepository: 2025-11-01 00:04:47 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:48.840  6314  6330 I UserRepository: 2025-11-01 00:04:48 [INFO] UserRepository - Calling addUser;
+11-01 00:04:48.844  6314  6330 D UserRepository: 2025-11-01 00:04:48 [DEBUG] UserRepository - addUser succeeded: 0b7b8709-4cc7-4a4d-b4d0-23c00dfe3e39;
+11-01 00:04:48.846  6314  6330 I UserService: 2025-11-01 00:04:48 [INFO] UserService - Attempting to register user 'benchmark-user-b47a7262-6858-45c2-a5d9-5f0535f0931c'.;
+11-01 00:04:48.847  6314  6330 I UserRepository: 2025-11-01 00:04:48 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:48.851  6314  6330 D UserRepository: 2025-11-01 00:04:48 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:49.470  5656  5706 I Finsky:background: [291] Stats for Executor: bgExecutor uke@7b4cb08[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 45]
+11-01 00:04:49.546  5656  5706 I Finsky:background: [291] Stats for Executor: LightweightExecutor uke@e0712a1[Running, pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 18]
+11-01 00:04:49.808  5656  5706 I Finsky:background: [291] Stats for Executor: BlockingExecutor uke@a362cc6[Running, pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 9]
+11-01 00:04:50.300  6314  6330 I UserRepository: 2025-11-01 00:04:50 [INFO] UserRepository - Calling addUser;
+11-01 00:04:50.303  6314  6330 D UserRepository: 2025-11-01 00:04:50 [DEBUG] UserRepository - addUser succeeded: 5e30e990-d8b5-4439-9735-f796553e8995;
+11-01 00:04:50.304  6314  6330 I UserService: 2025-11-01 00:04:50 [INFO] UserService - Attempting to register user 'benchmark-user-8d6ffb44-a39c-4db7-9edd-4427cb01f3ae'.;
+11-01 00:04:50.304  6314  6330 I UserRepository: 2025-11-01 00:04:50 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:50.306  6314  6330 D UserRepository: 2025-11-01 00:04:50 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:51.197  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:51.197  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:51.200  5710  5723 W Binder  : Binder call failed.
+11-01 00:04:51.200  5710  5723 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:04:51.200  5710  5723 W Binder  : 	at mtd.a(PG:3)
+11-01 00:04:51.200  5710  5723 W Binder  : 	at mtd.dispatchTransaction(PG:59)
+11-01 00:04:51.200  5710  5723 W Binder  : 	at gnc.onTransact(PG:13)
+11-01 00:04:51.200  5710  5723 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:04:51.205  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:51.205  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:51.745  6314  6330 I UserRepository: 2025-11-01 00:04:51 [INFO] UserRepository - Calling addUser;
+11-01 00:04:51.750  6314  6330 D UserRepository: 2025-11-01 00:04:51 [DEBUG] UserRepository - addUser succeeded: 2757fc72-5c49-4643-afb9-71177735c7be;
+11-01 00:04:51.751  6314  6330 I UserService: 2025-11-01 00:04:51 [INFO] UserService - Attempting to register user 'benchmark-user-46e233d1-e880-4b5f-a3f0-a7baaa175d48'.;
+11-01 00:04:51.752  6314  6330 I UserRepository: 2025-11-01 00:04:51 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:51.754  6314  6330 D UserRepository: 2025-11-01 00:04:51 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:53.179  6314  6330 I UserRepository: 2025-11-01 00:04:53 [INFO] UserRepository - Calling addUser;
+11-01 00:04:53.187  6314  6330 D UserRepository: 2025-11-01 00:04:53 [DEBUG] UserRepository - addUser succeeded: 225825de-b98f-4346-8d7a-054752d34610;
+11-01 00:04:53.188  6314  6330 I UserService: 2025-11-01 00:04:53 [INFO] UserService - Attempting to register user 'benchmark-user-6ccab34e-b3aa-460d-a48a-10a581df2a27'.;
+11-01 00:04:53.188  6314  6330 I UserRepository: 2025-11-01 00:04:53 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:53.194  6314  6330 D UserRepository: 2025-11-01 00:04:53 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:54.645  6314  6330 I UserRepository: 2025-11-01 00:04:54 [INFO] UserRepository - Calling addUser;
+11-01 00:04:54.648  6314  6330 D UserRepository: 2025-11-01 00:04:54 [DEBUG] UserRepository - addUser succeeded: 95582d70-1cb5-4a4e-b19a-841541616d25;
+11-01 00:04:54.649  6314  6330 I UserService: 2025-11-01 00:04:54 [INFO] UserService - Attempting to register user 'benchmark-user-7c86410c-8c96-48f4-acdd-2d3f911c978e'.;
+11-01 00:04:54.649  6314  6330 I UserRepository: 2025-11-01 00:04:54 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:54.651  6314  6330 D UserRepository: 2025-11-01 00:04:54 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:56.114  6314  6330 I UserRepository: 2025-11-01 00:04:56 [INFO] UserRepository - Calling addUser;
+11-01 00:04:56.123  6314  6330 D UserRepository: 2025-11-01 00:04:56 [DEBUG] UserRepository - addUser succeeded: 33f31311-e86b-49d2-9290-6f66533a3bc9;
+11-01 00:04:56.124  6314  6330 I UserService: 2025-11-01 00:04:56 [INFO] UserService - Attempting to register user 'benchmark-user-5bc956ce-7a1d-459b-af39-5536b4853fd2'.;
+11-01 00:04:56.125  6314  6330 I UserRepository: 2025-11-01 00:04:56 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:56.128  6314  6330 D UserRepository: 2025-11-01 00:04:56 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:56.769  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:56.769  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:56.780  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:04:56.780  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:04:56.781  5942  5953 W Binder  : Binder call failed.
+11-01 00:04:56.781  5942  5953 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:04:56.781  5942  5953 W Binder  : 	at awdl.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):3)
+11-01 00:04:56.781  5942  5953 W Binder  : 	at awdl.fg(:com.google.android.gms@254131007@25.41.31 (040700-820295184):33)
+11-01 00:04:56.781  5942  5953 W Binder  : 	at svv.onTransact(:com.google.android.gms@254131007@25.41.31 (040700-820295184):75)
+11-01 00:04:56.781  5942  5953 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:04:56.793  5942  5947 I zygote  : Do partial code cache collection, code=94KB, data=66KB
+11-01 00:04:56.794  5942  5947 I zygote  : After code cache collection, code=94KB, data=66KB
+11-01 00:04:56.794  5942  5947 I zygote  : Increasing code cache capacity to 512KB
+11-01 00:04:57.140  5656  5988 I PlayCommon: [330] Preparing logs for uploading
+11-01 00:04:57.155  5656  5988 I PlayCommon: [330] Connecting to server for timestamp: https://play.googleapis.com/play/log/timestamp
+11-01 00:04:57.553  5656  5988 W PlayCommon: [330] No account for auth token provided
+11-01 00:04:57.553  5656  5988 I PlayCommon: [330] Connecting to server: https://play.googleapis.com/play/log?format=raw&proto_v2=true
+11-01 00:04:57.595  6314  6330 I UserRepository: 2025-11-01 00:04:57 [INFO] UserRepository - Calling addUser;
+11-01 00:04:57.604  6314  6330 D UserRepository: 2025-11-01 00:04:57 [DEBUG] UserRepository - addUser succeeded: 1a5b016b-bef3-4266-ae0b-50704bb82ce5;
+11-01 00:04:57.606  6314  6330 I UserService: 2025-11-01 00:04:57 [INFO] UserService - Attempting to register user 'benchmark-user-075a963d-a638-4a42-baa8-ac5658d02f85'.;
+11-01 00:04:57.606  6314  6330 I UserRepository: 2025-11-01 00:04:57 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:57.609  6314  6330 D UserRepository: 2025-11-01 00:04:57 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:04:57.745  5656  5988 I PlayCommon: [330] Successfully uploaded logs.
+11-01 00:04:59.080  6314  6330 I UserRepository: 2025-11-01 00:04:59 [INFO] UserRepository - Calling addUser;
+11-01 00:04:59.085  6314  6330 D UserRepository: 2025-11-01 00:04:59 [DEBUG] UserRepository - addUser succeeded: abe5804c-8caa-4f0d-96da-1342d7ad0c29;
+11-01 00:04:59.085  6314  6330 I UserService: 2025-11-01 00:04:59 [INFO] UserService - Attempting to register user 'benchmark-user-1d920ea3-4d42-437e-aaa8-a1e027825711'.;
+11-01 00:04:59.085  6314  6330 I UserRepository: 2025-11-01 00:04:59 [INFO] UserRepository - Calling findByUsername;
+11-01 00:04:59.087  6314  6330 D UserRepository: 2025-11-01 00:04:59 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:00.006  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:05:00.010  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:05:00.026  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:05:00.549  6314  6330 I UserRepository: 2025-11-01 00:05:00 [INFO] UserRepository - Calling addUser;
+11-01 00:05:00.558  6314  6330 D UserRepository: 2025-11-01 00:05:00 [DEBUG] UserRepository - addUser succeeded: 3a68149f-7f6b-47dd-8355-9f0e1c1700f4;
+11-01 00:05:00.559  6314  6330 I UserService: 2025-11-01 00:05:00 [INFO] UserService - Attempting to register user 'benchmark-user-ec6d6b5d-0492-447e-b0b2-355fff552a6b'.;
+11-01 00:05:00.559  6314  6330 I UserRepository: 2025-11-01 00:05:00 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:00.563  6314  6330 D UserRepository: 2025-11-01 00:05:00 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:02.004  6314  6330 I UserRepository: 2025-11-01 00:05:02 [INFO] UserRepository - Calling addUser;
+11-01 00:05:02.008  6314  6330 D UserRepository: 2025-11-01 00:05:02 [DEBUG] UserRepository - addUser succeeded: 9b874729-8004-4e91-badd-817fc5255cf1;
+11-01 00:05:02.009  6314  6330 I UserService: 2025-11-01 00:05:02 [INFO] UserService - Attempting to register user 'benchmark-user-0f472866-fdec-4354-ad12-755eda1f2f68'.;
+11-01 00:05:02.009  6314  6330 I UserRepository: 2025-11-01 00:05:02 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:02.012  6314  6330 D UserRepository: 2025-11-01 00:05:02 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:02.732  2010  6532 W LogErrorOperation: onLogError callback failed.
+11-01 00:05:03.462  6314  6330 I UserRepository: 2025-11-01 00:05:03 [INFO] UserRepository - Calling addUser;
+11-01 00:05:03.468  6314  6330 D UserRepository: 2025-11-01 00:05:03 [DEBUG] UserRepository - addUser succeeded: 54732fd6-7dae-459b-a724-212030d9a933;
+11-01 00:05:03.469  6314  6330 I UserService: 2025-11-01 00:05:03 [INFO] UserService - Attempting to register user 'benchmark-user-51d3fb49-845d-41ed-b7ad-e03a6e1c73bf'.;
+11-01 00:05:03.469  6314  6330 I UserRepository: 2025-11-01 00:05:03 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:03.472  6314  6330 D UserRepository: 2025-11-01 00:05:03 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:03.603  3659  3659 I Finsky  : [2] SCH: job service start with id 9284.
+11-01 00:05:03.618  3659  5593 I Finsky  : [290] SCH: Satisfied jobs for 9284 are: 10-26
+11-01 00:05:03.631  3659  6522 I Finsky  : [308] SCH: Job 10-26 starting
+11-01 00:05:03.632  3659  3659 I Finsky  : [2] WM::SCH: Logging work start for 10-26
+11-01 00:05:03.659  3659  3715 I Finsky  : [215] SCH: jobFinished: 10-26. TimeElapsed: 27ms.
+11-01 00:05:03.659  3659  3715 I Finsky  : [215] WM::SCH: Logging work end for 10-26
+11-01 00:05:03.672  2010  2833 W UsageReportingOptionsSt: INTERNAL_ERROR: setPlayPassOptIn failed with null account [CONTEXT service_id=41 ]
+11-01 00:05:03.674  2010  2833 E UsageReportingOptionsSt: INTERNAL_ERROR: setOptInOption should not be called while user is locked. [CONTEXT service_id=41 ]
+11-01 00:05:03.681  3659  3710 I Finsky  : [210] SCH: Scheduling phonesky job Id: 1-1337, CT: 1761944104437, Constraints: [{ L: 31400795, D: 74600795, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+11-01 00:05:03.684  3659  3755 I Finsky  : [220] SCH: Scheduling 1 system job(s)
+11-01 00:05:03.684  3659  3755 I Finsky  : [220] SCH: Scheduling system job Id: 9286, L: 30801548, D: 74001548, C: false, I: false, N: 1
+11-01 00:05:03.689  3659  6522 I Finsky  : [308] SCH: job service finished with id 9284.
+11-01 00:05:04.907  6314  6330 I UserRepository: 2025-11-01 00:05:04 [INFO] UserRepository - Calling addUser;
+11-01 00:05:04.910  6314  6330 D UserRepository: 2025-11-01 00:05:04 [DEBUG] UserRepository - addUser succeeded: f1ee63ed-8d38-4768-aa5c-7c2a552d5197;
+11-01 00:05:04.911  6314  6330 I UserService: 2025-11-01 00:05:04 [INFO] UserService - Attempting to register user 'benchmark-user-8c637d00-c2ee-4a7d-b0f5-7d4fb8e1a5aa'.;
+11-01 00:05:04.911  6314  6330 I UserRepository: 2025-11-01 00:05:04 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:04.914  6314  6330 D UserRepository: 2025-11-01 00:05:04 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:06.357  6314  6330 I UserRepository: 2025-11-01 00:05:06 [INFO] UserRepository - Calling addUser;
+11-01 00:05:06.367  6314  6330 D UserRepository: 2025-11-01 00:05:06 [DEBUG] UserRepository - addUser succeeded: 0da2bca6-9435-4f76-981e-5dd1df554efb;
+11-01 00:05:06.369  6314  6330 I UserService: 2025-11-01 00:05:06 [INFO] UserService - Attempting to register user 'benchmark-user-0c780650-4fb8-445b-8067-33f11e37c2ad'.;
+11-01 00:05:06.369  6314  6330 I UserRepository: 2025-11-01 00:05:06 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:06.372  6314  6330 D UserRepository: 2025-11-01 00:05:06 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:07.785  6314  6330 I UserRepository: 2025-11-01 00:05:07 [INFO] UserRepository - Calling addUser;
+11-01 00:05:07.792  6314  6330 D UserRepository: 2025-11-01 00:05:07 [DEBUG] UserRepository - addUser succeeded: bd1dbda6-c233-4332-997e-084a2b668c8a;
+11-01 00:05:07.793  6314  6330 I UserService: 2025-11-01 00:05:07 [INFO] UserService - Attempting to register user 'benchmark-user-6682e24b-93e2-418b-9ba1-685b243193cf'.;
+11-01 00:05:07.793  6314  6330 I UserRepository: 2025-11-01 00:05:07 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:07.796  6314  6330 D UserRepository: 2025-11-01 00:05:07 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:08.784  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:05:08.784  3659  3659 I Finsky  : [2] SCH: job service start with id 9263.
+11-01 00:05:08.784  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:05:08.793  3659  5593 I Finsky  : [290] SCH: Satisfied jobs for 9263 are: 10-11, 10-123
+11-01 00:05:08.806  3659  6522 I Finsky  : [308] SCH: Job 10-11 starting
+11-01 00:05:08.809  3659  3659 I Finsky  : [2] WM::SCH: Logging work start for 10-11
+11-01 00:05:08.810  3659  3755 I Finsky  : [220] Running split install cleaner
+11-01 00:05:08.813  3659  6522 I Finsky  : [308] SCH: Job 10-123 starting
+11-01 00:05:08.815  3659  3659 I Finsky  : [2] WM::SCH: Logging work start for 10-123
+11-01 00:05:08.815  3659  3659 I Finsky  : [2] AppRecoveryHygieneJob starting
+11-01 00:05:08.820  3659  6536 I Finsky  : [313] Removed 0 obsolete sessions.
+11-01 00:05:08.822  3659  6536 I Finsky  : [313] Removed 0 corrupted downloaded sessions.
+11-01 00:05:08.823  3659  3710 I Finsky  : [210] AppRecoveryHygieneJob: successfully finished generating v3.1 signatures
+11-01 00:05:08.823  3659  3710 I Finsky  : [210] AppRecoveryHygieneJob: starting fetching app recovery item details of packages
+11-01 00:05:08.823  3659  6536 I Finsky  : [313] Finished completion of 0 sessions. Successful: 0. Failed: 0.
+11-01 00:05:08.826  3659  3710 I Finsky  : [210] AppRecoveryHygieneJob: successfully fetched app recovery item details of packages
+11-01 00:05:08.826  3659  3710 I Finsky  : [210] AppRecoveryHygieneJob: no item details are available for app recovery updates
+11-01 00:05:08.828  3659  3710 I Finsky  : [210] AppRecoveryHygieneJob finished
+11-01 00:05:08.829  3659  3710 I Finsky  : [210] SCH: jobFinished: 10-123. TimeElapsed: 15ms.
+11-01 00:05:08.832  3659  3710 I Finsky  : [210] WM::SCH: Logging work end for 10-123
+11-01 00:05:08.854  3659  3768 I Finsky  : [223] SCH: jobFinished: 10-11. TimeElapsed: 43ms.
+11-01 00:05:08.855  3659  3768 I Finsky  : [223] WM::SCH: Logging work end for 10-11
+11-01 00:05:08.869  3659  3755 I Finsky  : [220] SCH: Scheduling phonesky job Id: 10-4, CT: 1761944103021, Constraints: [{ L: 1200000, D: 86400000, C: CHARGING_NONE, I: IDLE_NONE, N: NET_NONE, B: BATTERY_ANY }]
+11-01 00:05:08.869  3659  3755 I Finsky  : [220] SCH: Scheduling phonesky job Id: 26-1414141414, CT: 1761944119218, Constraints: [{ L: 43200000, D: 44100000, C: CHARGING_NONE, I: IDLE_NONE, N: NET_NONE, B: BATTERY_ANY }]
+11-01 00:05:08.873  3659  3715 I Finsky  : [215] SCH: Scheduling 1 system job(s)
+11-01 00:05:08.873  3659  3715 I Finsky  : [215] SCH: Scheduling system job Id: 9287, L: 594148, D: 43510345, C: false, I: false, N: 0
+11-01 00:05:08.877  3659  6522 I Finsky  : [308] SCH: job service finished with id 9263.
+11-01 00:05:09.234  6314  6330 I UserRepository: 2025-11-01 00:05:09 [INFO] UserRepository - Calling addUser;
+11-01 00:05:09.244  6314  6330 D UserRepository: 2025-11-01 00:05:09 [DEBUG] UserRepository - addUser succeeded: 0156cd44-0f33-43bc-8447-68972e030267;
+11-01 00:05:09.245  6314  6330 I UserService: 2025-11-01 00:05:09 [INFO] UserService - Attempting to register user 'benchmark-user-ac3ea536-1992-489c-885c-a9a70f733f57'.;
+11-01 00:05:09.246  6314  6330 I UserRepository: 2025-11-01 00:05:09 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:09.250  6314  6330 D UserRepository: 2025-11-01 00:05:09 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:10.686  6314  6330 I UserRepository: 2025-11-01 00:05:10 [INFO] UserRepository - Calling addUser;
+11-01 00:05:10.692  6314  6330 D UserRepository: 2025-11-01 00:05:10 [DEBUG] UserRepository - addUser succeeded: 17540174-fa4e-4ecc-9383-7cca4da4f532;
+11-01 00:05:10.693  6314  6330 I UserService: 2025-11-01 00:05:10 [INFO] UserService - Attempting to register user 'benchmark-user-6382940f-55bb-42d1-94d0-c215eb58f97f'.;
+11-01 00:05:10.694  6314  6330 I UserRepository: 2025-11-01 00:05:10 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:10.696  6314  6330 D UserRepository: 2025-11-01 00:05:10 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:11.557  1448  1448 I boot-pipe: done populating /dev/random
+11-01 00:05:12.138  6314  6330 I UserRepository: 2025-11-01 00:05:12 [INFO] UserRepository - Calling addUser;
+11-01 00:05:12.143  6314  6330 D UserRepository: 2025-11-01 00:05:12 [DEBUG] UserRepository - addUser succeeded: abd43116-7558-4bb2-87c4-2e266a9a17e6;
+11-01 00:05:12.144  6314  6330 I UserService: 2025-11-01 00:05:12 [INFO] UserService - Attempting to register user 'benchmark-user-d2a34f4e-a023-4cfa-895c-a24e77dcd6d9'.;
+11-01 00:05:12.144  6314  6330 I UserRepository: 2025-11-01 00:05:12 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:12.147  6314  6330 D UserRepository: 2025-11-01 00:05:12 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:13.864  6314  6330 I UserRepository: 2025-11-01 00:05:13 [INFO] UserRepository - Calling addUser;
+11-01 00:05:13.878  6314  6330 D UserRepository: 2025-11-01 00:05:13 [DEBUG] UserRepository - addUser succeeded: c462f568-92a1-410f-9c7a-92119216c677;
+11-01 00:05:13.880  6314  6330 I UserService: 2025-11-01 00:05:13 [INFO] UserService - Attempting to register user 'benchmark-user-73a1dc8b-6df6-450d-91c8-adc36139e7d8'.;
+11-01 00:05:13.881  6314  6330 I UserRepository: 2025-11-01 00:05:13 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:13.889  6314  6330 D UserRepository: 2025-11-01 00:05:13 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:15.698  6314  6330 I UserRepository: 2025-11-01 00:05:15 [INFO] UserRepository - Calling addUser;
+11-01 00:05:15.704  6314  6330 D UserRepository: 2025-11-01 00:05:15 [DEBUG] UserRepository - addUser succeeded: face92cf-77b2-402a-b2ac-4396b8d5b8d8;
+11-01 00:05:15.705  6314  6330 I UserService: 2025-11-01 00:05:15 [INFO] UserService - Attempting to register user 'benchmark-user-1ec63a6f-349f-4f6b-b2bd-0201423bfe7f'.;
+11-01 00:05:15.706  6314  6330 I UserRepository: 2025-11-01 00:05:15 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:15.708  6314  6330 D UserRepository: 2025-11-01 00:05:15 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:15.745  6314  6329 I zygote  : Waiting for a blocking GC ProfileSaver
+11-01 00:05:15.794  6314  6329 I zygote  : WaitForGcToComplete blocked ProfileSaver on HeapTrim for 49.722ms
+11-01 00:05:17.188  6314  6330 I UserRepository: 2025-11-01 00:05:17 [INFO] UserRepository - Calling addUser;
+11-01 00:05:17.194  6314  6330 D UserRepository: 2025-11-01 00:05:17 [DEBUG] UserRepository - addUser succeeded: 64abc5a1-d9c8-4d30-9568-cc48ee41acfd;
+11-01 00:05:17.195  6314  6330 I UserService: 2025-11-01 00:05:17 [INFO] UserService - Attempting to register user 'benchmark-user-890332c7-4318-480b-9a4a-e57f67a57278'.;
+11-01 00:05:17.196  6314  6330 I UserRepository: 2025-11-01 00:05:17 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:17.198  6314  6330 D UserRepository: 2025-11-01 00:05:17 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:18.672  6314  6330 I UserRepository: 2025-11-01 00:05:18 [INFO] UserRepository - Calling addUser;
+11-01 00:05:18.675  6314  6330 D UserRepository: 2025-11-01 00:05:18 [DEBUG] UserRepository - addUser succeeded: 402fd57d-f98c-4a74-9596-ff1b3f41ec5e;
+11-01 00:05:18.675  6314  6330 I UserService: 2025-11-01 00:05:18 [INFO] UserService - Attempting to register user 'benchmark-user-8bb3e83f-9f73-49e1-b205-b206eccb343e'.;
+11-01 00:05:18.676  6314  6330 I UserRepository: 2025-11-01 00:05:18 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:18.678  6314  6330 D UserRepository: 2025-11-01 00:05:18 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:20.152  6314  6330 I UserRepository: 2025-11-01 00:05:20 [INFO] UserRepository - Calling addUser;
+11-01 00:05:20.161  6314  6330 D UserRepository: 2025-11-01 00:05:20 [DEBUG] UserRepository - addUser succeeded: 51a16ae9-bd89-4e43-8474-54764ae827b6;
+11-01 00:05:20.162  6314  6330 I UserService: 2025-11-01 00:05:20 [INFO] UserService - Attempting to register user 'benchmark-user-e066c9a7-f655-487f-ab9f-6204a6ca57d5'.;
+11-01 00:05:20.162  6314  6330 I UserRepository: 2025-11-01 00:05:20 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:20.165  6314  6330 D UserRepository: 2025-11-01 00:05:20 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:21.658  6314  6330 I UserRepository: 2025-11-01 00:05:21 [INFO] UserRepository - Calling addUser;
+11-01 00:05:21.663  6314  6330 D UserRepository: 2025-11-01 00:05:21 [DEBUG] UserRepository - addUser succeeded: 428ce3c9-c98d-4043-8445-d65efdbb1be4;
+11-01 00:05:21.664  6314  6330 I UserService: 2025-11-01 00:05:21 [INFO] UserService - Attempting to register user 'benchmark-user-b85e72c1-349d-4395-8f10-5a17ce050910'.;
+11-01 00:05:21.664  6314  6330 I UserRepository: 2025-11-01 00:05:21 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:21.666  6314  6330 D UserRepository: 2025-11-01 00:05:21 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:23.152  6314  6319 I zygote  : Do full code cache collection, code=121KB, data=67KB
+11-01 00:05:23.153  6314  6330 I UserRepository: 2025-11-01 00:05:23 [INFO] UserRepository - Calling addUser;
+11-01 00:05:23.154  6314  6319 I zygote  : After code cache collection, code=116KB, data=57KB
+11-01 00:05:23.160  6314  6330 D UserRepository: 2025-11-01 00:05:23 [DEBUG] UserRepository - addUser succeeded: 0e74f441-1676-487d-8dcb-35c7cfbf9a56;
+11-01 00:05:23.161  6314  6330 I UserService: 2025-11-01 00:05:23 [INFO] UserService - Attempting to register user 'benchmark-user-1a6e2de6-f81a-4662-af45-b041e6266db0'.;
+11-01 00:05:23.162  6314  6330 I UserRepository: 2025-11-01 00:05:23 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:23.164  6314  6330 D UserRepository: 2025-11-01 00:05:23 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:24.607  6314  6330 I UserRepository: 2025-11-01 00:05:24 [INFO] UserRepository - Calling addUser;
+11-01 00:05:24.612  6314  6330 D UserRepository: 2025-11-01 00:05:24 [DEBUG] UserRepository - addUser succeeded: a30a97fd-0f37-48c8-b83a-151ad5cde5d8;
+11-01 00:05:24.613  6314  6330 I UserService: 2025-11-01 00:05:24 [INFO] UserService - Attempting to register user 'benchmark-user-f8fd0d54-a122-4765-937e-23d42a40043a'.;
+11-01 00:05:24.614  6314  6330 I UserRepository: 2025-11-01 00:05:24 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:24.618  6314  6330 D UserRepository: 2025-11-01 00:05:24 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:26.057  6314  6330 I UserRepository: 2025-11-01 00:05:26 [INFO] UserRepository - Calling addUser;
+11-01 00:05:26.065  6314  6330 D UserRepository: 2025-11-01 00:05:26 [DEBUG] UserRepository - addUser succeeded: 34c92b3a-c939-4031-b678-8554c8b80f21;
+11-01 00:05:26.065  6314  6330 I UserService: 2025-11-01 00:05:26 [INFO] UserService - Attempting to register user 'benchmark-user-b4600138-6d77-4daf-a8e1-30b167723901'.;
+11-01 00:05:26.066  6314  6330 I UserRepository: 2025-11-01 00:05:26 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:26.069  6314  6330 D UserRepository: 2025-11-01 00:05:26 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:27.507  6314  6330 I UserRepository: 2025-11-01 00:05:27 [INFO] UserRepository - Calling addUser;
+11-01 00:05:27.515  6314  6330 D UserRepository: 2025-11-01 00:05:27 [DEBUG] UserRepository - addUser succeeded: ffeddcad-696d-412c-a93a-c982295344d6;
+11-01 00:05:27.516  6314  6330 I UserService: 2025-11-01 00:05:27 [INFO] UserService - Attempting to register user 'benchmark-user-98bec9eb-5799-4fb3-8758-1d695b649209'.;
+11-01 00:05:27.516  6314  6330 I UserRepository: 2025-11-01 00:05:27 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:27.520  6314  6330 D UserRepository: 2025-11-01 00:05:27 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:28.959  6314  6330 I UserRepository: 2025-11-01 00:05:28 [INFO] UserRepository - Calling addUser;
+11-01 00:05:28.965  6314  6330 D UserRepository: 2025-11-01 00:05:28 [DEBUG] UserRepository - addUser succeeded: 4e67e7dc-497b-4dff-8863-d56217e786b0;
+11-01 00:05:28.966  6314  6330 I UserService: 2025-11-01 00:05:28 [INFO] UserService - Attempting to register user 'benchmark-user-db5637b1-b6a0-46e1-bac2-468faf67cfd7'.;
+11-01 00:05:28.967  6314  6330 I UserRepository: 2025-11-01 00:05:28 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:28.969  6314  6330 D UserRepository: 2025-11-01 00:05:28 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:29.359  2118  2118 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-01 00:05:30.402  6314  6330 I UserRepository: 2025-11-01 00:05:30 [INFO] UserRepository - Calling addUser;
+11-01 00:05:30.404  6314  6330 D UserRepository: 2025-11-01 00:05:30 [DEBUG] UserRepository - addUser succeeded: 0124720f-a6a7-4030-bb5a-3b147cb9fa94;
+11-01 00:05:30.405  6314  6330 I UserService: 2025-11-01 00:05:30 [INFO] UserService - Attempting to register user 'benchmark-user-abbd75a9-3438-440c-944e-1c18a107d58b'.;
+11-01 00:05:30.406  6314  6330 I UserRepository: 2025-11-01 00:05:30 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:30.408  6314  6330 D UserRepository: 2025-11-01 00:05:30 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:31.840  6314  6330 I UserRepository: 2025-11-01 00:05:31 [INFO] UserRepository - Calling addUser;
+11-01 00:05:31.843  6314  6330 D UserRepository: 2025-11-01 00:05:31 [DEBUG] UserRepository - addUser succeeded: 8b31a89a-9467-4256-ba59-4f46e26330a5;
+11-01 00:05:31.844  6314  6330 I UserService: 2025-11-01 00:05:31 [INFO] UserService - Attempting to register user 'benchmark-user-cfe7a8f1-c2ec-4d32-bd9a-1bb7f7848e5f'.;
+11-01 00:05:31.845  6314  6330 I UserRepository: 2025-11-01 00:05:31 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:31.847  6314  6330 D UserRepository: 2025-11-01 00:05:31 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:33.274  6314  6330 I UserRepository: 2025-11-01 00:05:33 [INFO] UserRepository - Calling addUser;
+11-01 00:05:33.278  6314  6330 D UserRepository: 2025-11-01 00:05:33 [DEBUG] UserRepository - addUser succeeded: 08f3221c-5a9f-44a4-aa50-33142a86bad7;
+11-01 00:05:33.279  6314  6330 I UserService: 2025-11-01 00:05:33 [INFO] UserService - Attempting to register user 'benchmark-user-e8cf6ac3-53f1-4d9c-af3e-5e3552ce9288'.;
+11-01 00:05:33.280  6314  6330 I UserRepository: 2025-11-01 00:05:33 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:33.282  6314  6330 D UserRepository: 2025-11-01 00:05:33 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:34.026  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.memtrack::IMemtrack pid=5942 scontext=u:r:priv_app:s0:c512,c768 tcontext=u:object_r:hal_memtrack_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:05:34.027  5942  5978 E memtrack: Couldn't load memtrack module
+11-01 00:05:34.027  5942  5978 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:05:34.727  6314  6330 I UserRepository: 2025-11-01 00:05:34 [INFO] UserRepository - Calling addUser;
+11-01 00:05:34.734  6314  6330 D UserRepository: 2025-11-01 00:05:34 [DEBUG] UserRepository - addUser succeeded: 0e580cac-7d12-4792-ae09-65631ee18483;
+11-01 00:05:34.736  6314  6330 I UserService: 2025-11-01 00:05:34 [INFO] UserService - Attempting to register user 'benchmark-user-abec0ac0-2785-4d88-9b3e-a87ae292d769'.;
+11-01 00:05:34.737  6314  6330 I UserRepository: 2025-11-01 00:05:34 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:34.740  6314  6330 D UserRepository: 2025-11-01 00:05:34 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:36.204  6314  6330 I UserRepository: 2025-11-01 00:05:36 [INFO] UserRepository - Calling addUser;
+11-01 00:05:36.211  6314  6330 D UserRepository: 2025-11-01 00:05:36 [DEBUG] UserRepository - addUser succeeded: 10bed2b9-5573-4545-b131-4c7f9eb78041;
+11-01 00:05:36.213  6314  6330 I UserService: 2025-11-01 00:05:36 [INFO] UserService - Attempting to register user 'benchmark-user-2b5bc8c0-f52e-4bb2-9878-0d9746a70f9c'.;
+11-01 00:05:36.213  6314  6330 I UserRepository: 2025-11-01 00:05:36 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:36.216  6314  6330 D UserRepository: 2025-11-01 00:05:36 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:37.648  6314  6330 I UserRepository: 2025-11-01 00:05:37 [INFO] UserRepository - Calling addUser;
+11-01 00:05:37.656  6314  6330 D UserRepository: 2025-11-01 00:05:37 [DEBUG] UserRepository - addUser succeeded: 8ffade22-287a-4eaa-80a7-4973797cffab;
+11-01 00:05:37.658  6314  6330 I UserService: 2025-11-01 00:05:37 [INFO] UserService - Attempting to register user 'benchmark-user-924d50a2-4e8f-4302-9e8a-f3302c7b24cf'.;
+11-01 00:05:37.658  6314  6330 I UserRepository: 2025-11-01 00:05:37 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:37.661  6314  6330 D UserRepository: 2025-11-01 00:05:37 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:39.097  6314  6330 I UserRepository: 2025-11-01 00:05:39 [INFO] UserRepository - Calling addUser;
+11-01 00:05:39.102  6314  6330 D UserRepository: 2025-11-01 00:05:39 [DEBUG] UserRepository - addUser succeeded: 2438786b-5bee-43ec-8ff3-5d146d665992;
+11-01 00:05:39.103  6314  6330 I UserService: 2025-11-01 00:05:39 [INFO] UserService - Attempting to register user 'benchmark-user-11441c96-b414-4ceb-a7ff-7aa7950229b3'.;
+11-01 00:05:39.104  6314  6330 I UserRepository: 2025-11-01 00:05:39 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:39.106  6314  6330 D UserRepository: 2025-11-01 00:05:39 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:40.564  6314  6330 I UserRepository: 2025-11-01 00:05:40 [INFO] UserRepository - Calling addUser;
+11-01 00:05:40.569  6314  6330 D UserRepository: 2025-11-01 00:05:40 [DEBUG] UserRepository - addUser succeeded: 8e423c14-d5f1-483d-8e24-f2e8f5a0fa07;
+11-01 00:05:40.569  6314  6330 I UserService: 2025-11-01 00:05:40 [INFO] UserService - Attempting to register user 'benchmark-user-c0ca0554-fcba-4ff9-84a2-228ca54da1ee'.;
+11-01 00:05:40.570  6314  6330 I UserRepository: 2025-11-01 00:05:40 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:40.573  6314  6330 D UserRepository: 2025-11-01 00:05:40 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:42.003  6314  6330 I UserRepository: 2025-11-01 00:05:42 [INFO] UserRepository - Calling addUser;
+11-01 00:05:42.011  6314  6330 D UserRepository: 2025-11-01 00:05:42 [DEBUG] UserRepository - addUser succeeded: 235ed443-2239-4ecb-a90a-75598bc6efb1;
+11-01 00:05:42.012  6314  6330 I UserService: 2025-11-01 00:05:42 [INFO] UserService - Attempting to register user 'benchmark-user-1c017f47-5149-40d4-85b9-e5a22e14f232'.;
+11-01 00:05:42.013  6314  6330 I UserRepository: 2025-11-01 00:05:42 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:42.015  6314  6330 D UserRepository: 2025-11-01 00:05:42 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:43.426  6314  6330 I UserRepository: 2025-11-01 00:05:43 [INFO] UserRepository - Calling addUser;
+11-01 00:05:43.435  6314  6330 D UserRepository: 2025-11-01 00:05:43 [DEBUG] UserRepository - addUser succeeded: eeb18a1c-2037-46d9-8b1a-4c473dc16226;
+11-01 00:05:43.435  6314  6330 I UserService: 2025-11-01 00:05:43 [INFO] UserService - Attempting to register user 'benchmark-user-09fc54f5-831d-462c-86e0-78ef25e61add'.;
+11-01 00:05:43.436  6314  6330 I UserRepository: 2025-11-01 00:05:43 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:43.439  6314  6330 D UserRepository: 2025-11-01 00:05:43 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:44.851  6314  6330 I UserRepository: 2025-11-01 00:05:44 [INFO] UserRepository - Calling addUser;
+11-01 00:05:44.862  6314  6330 D UserRepository: 2025-11-01 00:05:44 [DEBUG] UserRepository - addUser succeeded: b221fce5-e4a8-47a5-844d-d332d279377b;
+11-01 00:05:44.863  6314  6330 I UserService: 2025-11-01 00:05:44 [INFO] UserService - Attempting to register user 'benchmark-user-0af0d7c2-64f7-4210-8236-442f2d141079'.;
+11-01 00:05:44.863  6314  6330 I UserRepository: 2025-11-01 00:05:44 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:44.866  6314  6330 D UserRepository: 2025-11-01 00:05:44 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:46.487  6314  6330 I UserRepository: 2025-11-01 00:05:46 [INFO] UserRepository - Calling addUser;
+11-01 00:05:46.496  6314  6330 D UserRepository: 2025-11-01 00:05:46 [DEBUG] UserRepository - addUser succeeded: d9d0dffb-0103-4bb1-bb4d-f071cb1fcd42;
+11-01 00:05:46.498  6314  6330 I UserService: 2025-11-01 00:05:46 [INFO] UserService - Attempting to register user 'benchmark-user-4dfa0e04-2578-4e74-90f6-a63c0fe3897f'.;
+11-01 00:05:46.499  6314  6330 I UserRepository: 2025-11-01 00:05:46 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:46.501  6314  6330 D UserRepository: 2025-11-01 00:05:46 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:48.179  6314  6330 I UserRepository: 2025-11-01 00:05:48 [INFO] UserRepository - Calling addUser;
+11-01 00:05:48.187  6314  6330 D UserRepository: 2025-11-01 00:05:48 [DEBUG] UserRepository - addUser succeeded: b9ad76c2-3857-4d9a-86e3-d1e7faedfe0a;
+11-01 00:05:48.188  6314  6330 I UserService: 2025-11-01 00:05:48 [INFO] UserService - Attempting to register user 'benchmark-user-81c866a7-6acf-49ab-a3ba-5508f32b3e18'.;
+11-01 00:05:48.189  6314  6330 I UserRepository: 2025-11-01 00:05:48 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:48.191  6314  6330 D UserRepository: 2025-11-01 00:05:48 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:49.682  6314  6330 I UserRepository: 2025-11-01 00:05:49 [INFO] UserRepository - Calling addUser;
+11-01 00:05:49.688  6314  6330 D UserRepository: 2025-11-01 00:05:49 [DEBUG] UserRepository - addUser succeeded: 30f343b7-d274-42ac-8c88-f1d36809bd4f;
+11-01 00:05:49.689  6314  6330 I UserService: 2025-11-01 00:05:49 [INFO] UserService - Attempting to register user 'benchmark-user-a5607aff-4218-420a-a685-049212d96dba'.;
+11-01 00:05:49.690  6314  6330 I UserRepository: 2025-11-01 00:05:49 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:49.692  6314  6330 D UserRepository: 2025-11-01 00:05:49 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:51.137  6314  6330 I UserRepository: 2025-11-01 00:05:51 [INFO] UserRepository - Calling addUser;
+11-01 00:05:51.141  6314  6330 D UserRepository: 2025-11-01 00:05:51 [DEBUG] UserRepository - addUser succeeded: df67bb19-9df2-4ab8-a3e9-d98e65dcfde4;
+11-01 00:05:51.143  6314  6330 I UserService: 2025-11-01 00:05:51 [INFO] UserService - Attempting to register user 'benchmark-user-db1c2e90-a3f5-41f2-8c34-a7856d1e4654'.;
+11-01 00:05:51.143  6314  6330 I UserRepository: 2025-11-01 00:05:51 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:51.145  6314  6330 D UserRepository: 2025-11-01 00:05:51 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:52.601  6314  6330 I UserRepository: 2025-11-01 00:05:52 [INFO] UserRepository - Calling addUser;
+11-01 00:05:52.606  6314  6330 D UserRepository: 2025-11-01 00:05:52 [DEBUG] UserRepository - addUser succeeded: a59cb48e-50f8-4866-be31-e14069927c06;
+11-01 00:05:52.607  6314  6330 I UserService: 2025-11-01 00:05:52 [INFO] UserService - Attempting to register user 'benchmark-user-692e4e1c-c14b-402b-a663-984d3cb62958'.;
+11-01 00:05:52.608  6314  6330 I UserRepository: 2025-11-01 00:05:52 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:52.611  6314  6330 D UserRepository: 2025-11-01 00:05:52 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:54.042  6314  6330 I UserRepository: 2025-11-01 00:05:54 [INFO] UserRepository - Calling addUser;
+11-01 00:05:54.045  6314  6330 D UserRepository: 2025-11-01 00:05:54 [DEBUG] UserRepository - addUser succeeded: d5f5afd3-f04a-4af5-9ab8-59987dab966c;
+11-01 00:05:54.046  6314  6330 I UserService: 2025-11-01 00:05:54 [INFO] UserService - Attempting to register user 'benchmark-user-92161091-5ae5-4b9f-a26d-38d3766325b2'.;
+11-01 00:05:54.047  6314  6330 I UserRepository: 2025-11-01 00:05:54 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:54.050  6314  6330 D UserRepository: 2025-11-01 00:05:54 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:55.479  6314  6330 I UserRepository: 2025-11-01 00:05:55 [INFO] UserRepository - Calling addUser;
+11-01 00:05:55.482  6314  6330 D UserRepository: 2025-11-01 00:05:55 [DEBUG] UserRepository - addUser succeeded: 9fc2c341-ccaa-4205-a75c-3169f15bf6f4;
+11-01 00:05:55.483  6314  6330 I UserService: 2025-11-01 00:05:55 [INFO] UserService - Attempting to register user 'benchmark-user-787bb423-09ff-4605-b1ef-8622f22eced1'.;
+11-01 00:05:55.483  6314  6330 I UserRepository: 2025-11-01 00:05:55 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:55.486  6314  6330 D UserRepository: 2025-11-01 00:05:55 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:56.938  6314  6330 I UserRepository: 2025-11-01 00:05:56 [INFO] UserRepository - Calling addUser;
+11-01 00:05:56.945  6314  6330 D UserRepository: 2025-11-01 00:05:56 [DEBUG] UserRepository - addUser succeeded: e95208d7-138e-4371-8be1-29544d65f9ac;
+11-01 00:05:56.946  6314  6330 I UserService: 2025-11-01 00:05:56 [INFO] UserService - Attempting to register user 'benchmark-user-35894b3a-783f-4cda-98d7-3b818c12a593'.;
+11-01 00:05:56.946  6314  6330 I UserRepository: 2025-11-01 00:05:56 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:56.950  6314  6330 D UserRepository: 2025-11-01 00:05:56 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:58.429  6314  6330 I UserRepository: 2025-11-01 00:05:58 [INFO] UserRepository - Calling addUser;
+11-01 00:05:58.438  6314  6330 D UserRepository: 2025-11-01 00:05:58 [DEBUG] UserRepository - addUser succeeded: afb2b19d-2a4d-455a-ad2c-51621229c73f;
+11-01 00:05:58.439  6314  6330 I UserService: 2025-11-01 00:05:58 [INFO] UserService - Attempting to register user 'benchmark-user-ea50dadc-962f-43be-8d64-375b74a8dff8'.;
+11-01 00:05:58.439  6314  6330 I UserRepository: 2025-11-01 00:05:58 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:58.442  6314  6330 D UserRepository: 2025-11-01 00:05:58 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:05:59.898  6314  6330 I UserRepository: 2025-11-01 00:05:59 [INFO] UserRepository - Calling addUser;
+11-01 00:05:59.906  6314  6330 D UserRepository: 2025-11-01 00:05:59 [DEBUG] UserRepository - addUser succeeded: 7f0de1d9-3108-4adc-a0cd-b1bd049f5687;
+11-01 00:05:59.906  6314  6330 I UserService: 2025-11-01 00:05:59 [INFO] UserService - Attempting to register user 'benchmark-user-6e02bb8f-922c-430f-a6c4-414a315ecbed'.;
+11-01 00:05:59.907  6314  6330 I UserRepository: 2025-11-01 00:05:59 [INFO] UserRepository - Calling findByUsername;
+11-01 00:05:59.909  6314  6330 D UserRepository: 2025-11-01 00:05:59 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:00.001  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:06:00.001  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:06:00.012  1441  1461 D hwcomposer: hw_composer sent 48 syncs in 119s
+11-01 00:06:00.021  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:06:00.021  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:06:01.346  6314  6330 I UserRepository: 2025-11-01 00:06:01 [INFO] UserRepository - Calling addUser;
+11-01 00:06:01.355  6314  6330 D UserRepository: 2025-11-01 00:06:01 [DEBUG] UserRepository - addUser succeeded: 5167d36f-ff23-4ec1-80c3-57f43b8bdb9c;
+11-01 00:06:01.357  6314  6330 I UserService: 2025-11-01 00:06:01 [INFO] UserService - Attempting to register user 'benchmark-user-44c84676-e668-41cb-84ea-aa76c1914bbe'.;
+11-01 00:06:01.358  6314  6330 I UserRepository: 2025-11-01 00:06:01 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:01.360  6314  6330 D UserRepository: 2025-11-01 00:06:01 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:02.785  6314  6330 I UserRepository: 2025-11-01 00:06:02 [INFO] UserRepository - Calling addUser;
+11-01 00:06:02.787  6314  6319 I zygote  : Do partial code cache collection, code=118KB, data=66KB
+11-01 00:06:02.789  6314  6319 I zygote  : After code cache collection, code=118KB, data=66KB
+11-01 00:06:02.789  6314  6319 I zygote  : Increasing code cache capacity to 512KB
+11-01 00:06:02.794  6314  6330 D UserRepository: 2025-11-01 00:06:02 [DEBUG] UserRepository - addUser succeeded: 3a741258-b0cf-4ca1-9419-276db7b7feba;
+11-01 00:06:02.795  6314  6330 I UserService: 2025-11-01 00:06:02 [INFO] UserService - Attempting to register user 'benchmark-user-3d6ff9dc-eba1-45a6-a71b-3193db4f7be0'.;
+11-01 00:06:02.795  6314  6330 I UserRepository: 2025-11-01 00:06:02 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:02.798  6314  6330 D UserRepository: 2025-11-01 00:06:02 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:04.199  6314  6330 I UserRepository: 2025-11-01 00:06:04 [INFO] UserRepository - Calling addUser;
+11-01 00:06:04.204  6314  6330 D UserRepository: 2025-11-01 00:06:04 [DEBUG] UserRepository - addUser succeeded: 99efc6ea-d9a5-4b08-9e6f-6bee0646ffa3;
+11-01 00:06:04.205  6314  6330 I UserService: 2025-11-01 00:06:04 [INFO] UserService - Attempting to register user 'benchmark-user-bfa251b1-0408-4c0c-9d7a-4027e6c8b7e1'.;
+11-01 00:06:04.205  6314  6330 I UserRepository: 2025-11-01 00:06:04 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:04.208  6314  6330 D UserRepository: 2025-11-01 00:06:04 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:05.610  6314  6330 I UserRepository: 2025-11-01 00:06:05 [INFO] UserRepository - Calling addUser;
+11-01 00:06:05.614  6314  6330 D UserRepository: 2025-11-01 00:06:05 [DEBUG] UserRepository - addUser succeeded: 5ea96047-7dd1-41bb-be85-dcdc08137fba;
+11-01 00:06:05.615  6314  6330 I UserService: 2025-11-01 00:06:05 [INFO] UserService - Attempting to register user 'benchmark-user-cdbe9489-e6d1-462f-8efd-418c797132ee'.;
+11-01 00:06:05.615  6314  6330 I UserRepository: 2025-11-01 00:06:05 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:05.618  6314  6330 D UserRepository: 2025-11-01 00:06:05 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:07.045  6314  6330 I UserRepository: 2025-11-01 00:06:07 [INFO] UserRepository - Calling addUser;
+11-01 00:06:07.052  6314  6330 D UserRepository: 2025-11-01 00:06:07 [DEBUG] UserRepository - addUser succeeded: dc40ab12-c450-4ed9-8a3d-0aa58eafea77;
+11-01 00:06:07.054  6314  6330 I UserService: 2025-11-01 00:06:07 [INFO] UserService - Attempting to register user 'benchmark-user-4b77a1b6-fe53-4b03-ab9d-ffc46a495a72'.;
+11-01 00:06:07.054  6314  6330 I UserRepository: 2025-11-01 00:06:07 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:07.056  6314  6330 D UserRepository: 2025-11-01 00:06:07 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:08.466  6314  6330 I UserRepository: 2025-11-01 00:06:08 [INFO] UserRepository - Calling addUser;
+11-01 00:06:08.474  6314  6330 D UserRepository: 2025-11-01 00:06:08 [DEBUG] UserRepository - addUser succeeded: dff2ce44-20fd-4407-9509-7cfdb8e1026a;
+11-01 00:06:08.476  6314  6330 I UserService: 2025-11-01 00:06:08 [INFO] UserService - Attempting to register user 'benchmark-user-7099f2ae-85e2-46e4-9146-d486bd8b0992'.;
+11-01 00:06:08.477  6314  6330 I UserRepository: 2025-11-01 00:06:08 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:08.479  6314  6330 D UserRepository: 2025-11-01 00:06:08 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:09.894  6314  6330 I UserRepository: 2025-11-01 00:06:09 [INFO] UserRepository - Calling addUser;
+11-01 00:06:09.902  6314  6330 D UserRepository: 2025-11-01 00:06:09 [DEBUG] UserRepository - addUser succeeded: b1bf6e12-46ec-49d0-a88c-3a736adec6e5;
+11-01 00:06:09.903  6314  6330 I UserService: 2025-11-01 00:06:09 [INFO] UserService - Attempting to register user 'benchmark-user-823661a6-79da-4a48-bb45-0e500aa8c51d'.;
+11-01 00:06:09.904  6314  6330 I UserRepository: 2025-11-01 00:06:09 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:09.909  6314  6330 D UserRepository: 2025-11-01 00:06:09 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:11.316  6314  6330 I UserRepository: 2025-11-01 00:06:11 [INFO] UserRepository - Calling addUser;
+11-01 00:06:11.327  6314  6330 D UserRepository: 2025-11-01 00:06:11 [DEBUG] UserRepository - addUser succeeded: b3f89fa7-cef7-4b55-be4c-4c83af851c30;
+11-01 00:06:11.327  6314  6330 I UserService: 2025-11-01 00:06:11 [INFO] UserService - Attempting to register user 'benchmark-user-f9512f22-177c-43c9-a55c-62596d0322e2'.;
+11-01 00:06:11.328  6314  6330 I UserRepository: 2025-11-01 00:06:11 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:11.334  6314  6330 D UserRepository: 2025-11-01 00:06:11 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:11.557  1448  1448 I boot-pipe: done populating /dev/random
+11-01 00:06:12.771  6314  6330 I UserRepository: 2025-11-01 00:06:12 [INFO] UserRepository - Calling addUser;
+11-01 00:06:12.782  6314  6330 D UserRepository: 2025-11-01 00:06:12 [DEBUG] UserRepository - addUser succeeded: 1e80c5fd-d172-421b-a3ba-220324a9536a;
+11-01 00:06:12.783  6314  6330 I UserService: 2025-11-01 00:06:12 [INFO] UserService - Attempting to register user 'benchmark-user-85e4fee0-3f9d-4362-9cc9-d68d7ea71e83'.;
+11-01 00:06:12.784  6314  6330 I UserRepository: 2025-11-01 00:06:12 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:12.786  6314  6330 D UserRepository: 2025-11-01 00:06:12 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:14.230  6314  6330 I UserRepository: 2025-11-01 00:06:14 [INFO] UserRepository - Calling addUser;
+11-01 00:06:14.238  6314  6330 D UserRepository: 2025-11-01 00:06:14 [DEBUG] UserRepository - addUser succeeded: 43976d7f-58c3-43a0-83c7-74964ba674cf;
+11-01 00:06:14.239  6314  6330 I UserService: 2025-11-01 00:06:14 [INFO] UserService - Attempting to register user 'benchmark-user-4936ebd3-3b7b-4713-b573-c3599ef5c0ee'.;
+11-01 00:06:14.239  6314  6330 I UserRepository: 2025-11-01 00:06:14 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:14.243  6314  6330 D UserRepository: 2025-11-01 00:06:14 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:15.676  6314  6330 I UserRepository: 2025-11-01 00:06:15 [INFO] UserRepository - Calling addUser;
+11-01 00:06:15.681  6314  6330 D UserRepository: 2025-11-01 00:06:15 [DEBUG] UserRepository - addUser succeeded: e50c8122-948f-4fed-ae7e-e438feaf2b0b;
+11-01 00:06:15.682  6314  6330 I UserService: 2025-11-01 00:06:15 [INFO] UserService - Attempting to register user 'benchmark-user-4c574cab-5b22-44ff-b39a-03e9199ea71a'.;
+11-01 00:06:15.684  6314  6330 I UserRepository: 2025-11-01 00:06:15 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:15.686  6314  6330 D UserRepository: 2025-11-01 00:06:15 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:17.122  6314  6330 I UserRepository: 2025-11-01 00:06:17 [INFO] UserRepository - Calling addUser;
+11-01 00:06:17.130  6314  6330 D UserRepository: 2025-11-01 00:06:17 [DEBUG] UserRepository - addUser succeeded: ed14a8a7-33a4-471d-9618-2316c3d3efe8;
+11-01 00:06:17.130  6314  6330 I UserService: 2025-11-01 00:06:17 [INFO] UserService - Attempting to register user 'benchmark-user-ad22e1a0-4b27-422d-88de-16ac96490950'.;
+11-01 00:06:17.131  6314  6330 I UserRepository: 2025-11-01 00:06:17 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:17.133  6314  6330 D UserRepository: 2025-11-01 00:06:17 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:18.723  6314  6330 I UserRepository: 2025-11-01 00:06:18 [INFO] UserRepository - Calling addUser;
+11-01 00:06:18.741  6314  6330 D UserRepository: 2025-11-01 00:06:18 [DEBUG] UserRepository - addUser succeeded: 893e696f-de14-4e1a-a867-31055368e121;
+11-01 00:06:18.743  6314  6330 I UserService: 2025-11-01 00:06:18 [INFO] UserService - Attempting to register user 'benchmark-user-31f4a5f6-1d5a-4012-bd28-3550992b7ac3'.;
+11-01 00:06:18.743  6314  6330 I UserRepository: 2025-11-01 00:06:18 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:18.751  6314  6330 D UserRepository: 2025-11-01 00:06:18 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:20.471  6314  6330 I UserRepository: 2025-11-01 00:06:20 [INFO] UserRepository - Calling addUser;
+11-01 00:06:20.484  6314  6330 D UserRepository: 2025-11-01 00:06:20 [DEBUG] UserRepository - addUser succeeded: 75024a9d-5fec-49f6-9545-d596205b4966;
+11-01 00:06:20.485  6314  6330 I UserService: 2025-11-01 00:06:20 [INFO] UserService - Attempting to register user 'benchmark-user-fe2ae996-959b-4a9e-b4ed-dacc92d854d5'.;
+11-01 00:06:20.486  6314  6330 I UserRepository: 2025-11-01 00:06:20 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:20.490  6314  6330 D UserRepository: 2025-11-01 00:06:20 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:21.952  6314  6330 I UserRepository: 2025-11-01 00:06:21 [INFO] UserRepository - Calling addUser;
+11-01 00:06:21.958  6314  6330 D UserRepository: 2025-11-01 00:06:21 [DEBUG] UserRepository - addUser succeeded: ec232adb-980f-4200-8312-9f8b9acff18e;
+11-01 00:06:21.960  6314  6330 I UserService: 2025-11-01 00:06:21 [INFO] UserService - Attempting to register user 'benchmark-user-c3968cd0-b1ea-4e06-96c8-dd3365286eb3'.;
+11-01 00:06:21.961  6314  6330 I UserRepository: 2025-11-01 00:06:21 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:21.964  6314  6330 D UserRepository: 2025-11-01 00:06:21 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:23.395  6314  6330 I UserRepository: 2025-11-01 00:06:23 [INFO] UserRepository - Calling addUser;
+11-01 00:06:23.400  6314  6330 D UserRepository: 2025-11-01 00:06:23 [DEBUG] UserRepository - addUser succeeded: b7aa347a-e1fa-47ea-8135-14d1553975b3;
+11-01 00:06:23.402  6314  6330 I UserService: 2025-11-01 00:06:23 [INFO] UserService - Attempting to register user 'benchmark-user-12f225d7-cbcc-440f-b4a3-7c7c0f7c395f'.;
+11-01 00:06:23.402  6314  6330 I UserRepository: 2025-11-01 00:06:23 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:23.405  6314  6330 D UserRepository: 2025-11-01 00:06:23 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:24.899  6314  6330 I UserRepository: 2025-11-01 00:06:24 [INFO] UserRepository - Calling addUser;
+11-01 00:06:24.902  6314  6330 D UserRepository: 2025-11-01 00:06:24 [DEBUG] UserRepository - addUser succeeded: 53504e6d-40de-4374-a677-967e80701c31;
+11-01 00:06:24.904  6314  6330 I UserService: 2025-11-01 00:06:24 [INFO] UserService - Attempting to register user 'benchmark-user-51da5beb-760f-4630-befd-de031866456a'.;
+11-01 00:06:24.904  6314  6330 I UserRepository: 2025-11-01 00:06:24 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:24.907  6314  6330 D UserRepository: 2025-11-01 00:06:24 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:26.335  6314  6330 I UserRepository: 2025-11-01 00:06:26 [INFO] UserRepository - Calling addUser;
+11-01 00:06:26.343  6314  6330 D UserRepository: 2025-11-01 00:06:26 [DEBUG] UserRepository - addUser succeeded: 3f9a05e5-73e9-4332-9ebd-82ca65476277;
+11-01 00:06:26.345  6314  6330 I UserService: 2025-11-01 00:06:26 [INFO] UserService - Attempting to register user 'benchmark-user-090daab7-18a9-41d0-82de-854f01234d12'.;
+11-01 00:06:26.345  6314  6330 I UserRepository: 2025-11-01 00:06:26 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:26.348  6314  6330 D UserRepository: 2025-11-01 00:06:26 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:27.489  6548  6548 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-01 00:06:27.501  2301  2301 I BgTaskExecutorImpl: (REDACTED) Starting %s background task %s.
+11-01 00:06:27.519  2301  2475 I A       : Flag is_largescreen_foldable_phone is false
+11-01 00:06:27.519  2301  2475 I A       : (REDACTED) Flag is_whitelisted_as_tablet is %b
+11-01 00:06:27.520  2301  2475 I A       : (REDACTED) R.bool.is_tablet is %b
+11-01 00:06:27.521  2301  6561 I NetworkRecognitionRnr: Using pair HTTP connection
+11-01 00:06:27.526  2301  3518 I A       : [Upload] Connected
+11-01 00:06:27.529  1636  2197 I WifiService: getWifiEnabledState uid=10032
+11-01 00:06:27.530  2301  2475 I A       : Flag is_largescreen_foldable_phone is false
+11-01 00:06:27.530  2301  2475 I A       : (REDACTED) Flag is_whitelisted_as_tablet is %b
+11-01 00:06:27.530  2301  2475 I A       : (REDACTED) R.bool.is_tablet is %b
+11-01 00:06:27.531  2301  2475 I A       : Flag is_largescreen_foldable_phone is false
+11-01 00:06:27.531  2301  2475 I A       : (REDACTED) Flag is_whitelisted_as_tablet is %b
+11-01 00:06:27.531  2301  2475 I A       : (REDACTED) R.bool.is_tablet is %b
+11-01 00:06:27.538  2301  3518 I NetworkRecognitionRnr: Using pair HTTP connection
+11-01 00:06:27.539  2301  2301 E A       : onError
+11-01 00:06:27.539  2301  2301 E A       : com.google.android.apps.gsa.shared.speech.a.m: errorCode: 65561, engine: 2
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.staticplugins.cy.a.f.a(PG:3)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.s3.o.gQ(PG:1)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.cd.g.a.f.e(PG:2)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:22)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.jA(PG:6)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.s3.p.c(PG:14)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.s3.q.run(PG:1)
+11-01 00:06:27.539  2301  2301 E A       : 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:457)
+11-01 00:06:27.539  2301  2301 E A       : 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.e.run(PG:2)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bh.run(PG:1)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.bh.run(PG:1)
+11-01 00:06:27.539  2301  2301 E A       : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:06:27.539  2301  2301 E A       : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:06:27.539  2301  2301 E A       : 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.shared.util.c.a.l.run(PG:5)
+11-01 00:06:27.539  2301  2301 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.o: errorCode: 65586, engine: 2
+11-01 00:06:27.539  2301  2301 E A       : 	... 15 more
+11-01 00:06:27.539  2301  2301 E A       : Caused by: com.google.android.apps.gsa.shared.speech.a.k: errorCode: 401, engine: 2
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.assistant.shared.n.h.a(PG:5)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.s3.producers.j.hl(PG:2)
+11-01 00:06:27.539  2301  2301 E A       : 	at com.google.android.apps.gsa.speech.k.a.g.d(PG:16)
+11-01 00:06:27.539  2301  2301 E A       : 	... 12 more
+11-01 00:06:27.540  2301  2808 I A       : [Upload] Connected
+11-01 00:06:27.541  2301  2475 I A       : Flag is_largescreen_foldable_phone is false
+11-01 00:06:27.541  2301  2475 I A       : (REDACTED) Flag is_whitelisted_as_tablet is %b
+11-01 00:06:27.541  2301  2475 I A       : (REDACTED) R.bool.is_tablet is %b
+11-01 00:06:27.543  2301  2487 I A       : Flag is_largescreen_foldable_phone is false
+11-01 00:06:27.543  2301  2487 I A       : (REDACTED) Flag is_whitelisted_as_tablet is %b
+11-01 00:06:27.543  2301  2487 I A       : (REDACTED) R.bool.is_tablet is %b
+11-01 00:06:27.545  2301  2301 W A       : Failed to sync device settings.
+11-01 00:06:27.545  2301  2301 I A       : Retrying to sync device settings.
+11-01 00:06:27.545  6548  6548 W ResourceType: ResTable_typeSpec entry count inconsistent: given 1276, previously 1326
+11-01 00:06:27.545  6548  6548 W ResourceType: ResTable_typeSpec entry count inconsistent: given 372, previously 3291
+11-01 00:06:27.549  1636  1760 I WifiService: getWifiEnabledState uid=10032
+11-01 00:06:27.690  6548  6548 I zygote  : Deoptimizing java.lang.Object cal.ahmt.ep(cal.ahnd, cal.ahla) due to JIT inline cache
+11-01 00:06:27.699  2010  2010 D WearableService: Creating wearable service asynchronously.
+11-01 00:06:27.706  6573  6573 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-01 00:06:27.732  2010  2073 I Wear_Controller: Wearable module requires a companion app to be installed.
+11-01 00:06:27.732  2010  2073 I WearableService: onCreate: Wearable Services not starting. Wear is not available on this device.
+11-01 00:06:27.733  6573  6573 I zygote  : The ClassLoaderContext is a special shared library.
+11-01 00:06:27.734  6573  6573 I chatty  : uid=10002(com.android.providers.calendar) identical 1 line
+11-01 00:06:27.735  6573  6573 I zygote  : The ClassLoaderContext is a special shared library.
+11-01 00:06:27.747  6573  6573 I CalendarProvider2: Created com.android.providers.calendar.CalendarAlarmManager@46bd27a(com.android.providers.calendar.CalendarProvider2@65fa2b)
+11-01 00:06:27.803  6314  6330 I UserRepository: 2025-11-01 00:06:27 [INFO] UserRepository - Calling addUser;
+11-01 00:06:27.807  6314  6330 D UserRepository: 2025-11-01 00:06:27 [DEBUG] UserRepository - addUser succeeded: 3247d9bc-0b73-4704-b363-ebe302f61306;
+11-01 00:06:27.807  6314  6330 I UserService: 2025-11-01 00:06:27 [INFO] UserService - Attempting to register user 'benchmark-user-a2da2270-f592-4c06-b7e4-a204ecd0b967'.;
+11-01 00:06:27.808  6314  6330 I UserRepository: 2025-11-01 00:06:27 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:27.810  6314  6330 D UserRepository: 2025-11-01 00:06:27 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:27.812  6548  6594 I SqliteTransaction: Started new WRITEABLE transaction writetx1 [SqliteDatabase.onStart]
+11-01 00:06:27.826  6548  6595 I cal.apfa: Obtained writable database SQLiteDatabase/248575252 instance with path /data/user/0/com.google.android.calendar/databases/cal_v2a
+11-01 00:06:27.833  6548  6594 I cal.apdg: The schema version is 23, the database version is 23, and there are 0 migrations
+11-01 00:06:27.834  6548  6595 I SqliteTransaction: Closing transaction writetx1 [SqliteDatabase.onStart]: Stats[2 Reads (rows: 2)] after 27 ms
+11-01 00:06:27.835  6548  6594 I SqliteTransaction: Started new READ_ONLY transaction readtx2 [AccountReaderServiceImpl lazy initialization]
+11-01 00:06:27.841  6548  6595 I SqliteTransaction: Closing transaction readtx2 [AccountReaderServiceImpl lazy initialization]: Stats[1 Reads (rows: 0)] after 6 ms
+11-01 00:06:27.944  6548  6612 W AndroidLoggerBackend: AndroidLoggerBackend configured with enableAndroidLogger:false; no logs will be emitted.
+11-01 00:06:28.030  2010  2833 W WearableService: onGetService: Wear is not available on this device.
+11-01 00:06:28.062  6548  6560 W Binder  : Binder call failed.
+11-01 00:06:28.062  6548  6560 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:06:28.062  6548  6560 W Binder  : 	at cal.aacq.b(PG:3)
+11-01 00:06:28.062  6548  6560 W Binder  : 	at cal.aacs.S(PG:58)
+11-01 00:06:28.062  6548  6560 W Binder  : 	at cal.hlm.onTransact(PG:21)
+11-01 00:06:28.062  6548  6560 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:06:28.068  6548  6557 W Binder  : Binder call failed.
+11-01 00:06:28.068  6548  6557 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:06:28.068  6548  6557 W Binder  : 	at cal.aacq.b(PG:3)
+11-01 00:06:28.068  6548  6557 W Binder  : 	at cal.aacs.S(PG:58)
+11-01 00:06:28.068  6548  6557 W Binder  : 	at cal.hlm.onTransact(PG:21)
+11-01 00:06:28.068  6548  6557 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:06:28.088  2118  4045 I Blockstore: (REDACTED) [BlockstoreImpl] Snapshot enabled. updateAccessPerSnapshotIfEligible for package: %s
+11-01 00:06:28.091  2010  4510 W ResourceType: ResTable_typeSpec entry count inconsistent: given 1276, previously 1326
+11-01 00:06:28.091  2010  4510 W ResourceType: ResTable_typeSpec entry count inconsistent: given 372, previously 3291
+11-01 00:06:28.096  2010  4510 I zygote  : Deoptimizing java.lang.Object eiej.lF() due to JIT inline cache
+11-01 00:06:29.349  6314  6330 I UserRepository: 2025-11-01 00:06:29 [INFO] UserRepository - Calling addUser;
+11-01 00:06:29.354  6314  6330 D UserRepository: 2025-11-01 00:06:29 [DEBUG] UserRepository - addUser succeeded: 34a45769-5c92-4cf4-af88-fb316829210f;
+11-01 00:06:29.355  6314  6330 I UserService: 2025-11-01 00:06:29 [INFO] UserService - Attempting to register user 'benchmark-user-e0847d0d-a831-450c-a1cf-dd176bb59c7c'.;
+11-01 00:06:29.355  6314  6330 I UserRepository: 2025-11-01 00:06:29 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:29.357  6314  6330 D UserRepository: 2025-11-01 00:06:29 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:29.559  1636  3615 I WifiService: getWifiEnabledState uid=10032
+11-01 00:06:29.562  1636  1707 D WIFI    : got request NetworkRequest [ REQUEST id=54, [ Transports: CELLULAR Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN] ] with score 50
+11-01 00:06:29.562  1636  1707 D WIFI_UT : got request NetworkRequest [ REQUEST id=54, [ Transports: CELLULAR Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN] ] with score 50
+11-01 00:06:29.562  1833  1833 D PhoneSwitcherNetworkRequstListener: got request NetworkRequest [ REQUEST id=54, [ Transports: CELLULAR Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN] ] with score 50
+11-01 00:06:29.570  1636  2607 D NetworkMonitor/NetworkAgentInfo [WIFI () - 101]: Forcing reevaluation for UID 10032
+11-01 00:06:29.586  1636  6642 D NetworkMonitor/NetworkAgentInfo [WIFI () - 101]: PROBE_DNS connectivitycheck.gstatic.com 15ms OK 142.251.36.3,2404:6800:400a:813::2003
+11-01 00:06:29.603  1636  6641 D NetworkMonitor/NetworkAgentInfo [WIFI () - 101]: PROBE_DNS www.google.com 30ms OK 142.250.180.68,2a00:1450:400e:802::2004
+11-01 00:06:30.111  1636  6642 D NetworkMonitor/NetworkAgentInfo [WIFI () - 101]: PROBE_HTTP http://connectivitycheck.gstatic.com/generate_204 time=524ms ret=204 request={User-Agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36]} headers={null=[HTTP/1.1 204 No Content], Content-Length=[0], Cross-Origin-Resource-Policy=[cross-origin], Date=[Fri, 31 Oct 2025 21:06:30 GMT], X-Android-Received-Millis=[1761944790111], X-Android-Response-Source=[NETWORK 204], X-Android-Selected-Protocol=[http/1.1], X-Android-Sent-Millis=[1761944789587]}
+11-01 00:06:30.113  1636  6641 D NetworkMonitor/NetworkAgentInfo [WIFI () - 101]: PROBE_HTTPS https://www.google.com/generate_204 time=509ms ret=204 request={User-Agent=[Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36]} headers={null=[HTTP/1.1 204 No Content], Alt-Svc=[h3=":443"; ma=2592000,h3-29=":443"; ma=2592000], Content-Length=[0], Cross-Origin-Resource-Policy=[cross-origin], Date=[Fri, 31 Oct 2025 21:06:30 GMT], X-Android-Received-Millis=[1761944790113], X-Android-Response-Source=[NETWORK 204], X-Android-Selected-Protocol=[http/1.1], X-Android-Sent-Millis=[1761944789604]}
+11-01 00:06:30.856  6314  6330 I UserRepository: 2025-11-01 00:06:30 [INFO] UserRepository - Calling addUser;
+11-01 00:06:30.861  6314  6330 D UserRepository: 2025-11-01 00:06:30 [DEBUG] UserRepository - addUser succeeded: 3c1727a3-893b-4f09-a1ae-145479a8c754;
+11-01 00:06:30.863  6314  6330 I UserService: 2025-11-01 00:06:30 [INFO] UserService - Attempting to register user 'benchmark-user-0a08ef9a-0335-4ee9-9bfb-866ac8320265'.;
+11-01 00:06:30.863  6314  6330 I UserRepository: 2025-11-01 00:06:30 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:30.865  6314  6330 D UserRepository: 2025-11-01 00:06:30 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:31.138  2301  3509 W A       : (REDACTED) [%s] response code: %d
+11-01 00:06:32.345  6314  6330 I UserRepository: 2025-11-01 00:06:32 [INFO] UserRepository - Calling addUser;
+11-01 00:06:32.352  6314  6330 D UserRepository: 2025-11-01 00:06:32 [DEBUG] UserRepository - addUser succeeded: f09edcb0-4a35-444e-b57d-887a0eba8eb6;
+11-01 00:06:32.353  6314  6330 I UserService: 2025-11-01 00:06:32 [INFO] UserService - Attempting to register user 'benchmark-user-dab369f7-66d5-4015-aa01-63951099c97b'.;
+11-01 00:06:32.353  6314  6330 I UserRepository: 2025-11-01 00:06:32 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:32.355  6314  6330 D UserRepository: 2025-11-01 00:06:32 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:33.813  6314  6330 I UserRepository: 2025-11-01 00:06:33 [INFO] UserRepository - Calling addUser;
+11-01 00:06:33.820  6314  6330 D UserRepository: 2025-11-01 00:06:33 [DEBUG] UserRepository - addUser succeeded: 03892d9b-39d2-454e-912f-184272c43cde;
+11-01 00:06:33.821  6314  6330 I UserService: 2025-11-01 00:06:33 [INFO] UserService - Attempting to register user 'benchmark-user-a0b284f4-a10e-4330-bf71-4b0d3f1035ed'.;
+11-01 00:06:33.822  6314  6330 I UserRepository: 2025-11-01 00:06:33 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:33.825  6314  6330 D UserRepository: 2025-11-01 00:06:33 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:35.243  6314  6330 I UserRepository: 2025-11-01 00:06:35 [INFO] UserRepository - Calling addUser;
+11-01 00:06:35.246  6314  6330 D UserRepository: 2025-11-01 00:06:35 [DEBUG] UserRepository - addUser succeeded: ca3e29e3-1bff-4a69-840d-bb2460a7a7cb;
+11-01 00:06:35.246  6314  6330 I UserService: 2025-11-01 00:06:35 [INFO] UserService - Attempting to register user 'benchmark-user-277e56a5-14e0-4fa7-a8fd-a81f599312d5'.;
+11-01 00:06:35.247  6314  6330 I UserRepository: 2025-11-01 00:06:35 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:35.249  6314  6330 D UserRepository: 2025-11-01 00:06:35 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:36.664  6314  6330 I UserRepository: 2025-11-01 00:06:36 [INFO] UserRepository - Calling addUser;
+11-01 00:06:36.674  6314  6330 D UserRepository: 2025-11-01 00:06:36 [DEBUG] UserRepository - addUser succeeded: 1053dd56-31b6-47e1-899e-4196360e0e12;
+11-01 00:06:36.678  6314  6330 D Benchmark: timeNs[ 0:10]: 1452084400 1452032970 1450427950 1449756160 1439414630 1438713480 1434379750 1456523190 1476476510 1444425820
+11-01 00:06:36.678  6314  6330 D Benchmark: timeNs[10:20]: 1445681000 1466014490 1442640230 1423074180 1427340230 1634006330 1690294250 1501377400 1452706570 1464708340
+11-01 00:06:36.678  6314  6330 D Benchmark: timeNs[20:30]: 1438946590 1436194150 1463288370 1492850090 1467212060 1449782850 1438518620 1409327880 1409769300 1438635720
+11-01 00:06:36.678  6314  6330 D Benchmark: timeNs[30:40]: 1421705630 1427603680 1424028820 1455782230 1455489880 1443169150 1448251380 1611304630 1742754940 1474113080
+11-01 00:06:36.678  6314  6330 D Benchmark: timeNs[40:50]: 1441353280 1501972040 1440389870 1462849260 1547350430 1507566340 1490117120 1468229030 1425314170 1428068110
+11-01 00:06:36.680  6314  6330 I UserService: 2025-11-01 00:06:36 [INFO] UserService - Attempting to register user 'benchmark-user-b0a98207-a8fe-40e9-bf3a-f983d3d3efca'.;
+11-01 00:06:36.681  6314  6330 I UserRepository: 2025-11-01 00:06:36 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:36.683  6314  6330 D UserRepository: 2025-11-01 00:06:36 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:38.114  6314  6330 I UserRepository: 2025-11-01 00:06:38 [INFO] UserRepository - Calling addUser;
+11-01 00:06:38.117  6314  6330 D UserRepository: 2025-11-01 00:06:38 [DEBUG] UserRepository - addUser succeeded: ef666215-c022-4ef6-97cf-e25c43f2a013;
+11-01 00:06:38.119  6314  6330 I UserService: 2025-11-01 00:06:38 [INFO] UserService - Attempting to register user 'benchmark-user-a14a4a77-3866-4978-a2eb-62ec71ba89e0'.;
+11-01 00:06:38.119  6314  6330 I UserRepository: 2025-11-01 00:06:38 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:38.122  6314  6330 D UserRepository: 2025-11-01 00:06:38 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:39.584  6314  6330 I UserRepository: 2025-11-01 00:06:39 [INFO] UserRepository - Calling addUser;
+11-01 00:06:39.591  6314  6330 D UserRepository: 2025-11-01 00:06:39 [DEBUG] UserRepository - addUser succeeded: 5a7a417a-b15e-47d9-83fe-c56cb3e6de3e;
+11-01 00:06:39.593  6314  6330 I UserService: 2025-11-01 00:06:39 [INFO] UserService - Attempting to register user 'benchmark-user-c2b10a9e-4769-4ec2-8384-312a651fe3e7'.;
+11-01 00:06:39.594  6314  6330 I UserRepository: 2025-11-01 00:06:39 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:39.595  6314  6330 D UserRepository: 2025-11-01 00:06:39 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:40.115  1636  1707 W AlarmManager: Unrecognized alarm listener com.android.server.wifi.WifiConfigStore$1@2dbb318
+11-01 00:06:40.131  1636  1707 D WifiConfigStore: Writing to stores completed in 16 ms.
+11-01 00:06:41.024  6314  6330 I UserRepository: 2025-11-01 00:06:41 [INFO] UserRepository - Calling addUser;
+11-01 00:06:41.032  6314  6330 D UserRepository: 2025-11-01 00:06:41 [DEBUG] UserRepository - addUser succeeded: 41af69a3-6fa2-49ec-a31f-6ca8c52b4aef;
+11-01 00:06:41.033  6314  6330 I UserService: 2025-11-01 00:06:41 [INFO] UserService - Attempting to register user 'benchmark-user-715a686a-a632-49ae-a617-25a4ff70d108'.;
+11-01 00:06:41.034  6314  6330 I UserRepository: 2025-11-01 00:06:41 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:41.035  6314  6330 D UserRepository: 2025-11-01 00:06:41 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:42.452  6314  6330 I UserRepository: 2025-11-01 00:06:42 [INFO] UserRepository - Calling addUser;
+11-01 00:06:42.459  6314  6330 D UserRepository: 2025-11-01 00:06:42 [DEBUG] UserRepository - addUser succeeded: 9ad76f5d-4fe4-40a4-b71b-d91c3118ad5e;
+11-01 00:06:42.460  6314  6330 I UserService: 2025-11-01 00:06:42 [INFO] UserService - Attempting to register user 'benchmark-user-7ee0112a-ff30-4ba3-9c7c-0150072f229b'.;
+11-01 00:06:42.460  6314  6330 I UserRepository: 2025-11-01 00:06:42 [INFO] UserRepository - Calling findByUsername;
+11-01 00:06:42.463  6314  6330 D UserRepository: 2025-11-01 00:06:42 [DEBUG] UserRepository - findByUsername succeeded: null;
+11-01 00:06:43.892  6314  6330 I UserRepository: 2025-11-01 00:06:43 [INFO] UserRepository - Calling addUser;
+11-01 00:06:43.896  6314  6330 D UserRepository: 2025-11-01 00:06:43 [DEBUG] UserRepository - addUser succeeded: 882ec36e-07fe-497e-8df3-3537cb288b3b;
+11-01 00:06:43.898  6314  6330 D Benchmark: allocationCount[ 0:10]: 83198 83196 83197 83198 83200
+11-01 00:06:43.898  6314  6330 D Benchmark: Set 6330 (Bench thread) to priority -8. Was -20, now -8
+11-01 00:06:43.898  6314  6330 D Benchmark: Set 6319 (Jit) to priority 9. Was -15, now 9
+11-01 00:06:43.899  6314  6330 D Benchmark: Warmup: t=45.473, iter=30, fastAvg=1521332224, slowAvg=1664618368
+11-01 00:06:43.904  6314  6330 I PerfettoCapture: Stopping perfetto.
+11-01 00:06:43.912  6501  6501 I perfetto:    perfetto_cmd.cc:1212 SIGINT/SIGTERM received: disabling tracing.
+11-01 00:06:43.915  6505  6505 I perfetto:  probes_producer.cc:449 Producer stop (id=1)
+11-01 00:06:43.915  6505  6505 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:06:43.930  6314  6330 D Benchmark: kill -TERM command output - Output(stdout=, stderr=)
+11-01 00:06:44.055  6314  6330 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=6501)] to die
+11-01 00:06:44.168  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:06:44.168  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:06:44.168  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:06:44.168  6505  6505 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:06:44.168  6505  6505 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:06:44.178  6314  6330 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=6501)] to die
+11-01 00:06:44.261  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.249  6665  6665 W atrace  : type=1400 audit(0.0:23): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:06:44.271  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.272  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.274  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.275  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.276  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.276  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.276  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.277  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.277  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.277  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.277  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.278  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.278  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.278  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.278  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.278  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.279  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.280  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:06:44.280  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.281  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.281  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=6665 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:06:44.282  6665  6665 I atrace  : Dumping trace
+11-01 00:06:44.307  6314  6330 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=6501)] to die
+11-01 00:06:44.418  6314  6330 I chatty  : uid=10084(com.distributedMessenger.benchmark) BenchmarkRunner identical 1 line
+11-01 00:06:44.540  6314  6330 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=6501)] to die
+11-01 00:06:44.596  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.589  6665  6665 W atrace  : type=1400 audit(0.0:24): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:06:44.600  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.600  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=6665 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:06:44.639  6505  6505 I perfetto:  probes_producer.cc:449 Producer stop (id=2)
+11-01 00:06:44.639  6505  6505 I perfetto:  probes_producer.cc:449 Producer stop (id=3)
+11-01 00:06:44.639  6505  6505 I perfetto:  probes_producer.cc:449 Producer stop (id=4)
+11-01 00:06:44.639  6505  6505 I perfetto:  probes_producer.cc:449 Producer stop (id=5)
+11-01 00:06:44.653  6501  6501 I perfetto:    perfetto_cmd.cc:1163 Trace written into the output file
+11-01 00:06:44.667  6314  6330 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=6501)] to die
+11-01 00:06:44.686  6314  6330 I PerfettoCapture: Writing to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-06-43.perfetto-trace.
+11-01 00:06:44.778  6314  6330 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-06-43.perfetto-trace to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-06-43.perfetto-trace
+11-01 00:06:44.823  6314  6330 I Benchmark: DEBUGGABLE_EMULATOR_UserCrudBenchmark.benchmark_RegisterUser[Metric (timeNs) results: median 1.4501054E9, min 1.40932788E9, max 1.74275494E9, standardDeviation: 6.647761793903125E7, Metric (allocationCount) results: median 83198.0, min 83196.0, max 83200.0, standardDeviation: 1.4832396974191324]count=1
+11-01 00:06:44.830  6314  6330 D Benchmark: writing results to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:06:44.835  6314  6330 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:06:44.837  6314  6330 I TestRunner: finished: benchmark_RegisterUser(com.distributedMessenger.benchmark.UserCrudBenchmark)

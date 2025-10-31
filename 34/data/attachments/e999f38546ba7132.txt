@@ -1,0 +1,451 @@
+11-01 00:07:44.427  7435  7451 I TestRunner: started: benchmark_RegisterUser(com.distributedMessenger.benchmark.UserCrudBenchmark)
+11-01 00:07:44.437  2301  2414 I A       : NGA disabled due to not being eligible.
+11-01 00:07:44.439  2153  2462 I A11yListener: (REDACTED) #onAccessibilityStateChanged enabled: %s
+11-01 00:07:44.440  2153  2498 I A11yListener: #onChange
+11-01 00:07:44.441  2153  2498 E TraceManager: Duplicate trace
+11-01 00:07:44.441  2153  2498 E TraceManager: com.google.apps.tiktok.tracing.w: Starting new trace A11yEventListener_onChange when already associated with a trace: . For more help, see http://go/tiktok-tracing#fixing-duplicate-trace-issues
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.apps.tiktok.tracing.em.f(PG:6)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.apps.tiktok.tracing.em.g(PG:2)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.apps.tiktok.tracing.dv.d(PG:1)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.android.libraries.search.assistant.a.g.a(PG:7)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.android.libraries.search.assistant.a.b.b(PG:2)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at j.c.b.a.a.h(PG:4)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at kotlinx.coroutines.bk.run(PG:14)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.apps.tiktok.coroutines.g.run(PG:1)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.android.libraries.i.y.run(PG:1)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.android.libraries.i.g.run(PG:2)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	at com.google.android.libraries.i.ah.run(PG:5)
+11-01 00:07:44.441  2153  2498 E TraceManager: 	Suppressed: com.google.apps.tiktok.tracing.fx:
+11-01 00:07:44.441  2153  2498 E TraceManager: 		at tk_trace.(Unknown Source:0)
+11-01 00:07:44.441  2153  2498 E TraceManager: 		at tk_trace.Missing root trace(Unknown Source:0)
+11-01 00:07:44.441  2153  2498 E TraceManager: Caused by: com.google.apps.tiktok.tracing.aa
+11-01 00:07:44.441  2153  2498 I Ma-fcf-A11yChangeNotifier: #FCF: onChange
+11-01 00:07:44.444  2153  2499 I Ma-fcf  : (REDACTED) #FCF: Assistant primary locale : %s
+11-01 00:07:44.444  2153  2499 I Ma-fcf  : (REDACTED) #FCF: Assistant Primary locale check status : %s
+11-01 00:07:44.445  2153  2499 I Ma-fcf  : FCF A11y Checker - readyForTngMa
+11-01 00:07:44.446  2153  2498 I Ma-fcf  : (REDACTED) #FCF: Headset Connected Status: %s
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : Unable to check for productivity accounts. Assuming there are none.
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : com.google.android.libraries.geller.portable.GellerException: Code: INVALID_ARGUMENT, Message: Account name is null.
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.android.libraries.search.j.l.a(PG:6)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.apps.tiktok.tracing.et.a(PG:3)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.common.util.concurrent.bc.a(PG:1)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.common.util.concurrent.cw.run(PG:4)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.android.libraries.i.y.run(PG:1)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.android.libraries.i.g.run(PG:2)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:07:44.448  2153  2498 W Ma-fcf  : 	at com.google.android.libraries.i.ah.run(PG:5)
+11-01 00:07:44.455  2153  2499 I Ma-fcf-tngMaStatus: (REDACTED) #FCF evaluate: %s
+11-01 00:07:44.455  2153  2499 I Ma-fcf-tngMaStatus: (REDACTED) TngMaStatusChecker#evaluateInternal completed in %s millis
+11-01 00:07:44.456  2153  2499 I Ma-Entry-Triggering: (REDACTED) TNG:MA status updated: %s
+11-01 00:07:44.456  2153  2499 I Ma-Entry-Triggering: TNG:MA became ineligible, client should disconnect
+11-01 00:07:44.459  2153  2499 I Ma-Entry-Triggering: #disconnectAndStop - preventing double stop
+11-01 00:07:44.460  2153  2499 I Ma-fcf-tngMaStatus: #invalidationSource: adding saa update checker
+11-01 00:07:44.460  2153  2499 I Ma-fcf-tngMaStatus: #invalidationSource: adding headset checker
+11-01 00:07:44.476  7435  7451 D Benchmark: Usable output directory: /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache
+11-01 00:07:44.482  2301  2306 I zygote  : Do partial code cache collection, code=959KB, data=505KB
+11-01 00:07:44.485  2301  2306 I zygote  : After code cache collection, code=959KB, data=505KB
+11-01 00:07:44.485  2301  2306 I zygote  : Increasing code cache capacity to 3MB
+11-01 00:07:44.563  7435  7451 D Benchmark: additionalTestOutputDir=/storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data
+11-01 00:07:44.563  7435  7451 D Benchmark: Output Directory: /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data
+11-01 00:07:44.601  7435  7451 D Benchmark: launching Benchmark IsolationActivity
+11-01 00:07:44.619  7435  7435 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: PRE_ON_CREATE
+11-01 00:07:44.650  1440  1440 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:07:44.697  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:07:44.699  2301  2484 D EGL_emulation: eglMakeCurrent: 0xa6ce32c0: ver 3 0 (tinfo 0xa6c0fed0)
+11-01 00:07:44.707  2216  2329 D EGL_emulation: eglMakeCurrent: 0x829f25e0: ver 3 0 (tinfo 0x829f36f0)
+11-01 00:07:44.712  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:07:44.720  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:07:44.758  7435  7435 D Benchmark: Clocks not locked: online cores with min freq == min avail freq
+11-01 00:07:44.758  7435  7435 D Benchmark: cpu0 CoreDir(path=/sys/devices/system/cpu/cpu0, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:07:44.758  7435  7435 D Benchmark: cpu1 CoreDir(path=/sys/devices/system/cpu/cpu1, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:07:44.758  7435  7435 D Benchmark: cpu2 CoreDir(path=/sys/devices/system/cpu/cpu2, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:07:44.758  7435  7435 D Benchmark: cpu3 CoreDir(path=/sys/devices/system/cpu/cpu3, online=true, availableFreqs=[-1], setSpeedKhz=-1, maxFreqKhz=-1)
+11-01 00:07:44.760  7435  7435 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: CREATED
+11-01 00:07:44.760  7435  7435 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: STARTED
+11-01 00:07:44.761  7435  7435 D LifecycleMonitor: Lifecycle status change: androidx.benchmark.IsolationActivity@b6c5e1 in: RESUMED
+11-01 00:07:44.767  1450  1939 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-01 00:07:44.768  7435  7526 D OpenGLRenderer: HWUI GL Pipeline
+11-01 00:07:44.791  1440  1440 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:07:44.792  1440  1440 I chatty  : uid=1000(system) allocator@2.0-s identical 1 line
+11-01 00:07:44.793  1440  1440 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 7753728
+11-01 00:07:44.796  7435  7526 D         : HostConnection::get() New Host Connection established 0x82ae5f00, tid 7526
+11-01 00:07:44.802  7435  7526 I zygote  : android::hardware::configstore::V1_0::ISurfaceFlingerConfigs::hasWideColorDisplay retrieved: 0
+11-01 00:07:44.803  1729  1729 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():2086
+11-01 00:07:44.804  7435  7526 I OpenGLRenderer: Initialized EGL, version 1.4
+11-01 00:07:44.804  7435  7526 D OpenGLRenderer: Swap behavior 1
+11-01 00:07:44.805  1729  1729 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 0, locked = false
+11-01 00:07:44.806  7435  7526 D EGL_emulation: eglCreateContext: 0x9ec85120: maj 3 min 0 rcv 3
+11-01 00:07:44.806  7435  7526 D EGL_emulation: eglMakeCurrent: 0x9ec85120: ver 3 0 (tinfo 0x9ec833a0)
+11-01 00:07:44.807  1450  1939 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+11-01 00:07:44.808  1729  1729 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.distributedMessenger.benchmark, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=-1, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+11-01 00:07:44.809  1729  1729 I Module  : DeviceLockedStatusModuleProvider$Module.updateDeviceLockedStatus():103 repeatCheckTimes = 1, locked = false
+11-01 00:07:44.825  7435  7526 D EGL_emulation: eglMakeCurrent: 0x9ec85120: ver 3 0 (tinfo 0x9ec833a0)
+11-01 00:07:45.151  1636  1657 I ActivityManager: Displayed com.distributedMessenger.benchmark/androidx.benchmark.IsolationActivity: +535ms
+11-01 00:07:45.160  1736  1736 D StatusBar: disable<e i a s b h r c s q >
+11-01 00:07:45.172  7435  7451 I UiAutomationShellCmd: Requesting permission: pm grant com.distributedMessenger.benchmark android.permission.READ_EXTERNAL_STORAGE
+11-01 00:07:45.177  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:07:45.179  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:07:45.204  1450  1450 W SurfaceFlinger: couldn't log to binary event log: overflow.
+11-01 00:07:45.314  7528  7528 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-01 00:07:45.316  7528  7528 W app_process: Could not reserve sentinel fault page
+11-01 00:07:45.351  7528  7528 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-01 00:07:45.353  7528  7528 I app_process: The ClassLoaderContext is a special shared library.
+11-01 00:07:45.365  7528  7528 D AndroidRuntime: Calling main entry com.android.commands.pm.Pm
+11-01 00:07:45.367  1636  1636 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@125437a)
+11-01 00:07:45.367  1636  1649 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@125437a)
+11-01 00:07:45.499  7528  7528 I app_process: System.exit called, status: 0
+11-01 00:07:45.500  7528  7528 I AndroidRuntime: VM exiting with result code 0.
+11-01 00:07:45.503  7435  7451 I UiAutomationShellCmd: Requesting permission: pm grant com.distributedMessenger.benchmark android.permission.WRITE_EXTERNAL_STORAGE
+11-01 00:07:45.623  7541  7541 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-01 00:07:45.625  7541  7541 W app_process: Could not reserve sentinel fault page
+11-01 00:07:45.660  7541  7541 W app_process: Unexpected CPU variant for X86 using defaults: x86
+11-01 00:07:45.662  7541  7541 I app_process: The ClassLoaderContext is a special shared library.
+11-01 00:07:45.675  7541  7541 D AndroidRuntime: Calling main entry com.android.commands.pm.Pm
+11-01 00:07:45.678  1636  1636 I GnssLocationProvider: WakeLock acquired by sendMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@df02788)
+11-01 00:07:45.685  1636  1649 I GnssLocationProvider: WakeLock released by handleMessage(SET_REQUEST, 0, com.android.server.location.GnssLocationProvider$GpsRequest@df02788)
+11-01 00:07:45.829  7541  7541 I app_process: System.exit called, status: 0
+11-01 00:07:45.829  7541  7541 I AndroidRuntime: VM exiting with result code 0.
+11-01 00:07:45.839  7435  7451 D Benchmark: -- Running com.distributedMessenger.benchmark.UserCrudBenchmark#benchmark_RegisterUser --
+11-01 00:07:45.859  7435  7451 D PerfettoCapture: Supported ABIs: x86
+11-01 00:07:45.859  7435  7451 D PerfettoCapture: Recording perfetto trace
+11-01 00:07:45.974  7435  7451 I PerfettoCapture: Cleanup perfetto before starting.
+11-01 00:07:46.004  7435  7451 D PerfettoCapture: Supported ABIs: x86
+11-01 00:07:46.065  7577  7577 I perfetto:            probes.cc:65 Hard resetting ftrace state.
+11-01 00:07:46.404  7435  7451 I PerfettoCapture: Starting perfetto tracing with cmd: /data/local/tmp/tracebox --background-wait -c /data/local/tmp/config.pb -o /data/local/tmp/trace_output.pb
+11-01 00:07:46.416  7623  7623 W perfetto:          service.cc:240 Started traced, listening on @traced-p-7621 @traced-c-7621
+11-01 00:07:46.648  7626  7626 I perfetto:           probes.cc:104 Starting traced_probes service
+11-01 00:07:46.651  7626  7626 I perfetto:  probes_producer.cc:340 Connected to the service
+11-01 00:07:46.639  7626  7626 W tracebox: type=1400 audit(0.0:31): avc: denied { search } for name="instances" dev="tracefs" ino=2113 scontext=u:r:shell:s0 tcontext=u:object_r:debugfs_tracing_instances:s0 tclass=dir permissive=0
+11-01 00:07:46.673  7622  7622 I perfetto:    perfetto_cmd.cc:1019 Connected to the Perfetto traced service, starting tracing
+11-01 00:07:46.674  7623  7623 I perfetto: ing_service_impl.cc:980 Configured tracing session 1, #sources:9, duration:0 ms, #buffers:2, total buffer size:36864 KB, total sessions:1, uid:2000 session name: ""
+11-01 00:07:46.726  7626  7626 E perfetto:    compact_sched.cc:175 Unexpected sched_switch or sched_waking format.
+11-01 00:07:46.728  7626  7626 E perfetto: zy_library_loader.cc:53 android_internal functions can be used only with in-tree builds of perfetto.
+11-01 00:07:46.728  7626  7626 I perfetto:  probes_producer.cc:142 Ftrace setup (target_buf=1)
+11-01 00:07:46.728  7626  7626 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:07:46.908  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:07:46.908  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:07:46.908  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:07:46.908  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:07:47.745  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=7632 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:07:47.729  7632  7632 W atrace  : type=1400 audit(0.0:32): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:07:47.754  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=7632 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:07:47.755  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=7632 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:07:47.757  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.757  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.758  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.758  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.758  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.759  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.759  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.760  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.760  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.760  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.760  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.760  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.761  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.761  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.761  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.761  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.762  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.763  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.763  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.763  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.764  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:07:47.764  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.764  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.765  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=7632 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:07:47.932  7626  7626 I perfetto:    ftrace_procfs.cc:432 enabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:07:47.970  7626  7626 E perfetto: _list_data_source.cc:79 Failed to open packages.list
+11-01 00:07:47.982  7435  7451 I PerfettoCapture: Perfetto output - 7622
+11-01 00:07:47.982  7435  7451 I PerfettoCapture: EXITCODE=0
+11-01 00:07:47.992  7435  7451 I PerfettoCapture: Perfetto tracing started successfully with pid 7622.
+11-01 00:07:47.997  7435  7451 I OtelSdkManager_DEBUG: --- Otel SDK Initialization Initiated ---
+11-01 00:07:47.998  7435  7451 D OtelSdkManager_DEBUG: Exporter endpoint set to: http://10.0.2.2:4317
+11-01 00:07:48.018  7435  7451 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: true
+11-01 00:07:48.097  7435  7451 W Benchmark:
+11-01 00:07:48.097  7435  7451 W Benchmark: WARNING: Debuggable Benchmark
+11-01 00:07:48.097  7435  7451 W Benchmark:     Benchmark is running with debuggable=true, which drastically reduces
+11-01 00:07:48.097  7435  7451 W Benchmark:     runtime performance in order to support debugging features. Run
+11-01 00:07:48.097  7435  7451 W Benchmark:     benchmarks with debuggable=false. Debuggable affects execution speed
+11-01 00:07:48.097  7435  7451 W Benchmark:     in ways that mean benchmark improvements might not carry over to a
+11-01 00:07:48.097  7435  7451 W Benchmark:     real user's experience (or even regress release performance).
+11-01 00:07:48.097  7435  7451 W Benchmark:
+11-01 00:07:48.097  7435  7451 W Benchmark: WARNING: Running on Emulator
+11-01 00:07:48.098  7435  7451 W Benchmark:     Benchmark is running on an emulator, which is not representative of
+11-01 00:07:48.098  7435  7451 W Benchmark:     real user devices. Use a physical device to benchmark. Emulator
+11-01 00:07:48.098  7435  7451 W Benchmark:     benchmark improvements might not carry over to a real user's
+11-01 00:07:48.098  7435  7451 W Benchmark:     experience (or even regress real device performance).
+11-01 00:07:48.098  7435  7451 W Benchmark:
+11-01 00:07:48.104  7435  7451 D Benchmark: Set 7451 (Bench thread) to priority -20. Was -8, now -20
+11-01 00:07:48.104  7435  7451 D Benchmark: Set 7440 (Jit) to priority -15. Was 9, now -15
+11-01 00:07:48.133  7435  7451 I zygote  : Explicit concurrent copying GC freed 82637(5MB) AllocSpace objects, 22(440KB) LOS objects, 45% free, 7MB/13MB, paused 999us total 28.997ms
+11-01 00:07:49.688  3659  3659 I Finsky  : [2] SCH: job service start with id 9290.
+11-01 00:07:49.702  3659  6890 I Finsky  : [317] SCH: Satisfied jobs for 9290 are: 12-1
+11-01 00:07:49.704  3659  7230 I Finsky  : [325] SCH: Job 12-1 starting
+11-01 00:07:49.705  3659  3659 I Finsky  : [2] WM::SCH: Logging work start for 12-1
+11-01 00:07:49.705  3659  3659 I Finsky  : [2] [ContentSync] job started
+11-01 00:07:49.774  3659  7233 I Finsky  : [327] App states replicator found 22 unowned apps
+11-01 00:07:49.776  3659  3755 I Finsky  : [220] Completed 0 account content syncs with 0 successful.
+11-01 00:07:49.776  3659  3659 I Finsky  : [2] [ContentSync] Installation state replication succeeded.
+11-01 00:07:49.776  3659  3659 I Finsky  : [2] SCH: jobFinished: 12-1. TimeElapsed: 72ms.
+11-01 00:07:49.777  3659  3659 I Finsky  : [2] WM::SCH: Logging work end for 12-1
+11-01 00:07:49.790  3659  3755 I Finsky  : [220] SCH: Scheduling phonesky job Id: 1-1337, CT: 1761944104437, Constraints: [{ L: 31400795, D: 74600795, C: CHARGING_NONE, I: IDLE_NONE, N: NET_ANY, B: BATTERY_ANY }]
+11-01 00:07:49.796  3659  3715 I Finsky  : [215] SCH: Scheduling 1 system job(s)
+11-01 00:07:49.796  3659  3715 I Finsky  : [215] SCH: Scheduling system job Id: 9292, L: 30635436, D: 73835436, C: false, I: false, N: 1
+11-01 00:07:49.803  3659  7230 I Finsky  : [325] SCH: job service finished with id 9290.
+11-01 00:07:55.351  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:07:55.351  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:07:56.558  7435  7442 I zygote  : Debugger is no longer active
+11-01 00:08:00.004  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:00.004  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:00.024  1441  1461 D hwcomposer: hw_composer sent 36 syncs in 60s
+11-01 00:08:00.031  1736  1956 D EGL_emulation: eglMakeCurrent: 0x9ec85720: ver 3 0 (tinfo 0x9ec83450)
+11-01 00:08:05.303  6950  6979 I Finsky:background: [350] Stats for Executor: bgExecutor uke@5fd5afa[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 45]
+11-01 00:08:05.319  6950  6979 I Finsky:background: [350] Stats for Executor: LightweightExecutor uke@5f418ab[Running, pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 21]
+11-01 00:08:05.604  6950  6979 I Finsky:background: [350] Stats for Executor: BlockingExecutor uke@7b4cb08[Running, pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 9]
+11-01 00:08:06.007  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:06.007  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:06.016  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:06.016  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:06.018  6917  7015 W Binder  : Binder call failed.
+11-01 00:08:06.018  6917  7015 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:08:06.018  6917  7015 W Binder  : 	at mtd.a(PG:3)
+11-01 00:08:06.018  6917  7015 W Binder  : 	at mtd.dispatchTransaction(PG:59)
+11-01 00:08:06.018  6917  7015 W Binder  : 	at gnc.onTransact(PG:13)
+11-01 00:08:06.018  6917  7015 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:08:11.558  1448  1448 I boot-pipe: done populating /dev/random
+11-01 00:08:12.965  6950  7192 I PlayCommon: [390] Preparing logs for uploading
+11-01 00:08:12.986  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:12.987  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:12.991  6950  7192 I PlayCommon: [390] Connecting to server for timestamp: https://play.googleapis.com/play/log/timestamp
+11-01 00:08:13.871  6950  7192 W PlayCommon: [390] No account for auth token provided
+11-01 00:08:13.885  6950  7192 I PlayCommon: [390] Connecting to server: https://play.googleapis.com/play/log?format=raw&proto_v2=true
+11-01 00:08:14.045  6950  7192 I PlayCommon: [390] Successfully uploaded logs.
+11-01 00:08:19.488  7435  7440 I zygote  : Do full code cache collection, code=121KB, data=67KB
+11-01 00:08:19.489  7435  7440 I zygote  : After code cache collection, code=116KB, data=54KB
+11-01 00:08:21.071  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:21.071  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:21.082  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:08:21.082  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:08:28.289  2118  2118 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.notifications.registration.service.NotificationsRegistrationTaskBoundService.ACTION_TASK_READY dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsInternalBoundBrokerService }
+11-01 00:08:28.289  2118  2118 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.notifications.registration.service.NotificationsRegistrationTaskBoundService.ACTION_TASK_READY dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsInternalBoundBrokerService }
+11-01 00:08:28.300  2118  2118 I GmsCoreXrpcWrapper: (REDACTED) Returning a channel provider with trafficStatsTag=%d trafficStatsUid=%d
+11-01 00:08:28.311  2010  5919 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+11-01 00:08:28.335  2010  2010 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+11-01 00:08:28.370  2118  2118 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.auth.service.START pkg=com.google.android.gms }
+11-01 00:08:28.370  2118  2118 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.auth.service.START pkg=com.google.android.gms }
+11-01 00:08:28.379  2010  2021 W GLSUser : [DeviceKeyStore] Cannot load key: Device key file not found.
+11-01 00:08:28.394  7668  7668 W zygote  : Unexpected CPU variant for X86 using defaults: x86
+11-01 00:08:28.406  7668  7668 I zygote  : The ClassLoaderContext is a special shared library.
+11-01 00:08:28.407  7668  7668 I zygote  : The ClassLoaderContext is a special shared library.
+11-01 00:08:28.412  7668  7668 W ResourceType: ResTable_typeSpec entry count inconsistent: given 101, previously 105
+11-01 00:08:28.412  7668  7668 W ResourceType: ResTable_typeSpec entry count inconsistent: given 4802, previously 5423
+11-01 00:08:28.412  7668  7668 W ResourceType: ResTable_typeSpec entry count inconsistent: given 3606, previously 3627
+11-01 00:08:28.412  7668  7668 W ResourceType: ResTable_typeSpec entry count inconsistent: given 261, previously 265
+11-01 00:08:28.412  7668  7668 W ResourceType: ResTable_typeSpec entry count inconsistent: given 534, previously 5644
+11-01 00:08:28.502  7668  7668 W System  : ClassLoader referenced unknown path:
+11-01 00:08:28.525  7668  7668 W ProviderHelper: Unknown dynamite feature providerinstaller.dynamite
+11-01 00:08:28.525  7668  7668 I DynamiteModule: Considering local module com.google.android.gms.providerinstaller.dynamite:1 and remote module com.google.android.gms.providerinstaller.dynamite:0
+11-01 00:08:28.526  7668  7668 I DynamiteModule: Selected local version of com.google.android.gms.providerinstaller.dynamite
+11-01 00:08:28.542  7668  7668 V NativeCrypto: Registering com/google/android/gms/org/conscrypt/NativeCrypto's 319 native methods...
+11-01 00:08:28.547  7668  7673 I zygote  : Do partial code cache collection, code=30KB, data=18KB
+11-01 00:08:28.548  7668  7673 I zygote  : After code cache collection, code=25KB, data=17KB
+11-01 00:08:28.548  7668  7673 I zygote  : Increasing code cache capacity to 128KB
+11-01 00:08:28.565  7668  7668 D NetworkSecurityConfig: Using Network Security Config from resource network_security_config debugBuild: false
+11-01 00:08:28.567  7668  7668 I ProviderInstaller: Installed default security provider GmsCore_OpenSSL
+11-01 00:08:28.576  7668  7668 I zygote  : Note: end time exceeds INT32_MAX: 2147483647
+11-01 00:08:28.594  7668  7693 I Watchcat: Started
+11-01 00:08:28.603  7668  7668 I zygote  : Deoptimizing java.lang.Object bxp.put(java.lang.Object, java.lang.Object) due to JIT inline cache
+11-01 00:08:28.619  7668  7693 I GMS_MM_Logger: (REDACTED) Start time: %s
+11-01 00:08:28.620  7668  7693 I GMS_MM_Logger: Started.
+11-01 00:08:28.660  7668  7681 I zygote  : Deoptimizing java.lang.Object ehyn.i(ehzr, ehvg, java.lang.String) due to JIT inline cache
+11-01 00:08:28.683  7668  7681 W TracingHelper: No RequestContext found in the trace or trace not available. [CONTEXT service_id=259 ratelimit_count=100000 ]
+11-01 00:08:28.687  7668  7681 W TracingHelper: Mismatched RequestContext found for module DROIDGUARD. Module id from RequestContext is MODULEID_UNKNOWN [CONTEXT service_id=259 ratelimit_count=100000 ]
+11-01 00:08:28.701  2010  2010 D BoundBrokerSvc: onRebind: Intent { act=com.google.android.gms.libs.gmscorelogger.service.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+11-01 00:08:28.721  7668  7681 I zygote  : The ClassLoaderContext is a special shared library.
+11-01 00:08:28.742  7668  7673 I zygote  : Do partial code cache collection, code=61KB, data=50KB
+11-01 00:08:28.745  7668  7673 I zygote  : After code cache collection, code=49KB, data=45KB
+11-01 00:08:28.745  7668  7673 I zygote  : Increasing code cache capacity to 256KB
+11-01 00:08:28.845  2118  2118 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.checkin.START pkg=com.google.android.gms }
+11-01 00:08:28.845  2118  2118 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.checkin.START pkg=com.google.android.gms }
+11-01 00:08:28.849  2118  4000 I Checkin : [CheckinApiChimeraService] onGetService
+11-01 00:08:28.882  2010  2021 W GmsUrlRequestImpl: [https://android.googleapis.com/auth/devicekey] Content-Type header is overwritten.
+11-01 00:08:30.559  2010  2021 W GLSUser : [AppCertManager] Exception while requesting key:
+11-01 00:08:30.559  2010  2021 W GLSUser : java.util.concurrent.ExecutionException: cgfx: Parse Proto Exception with response code 400
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at fayf.j(:com.google.android.gms@254131007@25.41.31 (040700-820295184):21)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at fayo.u(:com.google.android.gms@254131007@25.41.31 (040700-820295184):71)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at aenp.b(:com.google.android.gms@254131007@25.41.31 (040700-820295184):439)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at aenn.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):67)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at aenn.fg(:com.google.android.gms@254131007@25.41.31 (040700-820295184):16)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at svv.onTransact(:com.google.android.gms@254131007@25.41.31 (040700-820295184):97)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at android.os.Binder.transact(Binder.java:627)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at bxyj.onTransact(:com.google.android.gms@254131007@25.41.31 (040700-820295184):10)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at android.os.Binder.transact(Binder.java:627)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at bocp.onTransact(:com.google.android.gms@254131007@25.41.31 (040700-820295184):161)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:08:30.559  2010  2021 W GLSUser : Caused by: cgfx: Parse Proto Exception with response code 400
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at cgha.b(:com.google.android.gms@254131007@25.41.31 (040700-820295184):80)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at cgjm.d(:com.google.android.gms@254131007@25.41.31 (040700-820295184):18)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at cgkd.onSucceeded(:com.google.android.gms@254131007@25.41.31 (040700-820295184):9)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at m1.nk.onSucceeded(:com.google.android.gms.dynamite_cronetdynamite@254131007@25.41.31 (040700-0):3)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at m1.md.run(:com.google.android.gms.dynamite_cronetdynamite@254131007@25.41.31 (040700-0):21)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at m1.lx.run(:com.google.android.gms.dynamite_cronetdynamite@254131007@25.41.31 (040700-0):31)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at aylz.c(:com.google.android.gms@254131007@25.41.31 (040700-820295184):50)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at aylz.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):92)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at ayrl.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):8)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:08:30.559  2010  2021 W GLSUser : Caused by: frzx: Protocol message contained an invalid tag (zero).
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at frwx.k(:com.google.android.gms@254131007@25.41.31 (040700-820295184):43)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at fsau.c(:com.google.android.gms@254131007@25.41.31 (040700-820295184):399)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at fsau.i(:com.google.android.gms@254131007@25.41.31 (040700-820295184):8)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at frzc.y(:com.google.android.gms@254131007@25.41.31 (040700-820295184):23)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at fryx.f(:com.google.android.gms@254131007@25.41.31 (040700-820295184):3)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at frwt.d(:com.google.android.gms@254131007@25.41.31 (040700-820295184):1)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at frwt.c(:com.google.android.gms@254131007@25.41.31 (040700-820295184):3)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at frwt.n(:com.google.android.gms@254131007@25.41.31 (040700-820295184):1)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at cgha.h(:com.google.android.gms@254131007@25.41.31 (040700-820295184):69)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	at cgha.b(:com.google.android.gms@254131007@25.41.31 (040700-820295184):11)
+11-01 00:08:30.559  2010  2021 W GLSUser : 	... 11 more
+11-01 00:08:30.560  2010  2021 W GLSUser : [DeviceKeyStore] Cannot load key: Device key file not found.
+11-01 00:08:30.581  2118  7384 E gjim    : *~*~*~ Previous channel {0} was garbage collected without being shut down! ~*~*~*
+11-01 00:08:30.581  2118  7384 E gjim    :     Make sure to call shutdown()/shutdownNow()
+11-01 00:08:30.581  2118  7384 E gjim    : java.lang.RuntimeException: ManagedChannel allocation site
+11-01 00:08:30.581  2118  7384 E gjim    : 	at gjil.<init>(:com.google.android.gms@254131007@25.41.31 (040700-820295184):21)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at gjim.<init>(:com.google.android.gms@254131007@25.41.31 (040700-820295184):10)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at gjik.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):259)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at giss.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):5)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at chlx.h(:com.google.android.gms@254131007@25.41.31 (040700-820295184):150)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at fejr.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):154)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at etlv.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):13)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at fbcp.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):3)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at fbbq.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):19)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at fbcr.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):5)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at aylz.c(:com.google.android.gms@254131007@25.41.31 (040700-820295184):50)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at aylz.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):73)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1162)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:636)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at ayrl.run(:com.google.android.gms@254131007@25.41.31 (040700-820295184):8)
+11-01 00:08:30.581  2118  7384 E gjim    : 	at java.lang.Thread.run(Thread.java:764)
+11-01 00:08:30.581  2118  7384 I zygote  : Deoptimizing java.lang.Object fayf.d(java.util.concurrent.Future) due to JIT inline cache
+11-01 00:08:31.283  2118  4226 I cn_CronetUrlRequestContext: destroyNativeStreamLocked org.chromium.net.impl.CronetBidirectionalStream@e2fb1c9
+11-01 00:08:31.288  2118  2495 I NotificationsModuleTask: (REDACTED) Registering accounts to Chime Failed & Rescheduled for later. registration reason = %s
+11-01 00:08:31.294  2118  2118 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.notifications.registration.service.NotificationsRegistrationTaskBoundService.ACTION_TASK_READY dat=chimera-action: cmp=com.google.android.gms/.chimera.GmsInternalBoundBrokerService }
+11-01 00:08:31.294  2010  7656 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+11-01 00:08:31.371  2010  7707 I NetworkScheduler.Stats: (REDACTED) Task %s/%s started execution. cause:%s exec_start_elapsed_seconds: %s
+11-01 00:08:31.375  2010  7707 I NetworkScheduler.Stats: (REDACTED) Task %s/%s finished executing. cause:%s result: %s elapsed_millis: %s uptime_millis: %s exec_start_elapsed_seconds: %s
+11-01 00:08:40.275  2118  2118 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.common.BIND_SHARED_PREFS pkg=com.google.android.gms }
+11-01 00:08:43.399  2010  2010 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.aang.events.services.START dat=chimera-action: cmp=com.google.android.gms/.chimera.PersistentApiService }
+11-01 00:08:43.399  2118  2118 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.auth.service.START pkg=com.google.android.gms }
+11-01 00:08:45.854  7435  7440 I zygote  : Do partial code cache collection, code=117KB, data=64KB
+11-01 00:08:45.857  7435  7440 I zygote  : After code cache collection, code=117KB, data=64KB
+11-01 00:08:45.857  7435  7440 I zygote  : Increasing code cache capacity to 512KB
+11-01 00:09:00.008  1636  1652 W zygote  : kill(-4115, 9) failed: No such process
+11-01 00:09:00.046  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:09:00.046  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:09:00.048  1636  1652 W zygote  : kill(-4115, 9) failed: No such process
+11-01 00:09:00.051  1441  1461 D hwcomposer: hw_composer sent 12 syncs in 60s
+11-01 00:09:00.087  1636  1652 W zygote  : kill(-4115, 9) failed: No such process
+11-01 00:09:00.112  2118  2118 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.feedback.internal.IFeedbackService pkg=com.google.android.gms }
+11-01 00:09:00.128  1636  1652 W zygote  : kill(-4115, 9) failed: No such process
+11-01 00:09:00.128  1636  1652 I zygote  : Successfully killed process cgroup uid 10020 pid 4115 in 119ms
+11-01 00:09:11.560  1448  1448 I boot-pipe: done populating /dev/random
+11-01 00:09:28.904  1636  1649 E memtrack: Couldn't load memtrack module
+11-01 00:09:28.904  1636  1649 W android.os.Debug: failed to get memory consumption info: -1
+11-01 00:09:28.914  7668  7681 W Binder  : Binder call failed.
+11-01 00:09:28.914  7668  7681 W Binder  : java.lang.UnsupportedOperationException
+11-01 00:09:28.914  7668  7681 W Binder  : 	at awdl.a(:com.google.android.gms@254131007@25.41.31 (040700-820295184):3)
+11-01 00:09:28.914  7668  7681 W Binder  : 	at awdl.fg(:com.google.android.gms@254131007@25.41.31 (040700-820295184):33)
+11-01 00:09:28.914  7668  7681 W Binder  : 	at svv.onTransact(:com.google.android.gms@254131007@25.41.31 (040700-820295184):75)
+11-01 00:09:28.914  7668  7681 W Binder  : 	at android.os.Binder.execTransact(Binder.java:697)
+11-01 00:09:44.853  3659  3691 I Finsky  : [195] Stats for Executor: BlockingExecutor uke@5b9106f[Running, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+11-01 00:09:44.853  3659  3691 I Finsky  : [195] Stats for Executor: LightweightExecutor uke@7a8017c[Running, pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 253]
+11-01 00:09:44.901  3659  3691 I Finsky  : [195] Stats for Executor: bgExecutor uke@4e49a05[Running, pool size = 4, active threads = 0, queued tasks = 0, completed tasks = 485]
+11-01 00:09:45.169  2010  7715 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 1426741]
+11-01 00:09:45.176  2010  7715 I AlarmManager: setExactAndAllowWhileIdle [name: GCM_HB_ALARM type: 2 triggerAtMillis: 1426748]
+11-01 00:09:45.190  7435  7451 D Benchmark: timeNs[ 0:10]: 1450741620 1426723550 1454363190 1443841810 1414315820 1442950900 1425689070 1434088620 1456268650 1479561060
+11-01 00:09:45.191  7435  7451 D Benchmark: timeNs[10:20]: 1412230210 1479773570 1427927980 1381977160 1424982530 1853394810 1486733250 1434593210 1427616650 1429396960
+11-01 00:09:45.191  7435  7451 D Benchmark: timeNs[20:30]: 1419477820 1433385070 1432388210 1427568420 1415260170 1453549580 1403668620 1439401650 1445173230 1437173710
+11-01 00:09:45.191  7435  7451 D Benchmark: timeNs[30:40]: 1425381580 1433245380 1418924860 1426075460 1403469370 1432813420 1443737140 1727568390 1451298470 1433358590
+11-01 00:09:45.191  7435  7451 D Benchmark: timeNs[40:50]: 1423999800 1407288340 1400007310 1452572250 1401547690 1416596930 1421289620 1408632900 1430564610 1423521130
+11-01 00:09:52.363  7435  7451 D Benchmark: allocationCount[ 0:10]: 83626 83605 83607 83651 83631
+11-01 00:09:52.363  7435  7451 D Benchmark: Set 7451 (Bench thread) to priority -8. Was -20, now -8
+11-01 00:09:52.363  7435  7451 D Benchmark: Set 7440 (Jit) to priority 9. Was -15, now 9
+11-01 00:09:52.363  7435  7451 D Benchmark: Warmup: t=44.768, iter=30, fastAvg=1497338624, slowAvg=1900609664
+11-01 00:09:52.377  7435  7451 I OtelSdkManager_DEBUG: --- Otel SDK Shutdown Finished ---
+11-01 00:09:52.382  7435  7451 I PerfettoCapture: Stopping perfetto.
+11-01 00:09:52.406  7622  7622 I perfetto:    perfetto_cmd.cc:1212 SIGINT/SIGTERM received: disabling tracing.
+11-01 00:09:52.410  7626  7626 I perfetto:  probes_producer.cc:449 Producer stop (id=1)
+11-01 00:09:52.411  7626  7626 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:09:52.422  7435  7451 D Benchmark: kill -TERM command output - Output(stdout=, stderr=)
+11-01 00:09:52.535  7435  7451 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=7622)] to die
+11-01 00:09:52.618  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 0
+11-01 00:09:52.618  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 1
+11-01 00:09:52.618  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 2
+11-01 00:09:52.618  7626  7626 E perfetto:    ftrace_procfs.cc:399 Failed to clear buffer for CPU 3
+11-01 00:09:52.618  7626  7626 I perfetto:    ftrace_procfs.cc:435 disabled ftrace in /sys/kernel/debug/tracing/
+11-01 00:09:52.646  7435  7451 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=7622)] to die
+11-01 00:09:52.711  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:09:52.709  7736  7736 W atrace  : type=1400 audit(0.0:33): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:09:52.731  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:09:52.732  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:09:52.736  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.displayservice::IDisplayService pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_display_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.737  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.schedulerservice::ISchedulingPolicyService pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_scheduler_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.737  1381  1381 E SELinux : avc:  denied  { find } for interface=android.frameworks.sensorservice::ISensorManager pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:fwk_sensor_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.737  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio.effect::IEffectsFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.737  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.audio::IDevicesFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.738  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.biometrics.fingerprint::IBiometricsFingerprint pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_fingerprint_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.738  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.camera.provider::ICameraProvider pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_camera_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.739  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.739  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::ICryptoFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.739  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.739  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.drm::IDrmFactory pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_drm_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.740  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gatekeeper::IGatekeeper pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gatekeeper_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.740  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.gnss::IGnss pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_gnss_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.740  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.graphics.composer::IComposer pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_graphics_composer_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.741  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.keymaster::IKeymasterDevice pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_keymaster_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.742  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.power::IPower pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_power_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.742  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio.deprecated::IOemHook pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.742  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.743  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.radio::IRadio pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_telephony_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.743  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.sensors::ISensors pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_sensors_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.743  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.soundtrigger::ISoundTriggerHw pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_audio_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.743  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi.supplicant::ISupplicant pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_supplicant_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.744  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.744  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hardware.wifi::IWifi pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hal_wifi_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.744  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.745  1381  1381 I chatty  : uid=1000(system) hwservicemanage identical 3 lines
+11-01 00:09:52.746  1381  1381 E SELinux : avc:  denied  { find } for interface=android.hidl.base::IBase pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:hidl_base_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.746  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.net.netd::INetd pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:system_net_netd_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.747  1381  1381 E SELinux : avc:  denied  { find } for interface=android.system.wifi.keystore::IKeystore pid=7736 scontext=u:r:shell:s0 tcontext=u:object_r:system_wifi_keystore_hwservice:s0 tclass=hwservice_manager permissive=0
+11-01 00:09:52.748  7736  7736 I atrace  : Dumping trace
+11-01 00:09:52.760  7435  7451 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=7622)] to die
+11-01 00:09:52.871  7435  7451 I chatty  : uid=10086(com.distributedMessenger.benchmark) BenchmarkRunner identical 1 line
+11-01 00:09:52.982  7435  7451 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=7622)] to die
+11-01 00:09:53.033  1380  1380 E SELinux : avc:  denied  { find } for service=netd pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:netd_service:s0 tclass=service_manager permissive=0
+11-01 00:09:53.029  7736  7736 W atrace  : type=1400 audit(0.0:34): avc: denied { call } for scontext=u:r:shell:s0 tcontext=u:r:wificond:s0 tclass=binder permissive=0
+11-01 00:09:53.042  1380  1380 E SELinux : avc:  denied  { find } for service=android.service.gatekeeper.IGateKeeperService pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:gatekeeper_service:s0 tclass=service_manager permissive=0
+11-01 00:09:53.043  1380  1380 E SELinux : avc:  denied  { find } for service=installd pid=7736 uid=2000 scontext=u:r:shell:s0 tcontext=u:object_r:installd_service:s0 tclass=service_manager permissive=0
+11-01 00:09:53.079  7626  7626 I perfetto:  probes_producer.cc:449 Producer stop (id=2)
+11-01 00:09:53.079  7626  7626 I perfetto:  probes_producer.cc:449 Producer stop (id=3)
+11-01 00:09:53.080  7626  7626 I perfetto:  probes_producer.cc:449 Producer stop (id=4)
+11-01 00:09:53.081  7626  7626 I perfetto:  probes_producer.cc:449 Producer stop (id=5)
+11-01 00:09:53.094  7622  7622 I perfetto:    perfetto_cmd.cc:1163 Trace written into the output file
+11-01 00:09:53.105  7435  7451 D Benchmark: Waiting 100 ms for [ProcessPid(processName=tracebox, pid=7622)] to die
+11-01 00:09:53.116  7435  7451 I PerfettoCapture: Writing to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-09-52.perfetto-trace.
+11-01 00:09:53.219  7435  7451 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-09-52.perfetto-trace to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/UserCrudBenchmark_benchmark_RegisterUser_2025-10-31-21-09-52.perfetto-trace
+11-01 00:09:53.242  7435  7451 I Benchmark: DEBUGGABLE_EMULATOR_UserCrudBenchmark.benchmark_RegisterUser[Metric (timeNs) results: median 1.429980785E9, min 1.38197716E9, max 1.85339481E9, standardDeviation: 7.504943208505474E7, Metric (allocationCount) results: median 83626.0, min 83605.0, max 83651.0, standardDeviation: 18.920887928424502]count=1
+11-01 00:09:53.248  7435  7451 D Benchmark: writing results to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:09:53.254  7435  7451 D Benchmark: Moving /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/cache/com_distributedMessenger_benchmark-benchmarkData.json to /storage/emulated/0/Android/data/com.distributedMessenger.benchmark/files/test_data/com_distributedMessenger_benchmark-benchmarkData.json
+11-01 00:09:53.255  7435  7451 I TestRunner: finished: benchmark_RegisterUser(com.distributedMessenger.benchmark.UserCrudBenchmark)
