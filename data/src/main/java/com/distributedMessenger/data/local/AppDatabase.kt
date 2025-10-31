@@ -1,6 +1,8 @@
 package com.distributedMessenger.data.local
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.distributedMessenger.data.local.dao.AppSettingsDao
@@ -40,4 +42,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun fileDao(): FileDao
     abstract fun blockDao(): BlockDao
     abstract fun appSettingsDao(): AppSettingsDao
+
+    companion object {
+        fun getTestDatabase(context: Context): AppDatabase {
+            return Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
+        }
+    }
 }

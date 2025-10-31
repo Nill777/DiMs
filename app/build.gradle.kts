@@ -78,7 +78,13 @@ android {
                 "proguard-rules.pro"
             )
         }
-//        debug {
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+        }
+        //        debug {
 //            val testPassword = System.getenv("TEST_USER_PASSWORD") ?: localProperties.getProperty("AES_KEY") ?: "qwertyuiop"
 //            buildConfigField("String", "TEST_USER_PASSWORD", "\"$testPassword\"")
 //        }
@@ -217,6 +223,13 @@ dependencies {
 
     // JSON
     implementation(libs.gson)
+
+    // OpenTelemetry
+    implementation(platform(libs.opentelemetry.bom))
+    implementation(libs.opentelemetry.api)
+    implementation(libs.opentelemetry.sdk)
+    implementation(libs.opentelemetry.semconv)
+    implementation(libs.opentelemetry.exporter.otlp)
 }
 /** Исходник НЕ ТРОЖ! Он КРОВЬЮ НАПИСАН!!!
 tasks.register("runAndroidTestsWithoutUninstallForGetAllureData") {
@@ -581,7 +594,8 @@ tasks.register<Exec>("debugAndroidTests") {
 
     val adb = android.sdkDirectory.resolve("platform-tools/adb")
     val appId = android.defaultConfig.applicationId
-    val instrumentationRunner = "${android.defaultConfig.applicationId}.test/${android.defaultConfig.testInstrumentationRunner}"
+    val instrumentationRunner =
+        "${android.defaultConfig.applicationId}.test/${android.defaultConfig.testInstrumentationRunner}"
 
     // Сначала очищаем logcat, чтобы видеть только ошибки от нашего запуска
     commandLine(adb.absolutePath, "logcat", "-c")
@@ -599,4 +613,39 @@ tasks.register<Exec>("debugAndroidTests") {
             commandLine(adb.absolutePath, "logcat", "-d", "*:E") // "-d" - dump, "*:E" - все ошибки
         }
     }
+}
+
+tasks.register("runBenchmarksOnEmulator") {
+    group = "Verification"
+    description = "Runs benchmark configurations and generates Allure attachments for them"
+
+    // Задача зависит от чистого состояния и должна выполняться после сборки
+    dependsOn("clean", "assembleDebug", "assembleDebugAndroidTest")
+
+    doLast {
+        val scriptFile = rootDir.resolve("get-tracing-data.sh")
+        val gradlewFile = rootDir.resolve("gradlew")
+        exec {
+            workingDir = rootDir
+            commandLine("chmod", "+x", scriptFile.absolutePath)
+        }
+        exec {
+            workingDir = rootDir
+            commandLine("sh", scriptFile.absolutePath)
+        }
+        exec {
+            workingDir = rootDir
+            commandLine(gradlewFile.absolutePath, ":generatorReport:test")
+        }
+    }
+}
+
+tasks.register("runBenchmarksWithEmulator") {
+    group = "Verification"
+    description = "Starts emulator, runs all benchmarks and stops emulator."
+
+    dependsOn(tasks.named("waitForEmulator"))
+    dependsOn(tasks.named("runBenchmarksOnEmulator").get().mustRunAfter(tasks.named("waitForEmulator")))
+
+    finalizedBy(tasks.named("stopEmulator"))
 }

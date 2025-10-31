@@ -9,12 +9,19 @@ import com.distributedMessenger.domain.util.PasswordHasher
 import com.distributedMessenger.logger.LogLevel
 import com.distributedMessenger.logger.Logger
 import com.distributedMessenger.logger.LoggingWrapper
+import io.opentelemetry.api.GlobalOpenTelemetry
+import io.opentelemetry.api.trace.Tracer
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
+/**
+ * Если не настроили SDK, библиотека OpenTelemetry при вызове GlobalOpenTelemetry.getTracer()
+ * возвращает NoopTracer, который имеет все те же методы, но ничего не делает(не создает спаны, не потребляет ресурсы)
+ */
 class UserService(private val userRepository: IUserRepository,
-                  private val pepper: String = "peper"
+                  private val pepper: String = "peper",
+                  private val tracer: Tracer = GlobalOpenTelemetry.getTracer("UserService")
 ) : IUserService {
     companion object {
         const val MAX_LOGIN_ATTEMPTS = 3
@@ -29,20 +36,30 @@ class UserService(private val userRepository: IUserRepository,
     private val tag = "UserService"
 
     override suspend fun register(username: String, role: UserRole, password: String): UUID {
-        Logger.log(tag, "Attempting to register user '$username'.")
-        if (userRepository.findByUsername(username) != null) {
-            Logger.log(tag, "Registration failed: username '$username' is already taken.", LogLevel.WARN)
-            throw IllegalArgumentException("Username '$username' is already taken.")
+        val span = tracer.spanBuilder("createUser").startSpan()
+        span.setAttribute("user.username", username)
+        try {
+            Logger.log(tag, "Attempting to register user '$username'.")
+            if (userRepository.findByUsername(username) != null) {
+                Logger.log(
+                    tag,
+                    "Registration failed: username '$username' is already taken.",
+                    LogLevel.WARN
+                )
+                throw IllegalArgumentException("Username '$username' is already taken.")
+            }
+            val user = User(
+                id = UUID.randomUUID(),
+                username = username,
+                passwordHash = PasswordHasher.hashPassword(password, pepper),
+                role = role,
+                profileSettingsId = UUID.randomUUID(),
+                appSettingsId = UUID.randomUUID()
+            )
+            return userRepository.addUser(user)
+        } finally {
+            span.end()
         }
-        val user = User(
-            id = UUID.randomUUID(),
-            username = username,
-            passwordHash = PasswordHasher.hashPassword(password, pepper),
-            role = role,
-            profileSettingsId = UUID.randomUUID(),
-            appSettingsId = UUID.randomUUID()
-        )
-        return userRepository.addUser(user)
     }
 
     @Suppress("ReturnCount")
@@ -145,10 +162,17 @@ class UserService(private val userRepository: IUserRepository,
 
     override suspend fun updateUser(id: UUID, username: String): Boolean =
         loggingWrapper {
-            // return@label используется для явного указания, из какого контекста или лямбда-выражения
-            val user = userRepository.getUser(id) ?: return@loggingWrapper false
-            val updatedUser = user.copy(id = id, username = username)
-            userRepository.updateUser(updatedUser)
+            val span = tracer.spanBuilder("updateUsername").startSpan()
+            span.setAttribute("user.id", id.toString())
+            span.setAttribute("user.new_username", username)
+            try {
+                // return@label используется для явного указания, из какого контекста или лямбда-выражения
+                val user = userRepository.getUser(id) ?: return@loggingWrapper false
+                val updatedUser = user.copy(id = id, username = username)
+                userRepository.updateUser(updatedUser)
+            } finally {
+                span.end()
+            }
         }
 
     override suspend fun updateUserRole(id: UUID, newRole: UserRole): Boolean =

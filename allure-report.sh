@@ -4,18 +4,27 @@
 # Немедленно завершить скрипт, если какая-либо команда завершится с ошибкой
 set -e
 
+# Имя папки, куда будут скопированы все результаты
+CONSOLIDATED_RESULTS_DIR="build/allure-results"
+
+echo "--- Очистка старых артефактов ---"
+# Удаляем старую папку с общими результатами, если она существует
+rm -rf $CONSOLIDATED_RESULTS_DIR
+# И создаем ее заново, чтобы она была пустой
+mkdir -p $CONSOLIDATED_RESULTS_DIR
+
 echo "--- Запуск тестов для всех модулей ---"
 # Флаг --continue гарантирует, что тесты запустятся во всех модулях, даже если в одном из них возникнет ошибка
 # Это полезно, чтобы увидеть в отчете упавшие тесты
 ./gradlew test --continue || echo "Обнаружены упавшие unit/интеграционные тесты. Генерация отчета будет продолжена..."
 ./gradlew app:runAndroidTestsWithoutUninstallForGetAllureData --continue || echo "Обнаружены упавшие инструментальные тесты. Генерация отчета будет продолжена..."
-# Имя папки, куда будут скопированы все результаты
-CONSOLIDATED_RESULTS_DIR="build/allure-results"
 
-# Удаляем старую папку с общими результатами, если она существует
-rm -rf $CONSOLIDATED_RESULTS_DIR
-# И создаем ее заново, чтобы она была пустой
-mkdir -p $CONSOLIDATED_RESULTS_DIR
+echo "--- Запуск ./get-tracing-data.sh ---"
+chmod +x ./get-tracing-data.sh
+./get-tracing-data.sh
+
+echo "--- Генерация Allure для Benchmark ---"
+./gradlew :generatorReport:test
 
 # Ищем все папки 'allure-results' внутри поддиректорий build
 # и копируем их *содержимое* в нашу общую папку

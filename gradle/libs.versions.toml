@@ -47,6 +47,12 @@ cucumber = "4.8.4"
 spek = "2.0.19"
 kotest = "5.8.0"
 detekt = "1.23.6"
+uiautomator = "2.2.0"
+benchmarkMacroJunit4 = "1.2.0-beta01"
+opentelemetry = "1.9.0"
+benchmarkJunit4 = "1.2.4"
+appcompat = "1.6.1"
+material = "1.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -91,6 +97,8 @@ allure-junit4 = { group = "io.qameta.allure", name = "allure-junit4", version.re
 allure-junit5 = { group = "io.qameta.allure", name = "allure-junit5", version.ref = "allure" }
 allure-kotlin-android = { group = "io.qameta.allure", name = "allure-kotlin-android", version.ref = "allure-kotlin" }
 allure-kotlin-junit4 = { group = "io.qameta.allure", name = "allure-kotlin-junit4", version.ref = "allure-kotlin" }
+allure-java-commons = { group = "io.qameta.allure", name = "allure-java-commons", version.ref = "allure" }
+
 # BDD
 cucumber-android = { group = "io.cucumber", name = "cucumber-android", version.ref = "cucumber"}
 cucumber-junit = { group = "io.cucumber", name = "cucumber-junit", version.ref = "cucumber"}
@@ -138,6 +146,18 @@ androidx-camera-core = { group = "androidx.camera", name = "camera-core", versio
 androidx-camera-camera2 = { group = "androidx.camera", name = "camera-camera2", version.ref = "camerax" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "camerax" }
 androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+
+# OpenTelemetry
+opentelemetry-bom = { group = "io.opentelemetry", name = "opentelemetry-bom", version.ref = "opentelemetry" }
+opentelemetry-api = { group = "io.opentelemetry", name = "opentelemetry-api" }
+opentelemetry-sdk = { group = "io.opentelemetry", name = "opentelemetry-sdk" }
+opentelemetry-semconv = { group = "io.opentelemetry", name = "opentelemetry-semconv", version = "1.9.0-alpha" }
+opentelemetry-exporter-otlp = { group = "io.opentelemetry", name = "opentelemetry-exporter-otlp" }
+androidx-benchmark-junit4 = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmarkJunit4" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -149,3 +169,4 @@ jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrai
 allure-framework = { id = "io.qameta.allure", version.ref = "allureFramework" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+android-test = { id = "com.android.test", version.ref = "agp" }

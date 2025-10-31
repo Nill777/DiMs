@@ -81,4 +81,8 @@ dependencies {
 
     // Hash
     implementation(libs.bcprov.jdk18on)
+
+    // OpenTelemetry
+    implementation(platform(libs.opentelemetry.bom))
+    implementation(libs.opentelemetry.api)
 }
