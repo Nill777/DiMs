@@ -15,7 +15,7 @@ android {
 //        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "androidx.benchmark.junit4.AndroidBenchmarkRunner"
         testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "DEBUGGABLE,EMULATOR"
-        testInstrumentationRunnerArguments["isTracingEnabled"] = "false"
+        testInstrumentationRunnerArguments["isTracingEnabled"] = "true"
         testInstrumentationRunnerArguments["logLevel"] = "DEBUG"
     }
 

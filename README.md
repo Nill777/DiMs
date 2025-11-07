@@ -121,3 +121,8 @@
 ```
 ./gradlew app:runE2ETestsWithEmulator
 ```
+
+экстренный коммит 
+```
+--no-verify
+```

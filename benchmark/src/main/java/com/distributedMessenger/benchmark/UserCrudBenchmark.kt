@@ -34,7 +34,7 @@ class UserCrudBenchmark {
     @Before
     fun setup() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Получаем аргументы, переданные из Gradle/CI
+        // аргументы из Gradle/CI
         val arguments = InstrumentationRegistry.getArguments()
         val isTracingEnabled = arguments.getString("isTracingEnabled", "false").toBoolean()
         val logLevelString = arguments.getString("logLevel", "DEBUG")
